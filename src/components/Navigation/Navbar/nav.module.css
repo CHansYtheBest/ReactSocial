@@ -1,0 +1,4 @@
+.navigation {
+  grid-area: nav;
+  background-color: skyblue;
+}

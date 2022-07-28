@@ -1,0 +1,10 @@
+.header {
+  height: fit-content;
+  grid-area: header;
+  background-color: skyblue;
+}
+
+.header img {
+  width: 100px;
+  height: auto;
+}
