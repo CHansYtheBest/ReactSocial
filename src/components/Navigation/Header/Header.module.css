@@ -2,6 +2,8 @@
   height: fit-content;
   grid-area: header;
   background-color: skyblue;
+  border-radius: 50px;
+  height: 100px;
 }
 
 .header img {

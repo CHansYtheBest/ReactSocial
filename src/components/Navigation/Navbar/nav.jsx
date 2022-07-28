@@ -5,10 +5,18 @@ const Nav = () => {
   return (
     <nav className={s.navigation}>
       <ul>
-        <li>Main</li>
-        <li>Pics</li>
-        <li>Feet</li>
-        <li>Settings</li>
+        <li>
+          <a href="#">Feed</a>
+        </li>
+        <li>
+          <a href="#">Pics</a>
+        </li>
+        <li>
+          <a href="#">Profile</a>
+        </li>
+        <li>
+          <a href="#">Settings</a>
+        </li>
       </ul>
     </nav>
   );

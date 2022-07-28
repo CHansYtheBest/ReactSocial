@@ -8,7 +8,12 @@ const App = () => {
     <div className="wrapper">
       <Header />
       <Nav />
-      <Profile />
+      <Profile
+        name="Peepo"
+        surname="The Frog"
+        avatar="https://pbs.twimg.com/profile_images/1083056964840480768/gYcc4I4-_400x400.jpg"
+        post=" Даша любит есть какахи."
+      />
     </div>
   );
 };
