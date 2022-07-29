@@ -2,30 +2,24 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import s from "./nav.module.css";
 
+const Navlining = (props) => {
+  return (
+    <li>
+      <NavLink to={props.to} className={({ isActive }) => (isActive ? s.active : "")}>
+        {props.text}
+      </NavLink>
+    </li>
+  );
+};
+
 const Nav = () => {
   return (
     <nav className={s.navigation}>
       <ul>
-        <li>
-          <NavLink to="/feed" className={({ isActive }) => (isActive ? s.active : "")} exact>
-            Feed
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/dialog" className={({ isActive }) => (isActive ? s.active : "")} exact>
-            Dialog
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/profile" className={({ isActive }) => (isActive ? s.active : "")} exact>
-            Profile
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/setings" className={({ isActive }) => (isActive ? s.active : "")} exact>
-            Settings
-          </NavLink>
-        </li>
+        <Navlining to="/feed" text="Feed" />
+        <Navlining to="/dialog" text="Dialog" />
+        <Navlining to="/profile" text="Profile" />
+        <Navlining to="/setings" text="Settings" />
       </ul>
     </nav>
   );

@@ -20,11 +20,11 @@ const App = () => {
                   name="Peepo"
                   surname="The Frog"
                   avatar="https://pbs.twimg.com/profile_images/1083056964840480768/gYcc4I4-_400x400.jpg"
-                  post=" Даша любит есть какахи."
+                  post=" I have a nice day."
                 />
               }
             />
-            <Route path="/dialog" element={<Dialogs />} />
+            <Route path="/dialog/*" element={<Dialogs />} />
           </Route>
         </Routes>
       </BrowserRouter>
