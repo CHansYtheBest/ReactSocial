@@ -1,0 +1,5 @@
+.dialog_page {
+  display: grid;
+  grid-template-areas: "dialogs messages";
+  grid-template-columns: 1fr 3fr;
+}

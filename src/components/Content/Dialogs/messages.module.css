@@ -1,0 +1,22 @@
+.messages {
+  grid-area: messages;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.messages p {
+  color: white;
+  width: fit-content;
+  padding: 5px 7px;
+  border-radius: 6px;
+}
+
+.me {
+  background-color: royalblue;
+  align-self: flex-end;
+}
+
+.him {
+  background-color: gray;
+}

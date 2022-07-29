@@ -1,0 +1,13 @@
+.navigation {
+  grid-area: nav;
+
+  color: skyblue;
+}
+
+.navigation a {
+  color: black;
+}
+
+.navigation a.active {
+  color: gold;
+}

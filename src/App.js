@@ -1,20 +1,34 @@
 import "./App.css";
-import Header from "./components/Navigation/Header/Header";
-import Nav from "./components/Navigation/Navbar/nav";
+import React from "react";
+import Header from "./components/Layout/Navigation/Header/Header";
+import Nav from "./components/Layout/Navigation/Navbar/nav";
 import Profile from "./components/Content/Profile/profile";
+import Dialogs from "./components/Content/Dialogs/dialogs";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Layout } from "./components/Layout/layout.jsx";
 
 const App = () => {
   return (
-    <div className="wrapper">
-      <Header />
-      <Nav />
-      <Profile
-        name="Peepo"
-        surname="The Frog"
-        avatar="https://pbs.twimg.com/profile_images/1083056964840480768/gYcc4I4-_400x400.jpg"
-        post=" Даша любит есть какахи."
-      />
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  name="Peepo"
+                  surname="The Frog"
+                  avatar="https://pbs.twimg.com/profile_images/1083056964840480768/gYcc4I4-_400x400.jpg"
+                  post=" Даша любит есть какахи."
+                />
+              }
+            />
+            <Route path="/dialog" element={<Dialogs />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 
