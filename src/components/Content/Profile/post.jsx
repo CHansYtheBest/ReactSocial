@@ -1,12 +1,20 @@
 import React from "react";
 import s from "./post.module.css";
 
-function Post(props) {
+function PostFirst(props) {
   return (
     <div>
-      <p>New post from {props.name}!</p> <div>{props.content}</div>{" "}
+      <p>New post from {props.name}:</p> <div>{props.content}</div>
     </div>
   );
 }
 
-export default Post;
+function Post(props) {
+  return (
+    <div>
+      <p>{props.name} posted:</p> <div>{props.content}</div>
+    </div>
+  );
+}
+
+export { Post, PostFirst };
