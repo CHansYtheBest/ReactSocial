@@ -1,15 +1,15 @@
 import React from "react";
 import s from "./dialogs.module.css";
-import Messages from "./messages";
+import DialogLinks from "./DialogLink/dialogLink";
 import "./dialogPage.css";
-import DialogLink from "./DialogLink/dialogs";
+import { Outlet } from "react-router-dom";
+import Messages from "./messages";
 
 function Dialogs(props) {
-  let dialogLinks = React.Children.toArray(props.dialogData.map((names) => <DialogLink id={names.id} name={names.name} />));
   return (
     <div className="dialog_page">
-      <div className={s.dialogs}>{dialogLinks}</div>
-      <Messages />
+      <DialogLinks dialogData={props.dialogData} />
+      <Outlet />
     </div>
   );
 }

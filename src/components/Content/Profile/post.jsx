@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./post.module.css";
 
-function PostFirst(props) {
+function PostNew(props) {
   return (
     <div>
       <p>New post from {props.name}:</p> <div>{props.content}</div>
@@ -17,4 +17,4 @@ function Post(props) {
   );
 }
 
-export { Post, PostFirst };
+export { Post, PostNew };

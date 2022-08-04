@@ -1,29 +1,44 @@
 import React from "react";
-import { Post, PostFirst } from "./post";
+import { Post, PostNew } from "./post";
 import s from "./profile.module.css";
 
-function Profile(props) {
-  let profileData = props.profileData[0];
-  let i = 0;
+function SortPosts(props) {
+  let maxPosts = props.profileData.posts.length - 1;
   let postsData = React.Children.toArray(
-    profileData.posts.map((post) => {
-      if (i === 0) {
-        i++;
-        return <PostFirst name={profileData.name + " " + profileData.surname} content={post.postContent} />;
-      } else return <Post name={profileData.name + " " + profileData.surname} content={post.postContent} />;
+    props.profileData.posts.map((post) => {
+      if (post.id.toString() === maxPosts.toString()) {
+        return <PostNew name={props.profileData.name + " " + props.profileData.surname} content={post.postContent} />;
+      } else return <Post name={props.profileData.name + " " + props.profileData.surname} content={post.postContent} />;
     })
   );
+  return postsData.reverse();
+}
+
+function Profile(props) {
+  let textRef = React.useRef();
+
+  let addPost = () => {
+    let post = textRef.current.value;
+    props.addPost(post);
+  };
 
   return (
     <section className={s.content}>
       <div className={s.profile}>
-        <img src={profileData.avatar} alt="" />
+        <img src={props.profileData.avatar} alt="" />
         <p>
-          {profileData.name} {profileData.surname}
+          {props.profileData.name} {props.profileData.surname}
         </p>
       </div>
 
-      {postsData}
+      <div id="posts">
+        <SortPosts profileData={props.profileData} />
+      </div>
+
+      <textarea ref={textRef}></textarea>
+      <button onClick={addPost} style={{ width: "100px" }}>
+        Add post
+      </button>
     </section>
   );
 }
