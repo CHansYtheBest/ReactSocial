@@ -3,7 +3,6 @@ import s from "./dialogs.module.css";
 import DialogLinks from "./DialogLink/dialogLink";
 import "./dialogPage.css";
 import { Outlet } from "react-router-dom";
-import Messages from "./messages";
 
 function Dialogs(props) {
   return (

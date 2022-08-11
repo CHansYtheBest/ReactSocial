@@ -66,17 +66,24 @@ let state = {
         { id: "1", postContent: "My day has been nice." },
         { id: "2", postContent: "Nevermind." },
       ],
+      postNewText: "",
     },
   },
 };
 
-export let addPost = (Content) => {
+export let addPost = () => {
   let newPost = {
     id: state.profilePage.profileData.posts.length.toString(),
-    postContent: Content,
+    postContent: state.profilePage.profileData.postNewText,
   };
 
   state.profilePage.profileData.posts.push(newPost);
+  state.profilePage.profileData.postNewText = "";
+  renderEverything(state);
+};
+
+export let updatePostNewText = (Content) => {
+  state.profilePage.profileData.postNewText = Content;
   renderEverything(state);
 };
 

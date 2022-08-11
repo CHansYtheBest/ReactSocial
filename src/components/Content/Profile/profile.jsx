@@ -17,9 +17,9 @@ function SortPosts(props) {
 function Profile(props) {
   let textRef = React.useRef();
 
-  let addPost = () => {
+  let onPostChange = () => {
     let post = textRef.current.value;
-    props.addPost(post);
+    props.updatePostNewText(post);
   };
 
   return (
@@ -35,8 +35,8 @@ function Profile(props) {
         <SortPosts profileData={props.profileData} />
       </div>
 
-      <textarea ref={textRef}></textarea>
-      <button onClick={addPost} style={{ width: "100px" }}>
+      <textarea ref={textRef} value={props.profileData.postNewText} onChange={onPostChange}></textarea>
+      <button onClick={props.addPost} style={{ width: "100px" }}>
         Add post
       </button>
     </section>

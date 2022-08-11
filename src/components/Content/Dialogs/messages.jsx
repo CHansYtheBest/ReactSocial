@@ -18,11 +18,12 @@ function MapMessage(props) {
 
 function Messages(props) {
   const { id } = useParams();
+
   return (
     <div className={s.messages}>
       {<MapMessage messagesData={props.messagesData[id].dialog} />}
       <textarea></textarea>
-      <button>Send message</button>
+      <button onClick={""}>Send message</button>
     </div>
   );
 }
