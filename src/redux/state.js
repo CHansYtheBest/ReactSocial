@@ -1,4 +1,6 @@
-import { renderEverything } from "../render";
+let renderEverything = () => {
+  console.log(state);
+};
 
 let state = {
   dialogsPage: {
@@ -71,7 +73,7 @@ let state = {
   },
 };
 
-export let addPost = () => {
+export const addPost = () => {
   let newPost = {
     id: state.profilePage.profileData.posts.length.toString(),
     postContent: state.profilePage.profileData.postNewText,
@@ -79,12 +81,16 @@ export let addPost = () => {
 
   state.profilePage.profileData.posts.push(newPost);
   state.profilePage.profileData.postNewText = "";
-  renderEverything(state);
+  renderEverything();
 };
 
-export let updatePostNewText = (Content) => {
+export const updatePostNewText = (Content) => {
   state.profilePage.profileData.postNewText = Content;
-  renderEverything(state);
+  renderEverything();
+};
+
+export const renderCallback = (observer) => {
+  renderEverything = observer;
 };
 
 export { state };
