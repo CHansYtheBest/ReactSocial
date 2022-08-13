@@ -1,4 +1,5 @@
 import React from "react";
+import { addPostActionType, updatePostActionType } from "../../../redux/state";
 import { Post, PostNew } from "./post";
 import s from "./profile.module.css";
 
@@ -18,12 +19,12 @@ function Profile(props) {
   let textRef = React.useRef();
 
   let addPost = () => {
-    props.dispatch({ type: "ADD-POST" });
+    props.dispatch(addPostActionType());
   };
 
   let onPostChange = () => {
     let post = textRef.current.value;
-    props.dispatch({ type: "UPDATE-POST-NEW-TEXT", content: post });
+    props.dispatch(updatePostActionType(post));
   };
 
   return (

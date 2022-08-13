@@ -23,7 +23,7 @@ function Messages(props) {
     <div className={s.messages}>
       {<MapMessage messagesData={props.messagesData[id].dialog} />}
       <textarea></textarea>
-      <button onClick={""}>Send message</button>
+      <button>Send message</button>
     </div>
   );
 }

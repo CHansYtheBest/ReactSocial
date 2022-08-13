@@ -1,14 +1,33 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: inherit;
+  font-family: "Noto Sans";
+}
+
+#root {
+  height: inherit;
+}
+
+p {
+  margin: 0;
+}
+
 .wrapper {
-  max-width: 1440px;
   margin: 0 auto;
   display: grid;
   grid-template-areas:
-    "header header"
+    "nav header"
     "nav content";
   grid-template-rows: auto 1fr;
   grid-template-columns: 2fr 10fr;
+  height: inherit;
 }
 
 .content {
   grid-area: content;
+  background-color: #e7e4f8;
+  z-index: 10;
 }

@@ -1,3 +1,6 @@
+const ADD_POST = "ADD-POST";
+const UPDATE_POST_NEW_TEXT = "UPDATE-POST-NEW-TEXT";
+
 let store = {
   _state: {
     dialogsPage: {
@@ -80,20 +83,22 @@ let store = {
   },
 
   dispatch(action) {
-    if (action.type === "ADD-POST") {
+    if (action.type === ADD_POST) {
       let newPost = {
         id: this._state.profilePage.profileData.posts.length.toString(),
         postContent: this._state.profilePage.profileData.postNewText,
       };
-
       this._state.profilePage.profileData.posts.push(newPost);
       this._state.profilePage.profileData.postNewText = "";
       this._renderEverything();
-    } else if (action.type === "UPDATE-POST-NEW-TEXT") {
+    } else if (action.type === UPDATE_POST_NEW_TEXT) {
       this._state.profilePage.profileData.postNewText = action.content;
       this._renderEverything();
     }
   },
 };
+
+export const addPostActionType = () => ({ type: ADD_POST });
+export const updatePostActionType = (post) => ({ type: UPDATE_POST_NEW_TEXT, content: post });
 
 export { store };

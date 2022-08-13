@@ -3,10 +3,10 @@ import { Outlet } from "react-router-dom";
 import Header from "./Navigation/Header/Header";
 import Nav from "./Navigation/Navbar/nav";
 
-const Layout = () => {
+const Layout = (props) => {
   return (
     <div className="wrapper">
-      <Header />
+      <Header profileData={props.profileData} />
       <Nav />
       <div className="content">
         <Outlet />

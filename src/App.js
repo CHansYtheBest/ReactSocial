@@ -10,7 +10,7 @@ const App = (props) => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout profileData={props.state.profilePage.profileData} />}>
           <Route path="/profile" element={<Profile profileData={props.state.profilePage.profileData} dispatch={props.dispatch} />} />
           <Route path="/dialog" element={<Dialogs dialogData={props.state.dialogsPage.dialogData} />}>
             <Route path=":id" element={<Messages messagesData={props.state.dialogsPage.messagesData} />} />
