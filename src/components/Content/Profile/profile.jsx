@@ -16,7 +16,7 @@ function SortPosts(props) {
 }
 
 function Profile(props) {
-  let textRef = React.useRef();
+  const textRef = React.useRef();
 
   let addPost = () => {
     props.dispatch(addPostActionType());

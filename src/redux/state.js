@@ -1,5 +1,10 @@
+import { act } from "react-dom/test-utils";
+import { useParams } from "react-router-dom";
+
 const ADD_POST = "ADD-POST";
 const UPDATE_POST_NEW_TEXT = "UPDATE-POST-NEW-TEXT";
+const ADD_MESSAGE = "ADD_MESSAGE";
+const UPDATE_MESSAGE_NEW_TEXT = "UPDATE_MESSAGE_NEW_TEXT";
 
 let store = {
   _state: {
@@ -11,52 +16,59 @@ let store = {
         { id: "3", name: "Pop Bob" },
         { id: "4", name: "Poop Boob" },
       ],
-      messagesData: [
-        {
-          dialogid: "0",
-          dialog: [
-            { from: "me", message: "Yoo, my guy. How's life?" },
-            { from: "him", message: "Peepo, hello. My life has been cool." },
-            { from: "me", message: "I'm glad to hear that, my dear friend." },
-            { from: "me", message: "Would you like to hang out?" },
-            { from: "him", message: "Yes, indeed I would." },
-          ],
-        },
-        {
-          dialogid: "1",
-          dialog: [
-            { from: "me", message: "Ms. Karen, I would like to submit my school project." },
-            { from: "him", message: "no" },
-            { from: "me", message: "Why?" },
-          ],
-        },
-        {
-          dialogid: "2",
-          dialog: [
-            { from: "him", message: "I am in your walls Peepo." },
-            { from: "him", message: "Peepo, you can't hide." },
-            { from: "him", message: "You can't escape Peepo." },
-            { from: "him", message: "I think about you when I go to sleep" },
-            { from: "me", message: "Dave, please stop." },
-          ],
-        },
-        {
-          dialogid: "3",
-          dialog: [
-            { from: "me", message: "Hey, Bob. I hate you." },
-            { from: "him", message: ":(" },
-            { from: "me", message: "Sorry, I was joking." },
-          ],
-        },
-        {
-          dialogid: "4",
-          dialog: [
-            { from: "me", message: "Hey, Boob. I love you." },
-            { from: "him", message: ":)" },
-            { from: "him", message: "Thanks." },
-          ],
-        },
-      ],
+      messagesData: {
+        messages: [
+          {
+            dialogid: "0",
+            dialog: [
+              { id: "0", from: "me", message: "Yoo, my guy. How's life?" },
+              { id: "1", from: "him", message: "Peepo, hello. My life has been cool." },
+              { id: "2", from: "me", message: "I'm glad to hear that, my dear friend." },
+              { id: "3", from: "me", message: "Would you like to hang out?" },
+              { id: "4", from: "him", message: "Yes, indeed I would." },
+            ],
+            newMessageText: "",
+          },
+          {
+            dialogid: "1",
+            dialog: [
+              { id: "0", from: "me", message: "Ms. Karen, I would like to submit my school project." },
+              { id: "1", from: "him", message: "no" },
+              { id: "2", from: "me", message: "Why?" },
+            ],
+            newMessageText: "",
+          },
+          {
+            dialogid: "2",
+            dialog: [
+              { id: "0", from: "him", message: "I am in your walls Peepo." },
+              { id: "1", from: "him", message: "Peepo, you can't hide." },
+              { id: "2", from: "him", message: "You can't escape Peepo." },
+              { id: "3", from: "him", message: "I think about you when I go to sleep" },
+              { id: "4", from: "me", message: "Dave, please stop." },
+            ],
+            newMessageText: "",
+          },
+          {
+            dialogid: "3",
+            dialog: [
+              { id: "0", from: "me", message: "Hey, Bob. I hate you." },
+              { id: "1", from: "him", message: ":(" },
+              { id: "2", from: "me", message: "Sorry, I was joking." },
+            ],
+            newMessageText: "",
+          },
+          {
+            dialogid: "4",
+            dialog: [
+              { id: "0", from: "me", message: "Hey, Boob. I love you." },
+              { id: "1", from: "him", message: ":)" },
+              { id: "2", from: "him", message: "Thanks." },
+            ],
+            newMessageText: "",
+          },
+        ],
+      },
     },
     profilePage: {
       profileData: {
@@ -78,6 +90,9 @@ let store = {
   _renderEverything() {
     console.log(this.getState());
   },
+  _getDialogIndex(id) {
+    return this._state.dialogsPage.messagesData.messages.findIndex((i) => i.dialogid === id);
+  },
   renderCallback(observer) {
     this._renderEverything = observer;
   },
@@ -94,11 +109,28 @@ let store = {
     } else if (action.type === UPDATE_POST_NEW_TEXT) {
       this._state.profilePage.profileData.postNewText = action.content;
       this._renderEverything();
+    } else if (action.type === UPDATE_MESSAGE_NEW_TEXT) {
+      let dialogIndex = this._getDialogIndex(action.id);
+      this._state.dialogsPage.messagesData.messages[dialogIndex].newMessageText = action.content;
+      this._renderEverything();
+    } else if (action.type === ADD_MESSAGE) {
+      let dialogIndex = this._getDialogIndex(action.id);
+      let newMessage = {
+        id: this._state.dialogsPage.messagesData.messages[dialogIndex].dialog.length.toString(),
+        from: "me",
+        message: this._state.dialogsPage.messagesData.messages[dialogIndex].newMessageText,
+      };
+      this._state.dialogsPage.messagesData.messages[dialogIndex].dialog.push(newMessage);
+      console.log(this._state.dialogsPage.messagesData.messages[dialogIndex].dialog);
+      this._state.dialogsPage.messagesData.messages[dialogIndex].newMessageText = "";
+      this._renderEverything();
     }
   },
 };
 
 export const addPostActionType = () => ({ type: ADD_POST });
 export const updatePostActionType = (post) => ({ type: UPDATE_POST_NEW_TEXT, content: post });
+export const addMessageActionType = (currentId) => ({ type: ADD_MESSAGE, id: currentId });
+export const updateMessageActionType = (message, currentId) => ({ type: UPDATE_MESSAGE_NEW_TEXT, content: message, id: currentId });
 
 export { store };

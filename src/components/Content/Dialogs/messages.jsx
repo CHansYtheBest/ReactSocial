@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { addMessageActionType, updateMessageActionType } from "../../../redux/state";
 import s from "./messages.module.css";
 
 function MapMessage(props) {
@@ -18,12 +19,23 @@ function MapMessage(props) {
 
 function Messages(props) {
   const { id } = useParams();
+  const textRef = React.useRef();
+
+  let onTextChange = () => {
+    let message = textRef.current.value;
+    props.dispatch(updateMessageActionType(message, id));
+    console.log(props.messagesData.messages[id]);
+  };
+
+  let addMessage = () => {
+    props.dispatch(addMessageActionType(id));
+  };
 
   return (
     <div className={s.messages}>
-      {<MapMessage messagesData={props.messagesData[id].dialog} />}
-      <textarea></textarea>
-      <button>Send message</button>
+      {<MapMessage messagesData={props.messagesData.messages[id].dialog} />}
+      <textarea ref={textRef} value={props.messagesData.messages[id].newMessageText} onChange={onTextChange}></textarea>
+      <button onClick={addMessage}>Send message</button>
     </div>
   );
 }

@@ -13,7 +13,7 @@ const App = (props) => {
         <Route path="/" element={<Layout profileData={props.state.profilePage.profileData} />}>
           <Route path="/profile" element={<Profile profileData={props.state.profilePage.profileData} dispatch={props.dispatch} />} />
           <Route path="/dialog" element={<Dialogs dialogData={props.state.dialogsPage.dialogData} />}>
-            <Route path=":id" element={<Messages messagesData={props.state.dialogsPage.messagesData} />} />
+            <Route path=":id" element={<Messages messagesData={props.state.dialogsPage.messagesData} dispatch={props.dispatch} />} />
             <Route path="/dialog" element={<div>Please choose a dialog</div>} />
           </Route>
           <Route path="*" element={""} />
