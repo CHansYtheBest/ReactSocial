@@ -1,5 +1,6 @@
 import React from "react";
-import { addPostActionType, updatePostActionType } from "../../../redux/state";
+import { addPostActionType, updatePostActionType } from "../../../redux/profileReducer";
+
 import { Post, PostNew } from "./post";
 import s from "./profile.module.css";
 
@@ -7,7 +8,7 @@ function SortPosts(props) {
   let maxPosts = props.profileData.posts.length - 1;
   let postsData = React.Children.toArray(
     props.profileData.posts.map((post) => {
-      if (post.id.toString() === maxPosts.toString()) {
+      if (post.id === maxPosts) {
         return <PostNew name={props.profileData.name + " " + props.profileData.surname} content={post.postContent} />;
       } else return <Post name={props.profileData.name + " " + props.profileData.surname} content={post.postContent} />;
     })
@@ -16,14 +17,12 @@ function SortPosts(props) {
 }
 
 function Profile(props) {
-  const textRef = React.useRef();
-
   let addPost = () => {
     props.dispatch(addPostActionType());
   };
 
-  let onPostChange = () => {
-    let post = textRef.current.value;
+  let onPostChange = (e) => {
+    let post = e.target.value;
     props.dispatch(updatePostActionType(post));
   };
 
@@ -40,7 +39,7 @@ function Profile(props) {
         <SortPosts profileData={props.profileData} />
       </div>
 
-      <textarea ref={textRef} value={props.profileData.postNewText} onChange={onPostChange}></textarea>
+      <textarea placeholder="Enter a new post..." value={props.profileData.postNewText} onChange={onPostChange}></textarea>
       <button onClick={addPost} style={{ width: "100px" }}>
         Add post
       </button>
