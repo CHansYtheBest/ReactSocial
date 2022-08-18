@@ -22,7 +22,6 @@ function Messages(props) {
   let onTextChange = (e) => {
     let message = e.target.value;
     props.dispatch(updateMessageActionType(message, id));
-    console.log(props.messagesData.messages[id]);
   };
 
   let addMessage = () => {

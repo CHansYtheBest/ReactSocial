@@ -1,6 +1,4 @@
-import { dialogsReducer } from "./dialogsReducer";
-import { profileReducer } from "./profileReducer";
-
+// this file is purely for store visualisation
 let store = {
   _state: {
     dialogsPage: {
@@ -83,7 +81,7 @@ let store = {
   _renderEverything() {
     console.log(this.getState());
   },
-  renderCallback(observer) {
+  subscribe(observer) {
     this._renderEverything = observer;
   },
 
@@ -94,5 +92,3 @@ let store = {
     this._renderEverything();
   },
 };
-
-export { store };

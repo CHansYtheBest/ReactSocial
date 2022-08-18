@@ -1,10 +1,10 @@
-import { combineReducers, configureStore } from "redux";
+import { combineReducers, createStore } from "redux";
 import { profileReducer } from "./profileReducer";
 import { dialogsReducer } from "./dialogsReducer";
 
 let reducers = combineReducers({
-  profileReducer,
-  dialogsReducer,
+  profilePage: profileReducer,
+  dialogsPage: dialogsReducer,
 });
 
-let store = configureStore();
+export let store = createStore(reducers);
