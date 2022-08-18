@@ -4,6 +4,7 @@ import Header from "./Navigation/Header/Header";
 import Nav from "./Navigation/Navbar/nav";
 
 const Layout = (props) => {
+  console.log(props);
   return (
     <div className="wrapper">
       <Header profileData={props.profileData} />
