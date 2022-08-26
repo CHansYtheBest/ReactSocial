@@ -20,11 +20,11 @@ const Header = (props) => {
         </Link>
         <div className={s.profilePreview}>
           <Link to="/profile">
-            <img className={s.profilePreview_avatar} src={props.profileData.avatar} alt="avatar" />
+            <img className={s.profilePreview_avatar} src={props.profilePage.avatar} alt="avatar" />
           </Link>
           <div className={s.profilePreview_container}>
             <Link className={s.profilePreview_nameLink} to="/profile">
-              {props.profileData.name} {props.profileData.surname}
+              {props.profilePage.name} {props.profilePage.surname}
             </Link>
             <Link className={s.profilePreview_Link} to="/profile">
               View

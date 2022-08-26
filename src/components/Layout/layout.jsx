@@ -6,7 +6,7 @@ import Nav from "./Navigation/Navbar/nav";
 const Layout = (props) => {
   return (
     <div className="wrapper">
-      <Header profileData={props.profileData} />
+      <Header profilePage={props.profilePage} />
       <Nav />
       <div className="content">
         <Outlet />

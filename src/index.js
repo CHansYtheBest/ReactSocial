@@ -8,7 +8,6 @@ import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 export function renderEverything() {
-  console.log(store);
   root.render(
     <React.StrictMode>
       <BrowserRouter>
