@@ -1,16 +1,15 @@
 import React from "react";
-import { addPostActionType, updatePostActionType } from "../../../redux/profileReducer";
 import { SortPosts } from "./post";
 import s from "./profile.module.css";
 
 function Profile(props) {
   let addPost = () => {
-    props.dispatch(addPostActionType());
+    props.addPost();
   };
 
   let onPostChange = (e) => {
     let post = e.target.value;
-    props.dispatch(updatePostActionType(post));
+    props.onPostChange(post);
   };
 
   return (
