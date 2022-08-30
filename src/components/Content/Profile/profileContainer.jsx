@@ -1,17 +1,24 @@
-import React from "react";
+import { connect } from "react-redux";
 import { addPostActionType, updatePostActionType } from "../../../redux/profileReducer";
 import Profile from "./profile";
 
-function ProfileConteiner(props) {
-  let addPost = () => {
-    props.store.dispatch(addPostActionType());
+let mapStateToProps = (state) => {
+  return {
+    profilePage: state.profilePage,
   };
+};
 
-  let onPostChange = (post) => {
-    props.store.dispatch(updatePostActionType(post));
+let mapDispatchToProps = (dispatch) => {
+  return {
+    addPost: () => {
+      dispatch(addPostActionType());
+    },
+    onPostChange: (post) => {
+      dispatch(updatePostActionType(post));
+    },
   };
+};
 
-  return <Profile addPost={addPost} onPostChange={onPostChange} profilePage={props.store.getState().profilePage} />;
-}
+const ProfileConteiner = connect(mapStateToProps, mapDispatchToProps)(Profile);
 
 export default ProfileConteiner;

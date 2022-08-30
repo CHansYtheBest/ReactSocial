@@ -14,8 +14,8 @@ function Messages(props) {
 
   return (
     <div className={s.messages}>
-      {<MapMessage messagesData={props.currentMessagesData.dialog} />}
-      <textarea placeholder="Enter your message..." value={props.currentMessagesData.newMessageText} onChange={onTextChange}></textarea>
+      {<MapMessage messagesData={props.getCurrentMessagesData().dialog} />}
+      <textarea placeholder="Enter your message..." value={props.getCurrentMessagesData().newMessageText} onChange={onTextChange}></textarea>
       <button onClick={addMessage}>Send message</button>
     </div>
   );

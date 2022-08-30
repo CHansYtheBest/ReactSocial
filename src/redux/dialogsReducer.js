@@ -64,20 +64,23 @@ let initialState = {
 
 export const dialogsReducer = (state = initialState, action) => {
   let dialogIndex = state.messagesData.findIndex((i) => i.dialogid === Number(action.id));
-
   switch (action.type) {
     case ADD_MESSAGE:
+      let stateCopy = { ...state };
+      stateCopy.messagesData = [...stateCopy.messagesData];
       let newMessage = {
         id: state.messagesData[dialogIndex].dialog.length.toString(),
         from: "me",
         message: state.messagesData[dialogIndex].newMessageText,
       };
-      state.messagesData[dialogIndex].dialog.push(newMessage);
-      state.messagesData[dialogIndex].newMessageText = "";
-      return state;
+      stateCopy.messagesData[dialogIndex].dialog.push(newMessage);
+      stateCopy.messagesData[dialogIndex].newMessageText = "";
+      return stateCopy;
     case UPDATE_MESSAGE_NEW_TEXT:
-      state.messagesData[dialogIndex].newMessageText = action.content;
-      return state;
+      let stateCopy1 = { ...state };
+      stateCopy1.messagesData[dialogIndex] = { ...state.messagesData[dialogIndex] };
+      stateCopy1.messagesData[dialogIndex].newMessageText = action.content;
+      return stateCopy1;
     default:
       return state;
   }

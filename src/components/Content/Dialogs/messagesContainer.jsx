@@ -1,19 +1,33 @@
-import React from "react";
+import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { addMessageActionType, updateMessageActionType } from "../../../redux/dialogsReducer";
 import Messages from "./messages";
 
-function MessagesContainer(props) {
+const getId = () => {
   const { id } = useParams();
+  return id;
+};
 
-  let onTextChange = (message) => {
-    props.store.dispatch(updateMessageActionType(message, id));
+let mapStateToProps = (state) => {
+  return {
+    getCurrentMessagesData: () => {
+      return state.dialogsPage.messagesData[getId()];
+    },
   };
+};
 
-  let addMessage = () => {
-    props.store.dispatch(addMessageActionType(id));
+let mapDispatchToProps = (dispatch) => {
+  let id = getId();
+  return {
+    onTextChange: (message) => {
+      dispatch(updateMessageActionType(message, id));
+    },
+    addMessage: () => {
+      dispatch(addMessageActionType(id));
+    },
   };
-  return <Messages onTextChange={onTextChange} addMessage={addMessage} currentMessagesData={props.store.getState().dialogsPage.messagesData[id]} />;
-}
+};
+
+const MessagesContainer = connect(mapStateToProps, mapDispatchToProps)(Messages);
 
 export default MessagesContainer;
