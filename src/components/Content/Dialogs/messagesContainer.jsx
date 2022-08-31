@@ -1,28 +1,21 @@
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
 import { addMessageActionType, updateMessageActionType } from "../../../redux/dialogsReducer";
 import Messages from "./messages";
 
-const getId = () => {
-  const { id } = useParams();
-  return id;
-};
-
 let mapStateToProps = (state) => {
   return {
-    getCurrentMessagesData: () => {
-      return state.dialogsPage.messagesData[getId()];
+    getCurrentMessagesData: (id) => {
+      return state.dialogsPage.messagesData[id];
     },
   };
 };
 
 let mapDispatchToProps = (dispatch) => {
-  let id = getId();
   return {
-    onTextChange: (message) => {
+    onTextChange: (message, id) => {
       dispatch(updateMessageActionType(message, id));
     },
-    addMessage: () => {
+    addMessage: (id) => {
       dispatch(addMessageActionType(id));
     },
   };
