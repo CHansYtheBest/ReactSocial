@@ -64,25 +64,36 @@ let initialState = {
 
 export const dialogsReducer = (state = initialState, action) => {
   let dialogIndex = state.messagesData.findIndex((i) => i.dialogid === Number(action.id));
+
   switch (action.type) {
-    case ADD_MESSAGE:
-      let stateCopy = { ...state };
-      stateCopy.messagesData = [...stateCopy.messagesData];
+    case ADD_MESSAGE: {
       let newMessage = {
         id: state.messagesData[dialogIndex].dialog.length.toString(),
         from: "me",
         message: state.messagesData[dialogIndex].newMessageText,
       };
-      stateCopy.messagesData[dialogIndex].dialog.push(newMessage);
-      stateCopy.messagesData[dialogIndex].newMessageText = "";
+
+      let stateCopy = {
+        ...state,
+        messagesData: [...state.messagesData],
+      };
+      stateCopy.messagesData[dialogIndex] = {
+        newMessageText: "",
+        dialog: [...state.messagesData[dialogIndex].dialog, newMessage],
+      };
       return stateCopy;
-    case UPDATE_MESSAGE_NEW_TEXT:
-      let stateCopy1 = { ...state };
-      stateCopy1.messagesData[dialogIndex] = { ...state.messagesData[dialogIndex] };
-      stateCopy1.messagesData[dialogIndex].newMessageText = action.content;
-      return stateCopy1;
-    default:
+    }
+    case UPDATE_MESSAGE_NEW_TEXT: {
+      let stateCopy = { ...state };
+      stateCopy.messagesData[dialogIndex] = {
+        ...state.messagesData[dialogIndex],
+        newMessageText: action.content,
+      };
+      return stateCopy;
+    }
+    default: {
       return state;
+    }
   }
 };
 export const addMessageActionType = (currentId) => ({ type: ADD_MESSAGE, id: currentId });
