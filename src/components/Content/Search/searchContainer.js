@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { addFriendActionType, removeFriendActionType } from "../../../redux/searchReducer";
+import { addFriendActionType, removeFriendActionType, setUsersActionType } from "../../../redux/searchReducer";
 import Search from "./search";
 
 let mapStateToProps = (state) => {
@@ -10,6 +10,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    setUsers: (users) => {
+      dispatch(setUsersActionType(users));
+    },
     addFriend: (userId) => {
       dispatch(addFriendActionType(userId));
     },
