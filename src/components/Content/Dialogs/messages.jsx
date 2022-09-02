@@ -15,9 +15,6 @@ function Messages(props) {
     props.addMessage(id);
   };
 
-  console.log(props.getCurrentMessagesData(id));
-  console.log(id);
-
   return (
     <div className={s.messages}>
       {<MapMessage messagesData={props.getCurrentMessagesData(id).dialog} />}

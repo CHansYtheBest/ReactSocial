@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./Header.module.css";
-import Searchsvf from "../../../../imgs/Search.svg";
+import Searchsvg from "../../../../imgs/Search.svg";
 import { Link } from "react-router-dom";
 import Dialogsvg from "../../../../imgs/Dialog.svg";
 import Notificationsvg from "../../../../imgs/Bell.svg";
@@ -9,7 +9,7 @@ const Header = (props) => {
   return (
     <header className={s.header}>
       <div className={s.searchbar}>
-        <input className={s.searchbar_Input} type="text" placeholder="Search..." /> <img className={s.searchbar_Img} src={Searchsvf} alt="" />
+        <input className={s.searchbar_Input} type="text" placeholder="Search..." /> <img className={s.searchbar_Img} src={Searchsvg} alt="" />
       </div>
       <div className={s.navigation}>
         <Link className={s.iconLink} to="/dialog">

@@ -8,6 +8,7 @@ import Dialogsvg from "../../../../imgs/Message.svg";
 import Friendsvg from "../../../../imgs/Friends.svg";
 import Settingssvg from "../../../../imgs/Settings.svg";
 import Copyrightsvg from "../../../../imgs/Copyright.svg";
+import Searchsvg from "../../../../imgs/Search.svg";
 
 const Navlining = (props) => {
   return (
@@ -41,6 +42,7 @@ const Nav = () => {
         </ul>
         <div className={s.navigation_Separator}></div>
         <ul className={s.navigation_List}>
+          <Navlining to="/search" text="Find People" img={Searchsvg} />
           <Navlining to="/settings" text="Settings" img={Settingssvg} />
         </ul>
         <section className={s.copyright}>

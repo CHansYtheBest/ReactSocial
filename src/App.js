@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout/layout.jsx";
 import ProfileConteiner from "./components/Content/Profile/profileContainer";
 import MessagesContainer from "./components/Content/Dialogs/messagesContainer";
+import SearchContainer from "./components/Content/Search/searchContainer";
 
 const App = (props) => {
   return (
@@ -16,6 +17,7 @@ const App = (props) => {
             <Route path=":id" element={<MessagesContainer store={props.store} />} />
             <Route path="/dialog" element={<div>Please choose a dialog</div>} />
           </Route>
+          <Route path="/search" element={<SearchContainer store={props.store} />}></Route>
           <Route path="*" element={""} />
         </Route>
       </Routes>
