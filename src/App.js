@@ -17,7 +17,9 @@ const App = (props) => {
             <Route path=":id" element={<MessagesContainer store={props.store} />} />
             <Route path="/dialog" element={<div>Please choose a dialog</div>} />
           </Route>
-          <Route path="/search" element={<SearchContainer store={props.store} />}></Route>
+          <Route path="/search" element={<SearchContainer store={props.store} />}>
+            <Route path=":id" element={<SearchContainer store={props.store} />} />
+          </Route>
           <Route path="*" element={""} />
         </Route>
       </Routes>

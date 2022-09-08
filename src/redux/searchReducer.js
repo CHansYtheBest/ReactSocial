@@ -6,9 +6,9 @@ const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 
 let initialState = {
   users: [],
-  count: 10,
+  count: 9,
   currentPage: 1,
-  totalItems: 0,
+  totalItems: 1,
 };
 export const searchReducer = (state = initialState, action) => {
   switch (action.type) {
