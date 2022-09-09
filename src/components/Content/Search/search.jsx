@@ -11,7 +11,7 @@ function Search(props) {
     window.location.href = `/search/1`;
   }
   if (id > totalPages || id < 1) {
-    alert("Id of the page is incorrect, returning to page 1");
+    alert("Id of the page is incorrect, returning to page 1. Id:", id);
     window.location.href = `/search/1`;
     return;
   }
@@ -35,18 +35,13 @@ function Search(props) {
   };
 
   return (
-    <section>
+    <section className={s.content}>
       <div>
         {props.users.map((user) => {
           return (
             <div className={s.userCard} key={user.id}>
               <div className={s.rightSide}>
-                <img
-                  src={
-                    user.photos.small !== null ? user.photos.small : "https://djj.georgia.gov/sites/djj.georgia.gov/files/2020-04/john_edwards2.jpg"
-                  }
-                  alt=""
-                />
+                <img src={user.photos.small !== null ? user.photos.small : "https://cdn-icons-png.flaticon.com/512/21/21104.png"} alt="" />
                 <button onClick={() => onFriendInteractionClick(user.followed, user.id)}>{user.followed ? "Remove friend" : "Add friend"}</button>
               </div>
               <div className={s.leftSide}>
@@ -60,7 +55,7 @@ function Search(props) {
           );
         })}
       </div>
-      <div>
+      <div className={s.paginationContainer}>
         <Pagination
           currentPage={props.currentPage}
           setCurrentPage={props.setCurrentPage}

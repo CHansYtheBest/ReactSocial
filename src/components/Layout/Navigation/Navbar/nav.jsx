@@ -10,7 +10,7 @@ import Settingssvg from "../../../../imgs/Settings.svg";
 import Copyrightsvg from "../../../../imgs/Copyright.svg";
 import Searchsvg from "../../../../imgs/Search.svg";
 
-const Navlining = (props) => {
+const MapNavlink = (props) => {
   return (
     <li>
       <NavLink to={props.to} className={({ isActive }) => (isActive ? s.active : "")}>
@@ -35,15 +35,15 @@ const Nav = () => {
           </div>
         </section>
         <ul className={s.navigation_List}>
-          <Navlining to="/profile" text="My Page" img={Profilesvg} />
-          <Navlining to="/feed" text="News Feed" img={Feedsvg} />
-          <Navlining to="/dialog" text="Messages" img={Dialogsvg} />
-          <Navlining to="/friends" text="Friends" img={Friendsvg} />
+          <MapNavlink to="/profile" text="My Page" img={Profilesvg} />
+          <MapNavlink to="/feed" text="News Feed" img={Feedsvg} />
+          <MapNavlink to="/dialog" text="Messages" img={Dialogsvg} />
+          <MapNavlink to="/friends" text="Friends" img={Friendsvg} />
         </ul>
         <div className={s.navigation_Separator}></div>
         <ul className={s.navigation_List}>
-          <Navlining to="/search" text="Find People" img={Searchsvg} />
-          <Navlining to="/settings" text="Settings" img={Settingssvg} />
+          <MapNavlink to="/search" text="Find People" img={Searchsvg} />
+          <MapNavlink to="/settings" text="Settings" img={Settingssvg} />
         </ul>
         <section className={s.copyright}>
           <div className={s.copyright_Separator}> </div>

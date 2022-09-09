@@ -32,7 +32,13 @@ function Pagination(props) {
   let pagesButtons = React.Children.toArray(
     slicedPagesArr.map((page) => {
       return (
-        <NavLink to={"/search/" + page} onClick={() => onPageButtonClick(page)} className={s.pagination}>
+        <NavLink
+          to={"/search/" + page}
+          onClick={() => onPageButtonClick(page)}
+          className={() => {
+            return s.pagination + " " + (props.currentPage === page ? s.active : "");
+          }}
+        >
           {page}
         </NavLink>
       );
