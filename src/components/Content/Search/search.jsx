@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useGetUsers from "../../../customHooks/useGetUsers";
 import Pagination from "./pagination";
@@ -6,25 +7,33 @@ import s from "./search.module.css";
 
 function Search(props) {
   const id = Number(useParams().id);
-  let totalPages = Math.ceil(props.totalItems / props.count);
-  if (isNaN(id) || id === undefined) {
-    window.location.href = `/search/1`;
-  }
-  if (id > totalPages || id < 1) {
-    alert("Id of the page is incorrect, returning to page 1. Id:", id);
-    window.location.href = `/search/1`;
-    return;
-  }
-  if (props.currentPage !== id) {
-    props.setCurrentPage(Number(id));
-  }
-  //Check if already has users
-  if (props.users.length === 0) {
-    useGetUsers(props.count, id).then((data) => {
-      props.setUsers(data.items);
-      props.setTotalItems(data.totalCount);
-    });
-  }
+  let totalPages = 1;
+
+  useEffect(() => {
+    //Check for valid id
+    if (isNaN(id) || id === undefined || id < 1) {
+      console.warn(id);
+      window.location.href = `/search/1`;
+    }
+
+    //Check if already has users
+    if (props.users.length === 0) {
+      //Get users and check if id bigger than totalPages
+      useGetUsers(props.count, id).then((data) => {
+        props.setUsers(data.items);
+        props.setTotalItems(data.totalCount);
+        totalPages = Math.ceil(data.totalCount / props.count);
+        if (id > totalPages) {
+          alert("Id of the page is incorrect, returning to page 1.");
+          window.location.href = `/search/1`;
+        }
+      });
+    }
+    //Check for valid id
+    if (props.currentPage !== id) {
+      props.setCurrentPage(Number(id));
+    }
+  }, []);
 
   let onFriendInteractionClick = (followed, userId) => {
     if (followed === true) {
@@ -61,7 +70,7 @@ function Search(props) {
           setCurrentPage={props.setCurrentPage}
           setUsers={props.setUsers}
           count={props.count}
-          totalItems={props.totalItems}
+          totalPages={Math.ceil(props.totalItems / props.count)}
           id={id}
         />
       </div>

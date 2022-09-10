@@ -4,9 +4,8 @@ import useGetUsers from "../../../customHooks/useGetUsers";
 import s from "./search.module.css";
 
 function Pagination(props) {
-  let totalPages = Math.ceil(props.totalItems / props.count);
   let pagesArr = [];
-  for (let i = 0; i <= totalPages; i++) {
+  for (let i = 0; i <= props.totalPages; i++) {
     pagesArr.push(i);
   }
 
@@ -15,11 +14,10 @@ function Pagination(props) {
   if (props.currentPage - 4 <= 0) {
     currentPageFirst = 1;
     currentPageLast = props.currentPage + 10 - props.currentPage;
-  } else if (props.currentPage + 5 > totalPages) {
-    currentPageLast = totalPages + 1;
-    currentPageFirst = totalPages - 8;
+  } else if (props.currentPage + 5 > props.totalPages) {
+    currentPageLast = props.totalPages + 1;
+    currentPageFirst = props.totalPages - 8;
   }
-  console.log(currentPageFirst, currentPageLast);
   let slicedPagesArr = pagesArr.slice(currentPageFirst, currentPageLast);
 
   let onPageButtonClick = (page) => {
@@ -51,7 +49,7 @@ function Pagination(props) {
         {"|<"}
       </NavLink>
       {pagesButtons}
-      <NavLink to={"/search/" + totalPages} onClick={() => onPageButtonClick(totalPages)} className={s.pagination}>
+      <NavLink to={"/search/" + props.totalPages} onClick={() => onPageButtonClick(props.totalPages)} className={s.pagination}>
         {">|"}
       </NavLink>
     </>

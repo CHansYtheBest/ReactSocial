@@ -9,6 +9,7 @@ let initialState = {
   count: 8,
   currentPage: 1,
   totalItems: 1,
+  isFetching: false,
 };
 export const searchReducer = (state = initialState, action) => {
   switch (action.type) {

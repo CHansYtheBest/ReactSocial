@@ -14,6 +14,7 @@ let mapStateToProps = (state) => {
     count: state.searchPage.count,
     totalItems: state.searchPage.totalItems,
     currentPage: state.searchPage.currentPage,
+    isFetching: state.searchPage.isFetching,
   };
 };
 
