@@ -5,6 +5,7 @@ import {
   setCurrentPageActionType,
   setTotalItemsActionType,
   setUsersActionType,
+  toggleIsFetchingActionType,
 } from "../../../redux/searchReducer";
 import Search from "./search";
 
@@ -34,6 +35,9 @@ let mapDispatchToProps = (dispatch) => {
     },
     removeFriend: (userId) => {
       dispatch(removeFriendActionType(userId));
+    },
+    toggleIsFetching: (bull) => {
+      dispatch(toggleIsFetchingActionType(bull));
     },
   };
 };

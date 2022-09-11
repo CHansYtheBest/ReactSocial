@@ -11,7 +11,7 @@ const App = (props) => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout profilePage={props.state.profilePage} />}>
+        <Route path="/" element={<Layout store={props.store} />}>
           <Route path="/profile" element={<ProfileConteiner store={props.store} />} />
           <Route path="/dialog" element={<Dialogs dialogData={props.state.dialogsPage.dialogData} />}>
             <Route path=":id" element={<MessagesContainer store={props.store} />} />

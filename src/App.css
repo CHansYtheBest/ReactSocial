@@ -29,5 +29,6 @@ p {
 .content {
   grid-area: content;
   background-color: #e7e4f8;
+  position: relative;
   z-index: 10;
 }

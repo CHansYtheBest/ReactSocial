@@ -21,8 +21,10 @@ function Pagination(props) {
   let slicedPagesArr = pagesArr.slice(currentPageFirst, currentPageLast);
 
   let onPageButtonClick = (page) => {
+    props.toggleIsFetching(true);
     useGetUsers(props.count, page).then((data) => {
       props.setUsers(data.items);
+      props.toggleIsFetching(false);
     });
     props.setCurrentPage(page);
   };

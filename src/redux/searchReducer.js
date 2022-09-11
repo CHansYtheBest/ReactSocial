@@ -3,6 +3,7 @@ const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
 const SET_TOTAL_ITEMS = "SET_TOTAL_ITEMS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 
 let initialState = {
   users: [],
@@ -44,6 +45,9 @@ export const searchReducer = (state = initialState, action) => {
     case SET_CURRENT_PAGE: {
       return { ...state, currentPage: action.currentPage };
     }
+    case TOGGLE_IS_FETCHING: {
+      return { ...state, isFetching: action.value };
+    }
     default: {
       return state;
     }
@@ -55,3 +59,4 @@ export const removeFriendActionType = (userID) => ({ type: UNFOLLOW, userID: use
 export const setUsersActionType = (usersArr) => ({ type: SET_USERS, users: usersArr });
 export const setTotalItemsActionType = (totalItems) => ({ type: SET_TOTAL_ITEMS, totalItems: totalItems });
 export const setCurrentPageActionType = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage: currentPage });
+export const toggleIsFetchingActionType = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });
