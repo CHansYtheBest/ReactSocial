@@ -1,5 +1,13 @@
 import { connect } from "react-redux";
-import { addPostActionType, updatePostActionType } from "../../../redux/profileReducer";
+import {
+  addPostActionType,
+  setErrorActionType,
+  setPostsActionType,
+  setProfileInfoActionType,
+  setUserIDActionType,
+  toggleIsFetchingActionType,
+  updatePostActionType,
+} from "../../../redux/profileReducer";
 import Profile from "./profile";
 
 let mapStateToProps = (state) => {
@@ -15,6 +23,21 @@ let mapDispatchToProps = (dispatch) => {
     },
     onPostChange: (post) => {
       dispatch(updatePostActionType(post));
+    },
+    setUserId: (userId) => {
+      dispatch(setUserIDActionType(userId));
+    },
+    setProfileInfo: (data) => {
+      dispatch(setProfileInfoActionType(data));
+    },
+    setError: (error) => {
+      dispatch(setErrorActionType(error));
+    },
+    setPosts: (posts) => {
+      dispatch(setPostsActionType(posts));
+    },
+    toggleIsFetching: (bull) => {
+      dispatch(toggleIsFetchingActionType(bull));
     },
   };
 };

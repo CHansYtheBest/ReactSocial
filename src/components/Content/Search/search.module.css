@@ -7,6 +7,10 @@
   margin-bottom: 15px;
 }
 
+.userCard a {
+  text-decoration: none;
+}
+
 .rightSide {
   display: flex;
   flex-direction: column;
@@ -25,7 +29,13 @@
   width: max-content;
 }
 
+.leftSide p {
+  text-decoration: none;
+  color: black;
+}
+
 .name {
+  text-decoration: none;
   margin-bottom: auto;
   font-weight: 500;
   font-size: 24px;

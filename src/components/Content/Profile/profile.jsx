@@ -1,34 +1,49 @@
 import React from "react";
+import { useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { SortPosts } from "./post";
+import useGetProfile from "../../../customHooks/useGetProfile";
 import s from "./profile.module.css";
+import Preloader from "../../Layout/Navigation/Preloader/preloader";
 
 function Profile(props) {
-  let addPost = () => {
-    props.addPost();
-  };
+  let navigate = useNavigate();
+  let location = useLocation();
+  const id = Number(useParams().id);
 
-  let onPostChange = (e) => {
-    let post = e.target.value;
-    props.onPostChange(post);
-  };
+  useEffect(() => {
+    if (!isNaN(id)) {
+      props.toggleIsFetching(true);
+      useGetProfile(id)
+        .then((data) => {
+          console.log(data);
+          props.setUserId(data.userId);
+          if (data.photos.large !== null) {
+            props.setProfileInfo(data);
+          } else {
+            props.setProfileInfo(data, (data.photos.large = "https://cdn-icons-png.flaticon.com/512/21/21104.png"));
+          }
+          props.setPosts([]);
+          props.toggleIsFetching(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          navigate("/profile/error");
+        });
+    }
+  }, [location]);
 
   return (
     <section className={s.content}>
+      {props.profilePage.isFetching ? <Preloader /> : null}
       <div className={s.profile}>
         <img src={props.profilePage.avatar} alt="" />
-        <p>
-          {props.profilePage.name} {props.profilePage.surname}
-        </p>
+        <p>{props.profilePage.fullName}</p>
       </div>
 
       <div id="posts">
-        <SortPosts profilePage={props.profilePage} />
+        <SortPosts profilePage={props.profilePage} onPostChange={props.onPostChange} addPost={props.addPost} />
       </div>
-
-      <textarea placeholder="Enter a new post..." value={props.profilePage.postNewText} onChange={onPostChange}></textarea>
-      <button onClick={addPost} style={{ width: "100px" }}>
-        Add post
-      </button>
     </section>
   );
 }

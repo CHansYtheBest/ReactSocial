@@ -24,7 +24,7 @@ const Header = (props) => {
           </Link>
           <div className={s.profilePreview_container}>
             <Link className={s.profilePreview_nameLink} to="/profile">
-              {props.profilePage.name} {props.profilePage.surname}
+              {props.profilePage.fullName}
             </Link>
             <Link className={s.profilePreview_Link} to="/profile">
               View
