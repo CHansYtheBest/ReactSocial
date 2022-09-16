@@ -67,6 +67,7 @@ export const dialogsReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case ADD_MESSAGE: {
+      console.log(state, action);
       let newMessage = {
         id: state.messagesData[dialogIndex].dialog.length.toString(),
         from: "me",
@@ -78,6 +79,7 @@ export const dialogsReducer = (state = initialState, action) => {
         messagesData: [...state.messagesData],
       };
       stateCopy.messagesData[dialogIndex] = {
+        dialogid: dialogIndex,
         newMessageText: "",
         dialog: [...state.messagesData[dialogIndex].dialog, newMessage],
       };
