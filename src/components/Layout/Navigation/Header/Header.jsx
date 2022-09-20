@@ -4,8 +4,25 @@ import Searchsvg from "../../../../imgs/Search.svg";
 import { Link } from "react-router-dom";
 import Dialogsvg from "../../../../imgs/Dialog.svg";
 import Notificationsvg from "../../../../imgs/Bell.svg";
+import { useEffect } from "react";
+import useCheckIsLoggedIn from "../../../../customHooks/useCheckIsLoggedIn";
+import HeaderLogged from "./HeaderLogged";
 
-const Header = (props) => {
+const getLoginInfo = (props) => {
+  return useCheckIsLoggedIn().then((data) => {
+    if (data !== false) {
+      let { id, email, login } = data.data;
+      props.setUserData(id, email, login);
+      return true;
+    }
+  });
+};
+
+function Header(props) {
+  useEffect(() => {
+    getLoginInfo(props);
+  }, []);
+  console.log(props.auth.isAuth);
   return (
     <header className={s.header}>
       <div className={s.searchbar}>
@@ -18,22 +35,10 @@ const Header = (props) => {
         <Link className={s.iconLink} to="/notification">
           <img src={Notificationsvg} alt="" />
         </Link>
-        <div className={s.profilePreview}>
-          <Link to="/profile">
-            <img className={s.profilePreview_avatar} src={props.profilePage.avatar} alt="avatar" />
-          </Link>
-          <div className={s.profilePreview_container}>
-            <Link className={s.profilePreview_nameLink} to="/profile">
-              {props.profilePage.fullName}
-            </Link>
-            <Link className={s.profilePreview_Link} to="/profile">
-              View
-            </Link>
-          </div>
-        </div>
+        <div className={s.profilePreview}>{props.auth.isAuth ? <HeaderLogged id={props.auth.id} login={props.auth.login} /> : null}</div>
       </div>
     </header>
   );
-};
+}
 
 export default Header;

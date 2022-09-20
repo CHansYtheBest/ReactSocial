@@ -6,6 +6,26 @@ import useGetProfile from "../../../customHooks/useGetProfile";
 import s from "./profile.module.css";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
 
+const getProfile = (props, navigate, location, id) => {
+  props.toggleIsFetching(true);
+  useGetProfile(id)
+    .then((data) => {
+      console.log(data);
+      props.setUserId(data.userId);
+      if (data.photos.large !== null) {
+        props.setProfileInfo(data);
+      } else {
+        props.setProfileInfo(data, (data.photos.large = "https://cdn-icons-png.flaticon.com/512/21/21104.png"));
+      }
+      props.setPosts([]);
+      props.toggleIsFetching(false);
+    })
+    .catch((err) => {
+      console.error(err);
+      navigate("/profile/error");
+    });
+};
+
 function Profile(props) {
   let navigate = useNavigate();
   let location = useLocation();
@@ -13,23 +33,7 @@ function Profile(props) {
 
   useEffect(() => {
     if (!isNaN(id)) {
-      props.toggleIsFetching(true);
-      useGetProfile(id)
-        .then((data) => {
-          console.log(data);
-          props.setUserId(data.userId);
-          if (data.photos.large !== null) {
-            props.setProfileInfo(data);
-          } else {
-            props.setProfileInfo(data, (data.photos.large = "https://cdn-icons-png.flaticon.com/512/21/21104.png"));
-          }
-          props.setPosts([]);
-          props.toggleIsFetching(false);
-        })
-        .catch((err) => {
-          console.error(err);
-          navigate("/profile/error");
-        });
+      getProfile(props, navigate, location, id);
     }
   }, [location]);
 

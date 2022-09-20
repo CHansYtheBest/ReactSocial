@@ -1,12 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "./Navigation/Header/Header";
+import HeaderConteiner from "./Navigation/Header/headerContainer";
 import Nav from "./Navigation/Navbar/nav";
 
 const Layout = (props) => {
   return (
     <div className="wrapper">
-      <Header profilePage={props.store.getState().profilePage} />
+      <HeaderConteiner store={props.store} />
       <Nav />
       <div className="content">
         <Outlet />
