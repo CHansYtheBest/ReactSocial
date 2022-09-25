@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import useGetUsers from "../../../customHooks/useGetUsers";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
+import { FriendInteractionButton } from "./friendInteractionButton";
 import Pagination from "./pagination";
 import s from "./search.module.css";
 
@@ -42,14 +43,6 @@ function Search(props) {
     }
   }, [location]);
 
-  //Add or remove friend button func
-  let onFriendInteractionClick = (followed, userId) => {
-    if (followed === true) {
-      props.removeFriend(userId);
-    } else {
-      props.addFriend(userId);
-    }
-  };
   return (
     <>
       <section className={s.content}>
@@ -63,7 +56,7 @@ function Search(props) {
                   <NavLink to={`/profile/${user.id}`}>
                     <img src={user.photos.small !== null ? user.photos.small : "https://cdn-icons-png.flaticon.com/512/21/21104.png"} alt="" />
                   </NavLink>
-                  <button onClick={() => onFriendInteractionClick(user.followed, user.id)}>{user.followed ? "Remove friend" : "Add friend"}</button>
+                  <FriendInteractionButton id={user.id} followed={user.followed} addFriend={props.addFriend} removeFriend={props.removeFriend} />
                 </div>
                 <NavLink to={`/profile/${user.id}`}>
                   <div className={s.leftSide}>

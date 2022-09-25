@@ -1,4 +1,6 @@
 import { connect } from "react-redux";
+import useFriendAdd from "../../../customHooks/useFriendAdd";
+import useFriendRemove from "../../../customHooks/useFriendRemove";
 import {
   addFriendActionType,
   removeFriendActionType,
@@ -31,10 +33,14 @@ let mapDispatchToProps = (dispatch) => {
       dispatch(setCurrentPageActionType(currentPage));
     },
     addFriend: (userId) => {
-      dispatch(addFriendActionType(userId));
+      useFriendAdd(userId, (id) => {
+        dispatch(addFriendActionType(id));
+      });
     },
     removeFriend: (userId) => {
-      dispatch(removeFriendActionType(userId));
+      useFriendRemove(userId, (id) => {
+        dispatch(removeFriendActionType(id));
+      });
     },
     toggleIsFetching: (bull) => {
       dispatch(toggleIsFetchingActionType(bull));

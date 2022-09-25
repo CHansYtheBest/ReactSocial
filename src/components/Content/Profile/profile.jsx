@@ -32,8 +32,10 @@ function Profile(props) {
   useEffect(() => {
     if (!isNaN(id)) {
       getProfile(props, navigate, id);
-    } else {
+    } else if (props.isAuth === true) {
       navigate(`/profile/${props.currentProfileId}`);
+    } else {
+      navigate("/profile/error");
     }
   }, [location]);
 
