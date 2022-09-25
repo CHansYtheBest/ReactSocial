@@ -6,11 +6,10 @@ import useGetProfile from "../../../customHooks/useGetProfile";
 import s from "./profile.module.css";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
 
-const getProfile = (props, navigate, location, id) => {
+const getProfile = (props, navigate, id) => {
   props.toggleIsFetching(true);
   useGetProfile(id)
     .then((data) => {
-      console.log(data);
       props.setUserId(data.userId);
       if (data.photos.large !== null) {
         props.setProfileInfo(data);
@@ -30,10 +29,11 @@ function Profile(props) {
   let navigate = useNavigate();
   let location = useLocation();
   const id = Number(useParams().id);
-
   useEffect(() => {
     if (!isNaN(id)) {
-      getProfile(props, navigate, location, id);
+      getProfile(props, navigate, id);
+    } else {
+      navigate(`/profile/${props.currentProfileId}`);
     }
   }, [location]);
 

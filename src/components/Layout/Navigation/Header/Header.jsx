@@ -22,7 +22,6 @@ function Header(props) {
   useEffect(() => {
     getLoginInfo(props);
   }, []);
-  console.log(props.auth.isAuth);
   return (
     <header className={s.header}>
       <div className={s.searchbar}>
@@ -35,7 +34,9 @@ function Header(props) {
         <Link className={s.iconLink} to="/notification">
           <img src={Notificationsvg} alt="" />
         </Link>
-        <div className={s.profilePreview}>{props.auth.isAuth ? <HeaderLogged id={props.auth.id} login={props.auth.login} /> : null}</div>
+        <div className={s.profilePreview}>
+          <HeaderLogged isAuth={props.auth.isAuth} id={props.auth.id} login={props.auth.login} />
+        </div>
       </div>
     </header>
   );
