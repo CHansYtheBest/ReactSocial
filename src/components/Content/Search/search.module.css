@@ -61,3 +61,12 @@
   background-color: white;
   border: 2px solid black;
 }
+
+.friendButton {
+  border: none;
+  color: red;
+}
+
+.friendButtonFetching {
+  color: blue;
+}

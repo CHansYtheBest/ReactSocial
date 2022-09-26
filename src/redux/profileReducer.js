@@ -81,10 +81,10 @@ export const profileReducer = (state = initialState, action) => {
   }
 };
 
-export const addPostActionType = () => ({ type: ADD_POST });
-export const updatePostActionType = (post) => ({ type: UPDATE_POST_NEW_TEXT, content: post });
-export const setUserIDActionType = (userId) => ({ type: SET_USERID, userId: userId });
-export const setProfileInfoActionType = (data) => ({ type: SET_PROFILE_INFO, data: data });
-export const setErrorActionType = (error) => ({ type: SET_ERROR, error: error });
-export const setPostsActionType = (posts) => ({ type: SET_POSTS, posts: posts });
-export const toggleIsFetchingActionType = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });
+export const addPostAT = () => ({ type: ADD_POST });
+export const updatePostAT = (post) => ({ type: UPDATE_POST_NEW_TEXT, content: post });
+export const setUserIDAT = (userId) => ({ type: SET_USERID, userId: userId });
+export const setProfileInfoAT = (data) => ({ type: SET_PROFILE_INFO, data: data });
+export const setErrorAT = (error) => ({ type: SET_ERROR, error: error });
+export const setPostsAT = (posts) => ({ type: SET_POSTS, posts: posts });
+export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });

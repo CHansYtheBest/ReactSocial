@@ -98,5 +98,5 @@ export const dialogsReducer = (state = initialState, action) => {
     }
   }
 };
-export const addMessageActionType = (currentId) => ({ type: ADD_MESSAGE, id: currentId });
-export const updateMessageActionType = (message, currentId) => ({ type: UPDATE_MESSAGE_NEW_TEXT, content: message, id: currentId });
+export const addMessageAT = (currentId) => ({ type: ADD_MESSAGE, id: currentId });
+export const updateMessageAT = (message, currentId) => ({ type: UPDATE_MESSAGE_NEW_TEXT, content: message, id: currentId });

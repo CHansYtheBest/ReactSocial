@@ -1,13 +1,5 @@
 import { connect } from "react-redux";
-import {
-  addPostActionType,
-  setErrorActionType,
-  setPostsActionType,
-  setProfileInfoActionType,
-  setUserIDActionType,
-  toggleIsFetchingActionType,
-  updatePostActionType,
-} from "../../../redux/profileReducer";
+import { addPostAT, setErrorAT, setPostsAT, setProfileInfoAT, setUserIDAT, toggleIsFetchingAT, updatePostAT } from "../../../redux/profileReducer";
 import Profile from "./profile";
 
 let mapStateToProps = (state) => {
@@ -21,25 +13,25 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
   return {
     addPost: () => {
-      dispatch(addPostActionType());
+      dispatch(addPostAT());
     },
     onPostChange: (post) => {
-      dispatch(updatePostActionType(post));
+      dispatch(updatePostAT(post));
     },
     setUserId: (userId) => {
-      dispatch(setUserIDActionType(userId));
+      dispatch(setUserIDAT(userId));
     },
     setProfileInfo: (data) => {
-      dispatch(setProfileInfoActionType(data));
+      dispatch(setProfileInfoAT(data));
     },
     setError: (error) => {
-      dispatch(setErrorActionType(error));
+      dispatch(setErrorAT(error));
     },
     setPosts: (posts) => {
-      dispatch(setPostsActionType(posts));
+      dispatch(setPostsAT(posts));
     },
     toggleIsFetching: (bull) => {
-      dispatch(toggleIsFetchingActionType(bull));
+      dispatch(toggleIsFetchingAT(bull));
     },
   };
 };

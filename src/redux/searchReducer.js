@@ -4,6 +4,7 @@ const SET_USERS = "SET_USERS";
 const SET_TOTAL_ITEMS = "SET_TOTAL_ITEMS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
+const SET_BUTTON_IS_FETCHING = "SET_BUTTON_IS_FETCHING";
 
 let initialState = {
   users: [],
@@ -11,6 +12,7 @@ let initialState = {
   currentPage: 1,
   totalItems: 1,
   isFetching: false,
+  buttonIsFetching: [2, 3],
 };
 export const searchReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -46,7 +48,13 @@ export const searchReducer = (state = initialState, action) => {
       return { ...state, currentPage: action.currentPage };
     }
     case TOGGLE_IS_FETCHING: {
-      return { ...state, isFetching: action.value };
+      return { ...state, isFetching: action.fetching };
+    }
+    case SET_BUTTON_IS_FETCHING: {
+      return {
+        ...state,
+        buttonIsFetching: action.fetching ? [...state.buttonIsFetching, action.userID] : state.buttonIsFetching.filter((id) => id !== action.userID),
+      };
     }
     default: {
       return state;
@@ -54,9 +62,10 @@ export const searchReducer = (state = initialState, action) => {
   }
 };
 
-export const addFriendActionType = (userID) => ({ type: FOLLOW, userID: userID });
-export const removeFriendActionType = (userID) => ({ type: UNFOLLOW, userID: userID });
-export const setUsersActionType = (usersArr) => ({ type: SET_USERS, users: usersArr });
-export const setTotalItemsActionType = (totalItems) => ({ type: SET_TOTAL_ITEMS, totalItems: totalItems });
-export const setCurrentPageActionType = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage: currentPage });
-export const toggleIsFetchingActionType = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });
+export const addFriendAT = (userID) => ({ type: FOLLOW, userID: userID });
+export const removeFriendAT = (userID) => ({ type: UNFOLLOW, userID: userID });
+export const setUsersAT = (usersArr) => ({ type: SET_USERS, users: usersArr });
+export const setTotalItemsAT = (totalItems) => ({ type: SET_TOTAL_ITEMS, totalItems: totalItems });
+export const setCurrentPageAT = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage: currentPage });
+export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, fetching: bull });
+export const setButtonIsFetchingAT = (bull, userID) => ({ type: SET_BUTTON_IS_FETCHING, fetching: bull, userID: userID });

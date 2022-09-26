@@ -2,12 +2,13 @@ import { connect } from "react-redux";
 import useFriendAdd from "../../../customHooks/useFriendAdd";
 import useFriendRemove from "../../../customHooks/useFriendRemove";
 import {
-  addFriendActionType,
-  removeFriendActionType,
-  setCurrentPageActionType,
-  setTotalItemsActionType,
-  setUsersActionType,
-  toggleIsFetchingActionType,
+  addFriendAT,
+  removeFriendAT,
+  setCurrentPageAT,
+  setTotalItemsAT,
+  setUsersAT,
+  setButtonIsFetchingAT,
+  toggleIsFetchingAT,
 } from "../../../redux/searchReducer";
 import Search from "./search";
 
@@ -18,32 +19,39 @@ let mapStateToProps = (state) => {
     totalItems: state.searchPage.totalItems,
     currentPage: state.searchPage.currentPage,
     isFetching: state.searchPage.isFetching,
+    buttonIsFetching: state.searchPage.buttonIsFetching,
   };
 };
 
 let mapDispatchToProps = (dispatch) => {
   return {
     setUsers: (users) => {
-      dispatch(setUsersActionType(users));
+      dispatch(setUsersAT(users));
     },
     setTotalItems: (totalItems) => {
-      dispatch(setTotalItemsActionType(totalItems));
+      dispatch(setTotalItemsAT(totalItems));
     },
     setCurrentPage: (currentPage) => {
-      dispatch(setCurrentPageActionType(currentPage));
+      dispatch(setCurrentPageAT(currentPage));
+    },
+    toggleIsFetching: (bull) => {
+      dispatch(toggleIsFetchingAT(bull));
     },
     addFriend: (userId) => {
+      dispatch(setButtonIsFetchingAT(true, userId));
       useFriendAdd(userId, (id) => {
-        dispatch(addFriendActionType(id));
+        dispatch(addFriendAT(id));
+      }).then(() => {
+        dispatch(setButtonIsFetchingAT(false, userId));
       });
     },
     removeFriend: (userId) => {
+      dispatch(setButtonIsFetchingAT(true, userId));
       useFriendRemove(userId, (id) => {
-        dispatch(removeFriendActionType(id));
+        dispatch(removeFriendAT(id));
+      }).then(() => {
+        dispatch(setButtonIsFetchingAT(false, userId));
       });
-    },
-    toggleIsFetching: (bull) => {
-      dispatch(toggleIsFetchingActionType(bull));
     },
   };
 };

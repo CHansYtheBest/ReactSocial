@@ -56,7 +56,14 @@ function Search(props) {
                   <NavLink to={`/profile/${user.id}`}>
                     <img src={user.photos.small !== null ? user.photos.small : "https://cdn-icons-png.flaticon.com/512/21/21104.png"} alt="" />
                   </NavLink>
-                  <FriendInteractionButton id={user.id} followed={user.followed} addFriend={props.addFriend} removeFriend={props.removeFriend} />
+                  <FriendInteractionButton
+                    id={user.id}
+                    followed={user.followed}
+                    addFriend={props.addFriend}
+                    removeFriend={props.removeFriend}
+                    toggleButtonIsFetching={props.toggleButtonIsFetching}
+                    buttonIsFetching={props.buttonIsFetching}
+                  />
                 </div>
                 <NavLink to={`/profile/${user.id}`}>
                   <div className={s.leftSide}>

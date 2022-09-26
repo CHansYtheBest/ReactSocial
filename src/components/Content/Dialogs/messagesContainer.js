@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { addMessageActionType, updateMessageActionType } from "../../../redux/dialogsReducer";
+import { addMessageAT, updateMessageAT } from "../../../redux/dialogsReducer";
 import Messages from "./messages";
 
 let mapStateToProps = (state) => {
@@ -13,10 +13,10 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
   return {
     onTextChange: (message, id) => {
-      dispatch(updateMessageActionType(message, id));
+      dispatch(updateMessageAT(message, id));
     },
     addMessage: (id) => {
-      dispatch(addMessageActionType(id));
+      dispatch(addMessageAT(id));
     },
   };
 };
