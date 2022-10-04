@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { setUserDataActionType } from "../../../../redux/authReducer";
+import { getLoggedInThunk, setUserDataActionType } from "../../../../redux/authReducer";
 import Header from "./Header";
 
 let mapStateToProps = (state) => {
@@ -12,6 +12,9 @@ let mapDispatchToProps = (dispatch) => {
   return {
     setUserData: (id, email, login) => {
       dispatch(setUserDataActionType(id, email, login));
+    },
+    getLoggedIn: () => {
+      dispatch(getLoggedInThunk());
     },
   };
 };

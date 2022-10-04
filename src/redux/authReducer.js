@@ -1,3 +1,5 @@
+import { useCheckIsLoggedIn } from "../customHooks/fetchFromAPI";
+
 const SET_USER_DATA = "SET_USER_DATA";
 
 let initialState = {
@@ -23,3 +25,14 @@ export const authReducer = (state = initialState, action) => {
 };
 
 export const setUserDataActionType = (id, email, login) => ({ type: SET_USER_DATA, data: { id, email, login } });
+
+export const getLoggedInThunk = () => {
+  return (dispatch) => {
+    useCheckIsLoggedIn().then((data) => {
+      if (data !== false) {
+        let { id, email, login } = data.data;
+        dispatch(setUserDataActionType(id, email, login));
+      }
+    });
+  };
+};

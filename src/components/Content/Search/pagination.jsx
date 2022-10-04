@@ -1,9 +1,9 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import useGetUsers from "../../../customHooks/useGetUsers";
+import { NavLink, useNavigate } from "react-router-dom";
 import s from "./search.module.css";
 
 function Pagination(props) {
+  let navigate = useNavigate();
   let pagesArr = [];
   for (let i = 0; i <= props.totalPages; i++) {
     pagesArr.push(i);
@@ -21,12 +21,7 @@ function Pagination(props) {
   let slicedPagesArr = pagesArr.slice(currentPageFirst, currentPageLast);
 
   let onPageButtonClick = (page) => {
-    props.toggleIsFetching(true);
-    useGetUsers(props.count, page).then((data) => {
-      props.setUsers(data.items);
-      props.toggleIsFetching(false);
-    });
-    props.setCurrentPage(page);
+    props.getUsers(navigate, page, props.currentPage, props.count);
   };
 
   let pagesButtons = React.Children.toArray(

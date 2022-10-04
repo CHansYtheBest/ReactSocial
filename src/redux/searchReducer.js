@@ -1,3 +1,5 @@
+import { useFriendAdd, useFriendRemove, useGetUsers } from "../customHooks/fetchFromAPI";
+
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
@@ -12,7 +14,7 @@ let initialState = {
   currentPage: 1,
   totalItems: 1,
   isFetching: false,
-  buttonIsFetching: [2, 3],
+  buttonIsFetching: [],
 };
 export const searchReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -69,3 +71,49 @@ export const setTotalItemsAT = (totalItems) => ({ type: SET_TOTAL_ITEMS, totalIt
 export const setCurrentPageAT = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage: currentPage });
 export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, fetching: bull });
 export const setButtonIsFetchingAT = (bull, userID) => ({ type: SET_BUTTON_IS_FETCHING, fetching: bull, userID: userID });
+
+export const getUsersThunk = (navigate, id, currentPage, count) => {
+  return (dispatch) => {
+    dispatch(toggleIsFetchingAT(true));
+    //Check for valid id
+    if (currentPage !== id) {
+      dispatch(setCurrentPageAT(Number(id)));
+    }
+    //Fetch users
+    useGetUsers(count, id)
+      .then((data) => {
+        dispatch(setUsersAT(data.items));
+        dispatch(setTotalItemsAT(data.totalCount));
+        dispatch(toggleIsFetchingAT(false));
+        let totalPages = Math.ceil(data.totalCount / count);
+        //Check if id bigger than totalPages
+        if (id > totalPages) {
+          navigate("/search/1");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        navigate("/search/1");
+      });
+  };
+};
+
+export const removeFriendThunk = (userID) => {
+  return (dispatch) => {
+    dispatch(setButtonIsFetchingAT(true, userID));
+    useFriendRemove(userID).then((id) => {
+      dispatch(removeFriendAT(id));
+      dispatch(setButtonIsFetchingAT(false, userID));
+    });
+  };
+};
+
+export const addFriendThunk = (userID) => {
+  return (dispatch) => {
+    dispatch(setButtonIsFetchingAT(true, userID));
+    useFriendAdd(userID).then((id) => {
+      dispatch(addFriendAT(id));
+      dispatch(setButtonIsFetchingAT(false, userID));
+    });
+  };
+};

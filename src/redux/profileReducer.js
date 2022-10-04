@@ -1,3 +1,5 @@
+import { useGetProfile } from "../customHooks/fetchFromAPI";
+
 const ADD_POST = "ADD-POST";
 const UPDATE_POST_NEW_TEXT = "UPDATE-POST-NEW-TEXT";
 const SET_PROFILE_INFO = "SET_PROFILE_INFO";
@@ -88,3 +90,25 @@ export const setProfileInfoAT = (data) => ({ type: SET_PROFILE_INFO, data: data 
 export const setErrorAT = (error) => ({ type: SET_ERROR, error: error });
 export const setPostsAT = (posts) => ({ type: SET_POSTS, posts: posts });
 export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });
+
+export const getProfileThunk = (navigate, id) => {
+  return (dispatch) => {
+    dispatch(toggleIsFetchingAT(true));
+    useGetProfile(id)
+      .then((data) => {
+        dispatch(setUserIDAT(data.userId));
+        dispatch(
+          setProfileInfoAT(
+            data,
+            (data.photos.large = data.photos.large === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos.large)
+          )
+        );
+        dispatch(setPostsAT([]));
+        dispatch(toggleIsFetchingAT(false));
+      })
+      .catch((err) => {
+        console.error(err);
+        navigate("/profile/error");
+      });
+  };
+};

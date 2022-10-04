@@ -5,22 +5,11 @@ import { Link } from "react-router-dom";
 import Dialogsvg from "../../../../imgs/Dialog.svg";
 import Notificationsvg from "../../../../imgs/Bell.svg";
 import { useEffect } from "react";
-import useCheckIsLoggedIn from "../../../../customHooks/useCheckIsLoggedIn";
 import HeaderLogged from "./HeaderLogged";
-
-const getLoginInfo = (props) => {
-  return useCheckIsLoggedIn().then((data) => {
-    if (data !== false) {
-      let { id, email, login } = data.data;
-      props.setUserData(id, email, login);
-      return true;
-    }
-  });
-};
 
 function Header(props) {
   useEffect(() => {
-    getLoginInfo(props);
+    props.getLoggedIn();
   }, []);
   return (
     <header className={s.header}>

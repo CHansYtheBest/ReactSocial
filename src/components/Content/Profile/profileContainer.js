@@ -1,5 +1,14 @@
 import { connect } from "react-redux";
-import { addPostAT, setErrorAT, setPostsAT, setProfileInfoAT, setUserIDAT, toggleIsFetchingAT, updatePostAT } from "../../../redux/profileReducer";
+import {
+  addPostAT,
+  getProfileThunk,
+  setErrorAT,
+  setPostsAT,
+  setProfileInfoAT,
+  setUserIDAT,
+  toggleIsFetchingAT,
+  updatePostAT,
+} from "../../../redux/profileReducer";
 import Profile from "./profile";
 
 let mapStateToProps = (state) => {
@@ -32,6 +41,9 @@ let mapDispatchToProps = (dispatch) => {
     },
     toggleIsFetching: (bull) => {
       dispatch(toggleIsFetchingAT(bull));
+    },
+    getProfile: (navigate, id) => {
+      dispatch(getProfileThunk(navigate, id));
     },
   };
 };

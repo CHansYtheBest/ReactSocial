@@ -1,14 +1,13 @@
 import { connect } from "react-redux";
-import useFriendAdd from "../../../customHooks/useFriendAdd";
-import useFriendRemove from "../../../customHooks/useFriendRemove";
+
 import {
-  addFriendAT,
-  removeFriendAT,
   setCurrentPageAT,
   setTotalItemsAT,
   setUsersAT,
-  setButtonIsFetchingAT,
   toggleIsFetchingAT,
+  getUsersThunk,
+  removeFriendThunk,
+  addFriendThunk,
 } from "../../../redux/searchReducer";
 import Search from "./search";
 
@@ -38,20 +37,13 @@ let mapDispatchToProps = (dispatch) => {
       dispatch(toggleIsFetchingAT(bull));
     },
     addFriend: (userId) => {
-      dispatch(setButtonIsFetchingAT(true, userId));
-      useFriendAdd(userId, (id) => {
-        dispatch(addFriendAT(id));
-      }).then(() => {
-        dispatch(setButtonIsFetchingAT(false, userId));
-      });
+      dispatch(addFriendThunk(userId));
     },
     removeFriend: (userId) => {
-      dispatch(setButtonIsFetchingAT(true, userId));
-      useFriendRemove(userId, (id) => {
-        dispatch(removeFriendAT(id));
-      }).then(() => {
-        dispatch(setButtonIsFetchingAT(false, userId));
-      });
+      dispatch(removeFriendThunk(userId));
+    },
+    getUsers: (navigate, id, currentPage, count) => {
+      dispatch(getUsersThunk(navigate, id, currentPage, count));
     },
   };
 };
