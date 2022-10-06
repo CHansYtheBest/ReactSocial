@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import s from "./Header.module.css";
 
 export default function HeaderLogged(props) {
@@ -22,7 +22,7 @@ export default function HeaderLogged(props) {
   } else {
     return (
       <>
-        <div>LOGIN</div>
+        <NavLink to="/login">LOGIN</NavLink>
       </>
     );
   }

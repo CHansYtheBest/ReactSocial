@@ -1,12 +1,13 @@
 import { useCheckIsLoggedIn } from "../customHooks/fetchFromAPI";
 
 const SET_USER_DATA = "SET_USER_DATA";
+const SET_IS_AUTH = "SET_IS_AUTH";
 
 let initialState = {
   id: null,
   email: null,
   login: null,
-  isAuth: false,
+  isAuth: null,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -18,6 +19,12 @@ export const authReducer = (state = initialState, action) => {
         isAuth: true,
       };
     }
+    case SET_IS_AUTH: {
+      return {
+        ...state,
+        isAuth: action.isAuth,
+      };
+    }
     default: {
       return state;
     }
@@ -25,6 +32,7 @@ export const authReducer = (state = initialState, action) => {
 };
 
 export const setUserDataActionType = (id, email, login) => ({ type: SET_USER_DATA, data: { id, email, login } });
+export const setIsAuthActionType = (bull) => ({ type: SET_IS_AUTH, isAuth: bull });
 
 export const getLoggedInThunk = () => {
   return (dispatch) => {
@@ -32,6 +40,8 @@ export const getLoggedInThunk = () => {
       if (data !== false) {
         let { id, email, login } = data.data;
         dispatch(setUserDataActionType(id, email, login));
+      } else {
+        dispatch(setIsAuthActionType(false));
       }
     });
   };

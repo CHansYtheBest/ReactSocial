@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { addMessageAT, updateMessageAT } from "../../../redux/dialogsReducer";
+import { addMessageAT, updateMessageAT } from "../../../../redux/dialogsReducer";
 import Messages from "./messages";
 
 let mapStateToProps = (state) => {

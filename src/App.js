@@ -1,12 +1,12 @@
 import "./App.css";
 import React from "react";
-import Dialogs from "./components/Content/Dialogs/dialogsList";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout/layout.jsx";
 import ProfileConteiner from "./components/Content/Profile/profileContainer";
-import MessagesContainer from "./components/Content/Dialogs/messagesContainer";
 import SearchContainer from "./components/Content/Search/searchContainer";
 import ProfileError from "./components/Content/Profile/profileError";
+import MessagesContainer from "./components/Content/Dialogs/Messages/messagesContainer";
+import DialogsContainer from "./components/Content/Dialogs/dialogListContainer";
 
 const App = (props) => {
   return (
@@ -18,7 +18,7 @@ const App = (props) => {
             <Route path=":id" element={<ProfileConteiner store={props.store} />} />
             <Route path="error" element={<ProfileError profilePage={props.state.profilePage}></ProfileError>} />
           </Route>
-          <Route path="/dialog" element={<Dialogs dialogData={props.state.dialogsPage.dialogData} />}>
+          <Route path="/dialog" element={<DialogsContainer dialogData={props.state.dialogsPage.dialogData} />}>
             <Route path=":id" element={<MessagesContainer store={props.store} />} />
             <Route path="/dialog" element={<div>Please choose a dialog</div>} />
           </Route>
@@ -27,6 +27,7 @@ const App = (props) => {
           </Route>
           <Route path="*" element={""} />
         </Route>
+        <Route path="/login" element={<div>Not logged in</div>} />
       </Routes>
     </>
   );

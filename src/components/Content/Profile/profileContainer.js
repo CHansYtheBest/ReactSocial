@@ -9,13 +9,13 @@ import {
   toggleIsFetchingAT,
   updatePostAT,
 } from "../../../redux/profileReducer";
+import withLoginCheckRedirect from "../../HOC/withLoginCheckRedirect";
 import Profile from "./profile";
 
 let mapStateToProps = (state) => {
   return {
     profilePage: state.profilePage,
     currentProfileId: state.auth.id,
-    isAuth: state.auth.isAuth,
   };
 };
 
@@ -48,6 +48,8 @@ let mapDispatchToProps = (dispatch) => {
   };
 };
 
-const ProfileConteiner = connect(mapStateToProps, mapDispatchToProps)(Profile);
+let ProfileAuth = withLoginCheckRedirect(Profile);
+
+const ProfileConteiner = connect(mapStateToProps, mapDispatchToProps)(ProfileAuth);
 
 export default ProfileConteiner;
