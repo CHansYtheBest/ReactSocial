@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { compose } from "redux";
 import {
   addPostAT,
   getProfileThunk,
@@ -15,7 +16,7 @@ import Profile from "./profile";
 let mapStateToProps = (state) => {
   return {
     profilePage: state.profilePage,
-    currentProfileId: state.auth.id,
+    loggedProfileId: state.auth.id,
   };
 };
 
@@ -48,8 +49,4 @@ let mapDispatchToProps = (dispatch) => {
   };
 };
 
-let ProfileAuth = withLoginCheckRedirect(Profile);
-
-const ProfileConteiner = connect(mapStateToProps, mapDispatchToProps)(ProfileAuth);
-
-export default ProfileConteiner;
+export default compose(connect(mapStateToProps, mapDispatchToProps), withLoginCheckRedirect)(Profile);

@@ -1,10 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
-import { FriendInteractionButton } from "./friendInteractionButton";
 import Pagination from "./pagination";
 import s from "./search.module.css";
+import { UserCard } from "./UserCard";
 
 function Search(props) {
   let navigate = useNavigate();
@@ -29,30 +29,14 @@ function Search(props) {
           {/* Return card for every user */}
           {props.users.map((user) => {
             return (
-              <div className={s.userCard} key={user.id}>
-                <div className={s.rightSide}>
-                  <NavLink to={`/profile/${user.id}`}>
-                    <img src={user.photos.small !== null ? user.photos.small : "https://cdn-icons-png.flaticon.com/512/21/21104.png"} alt="" />
-                  </NavLink>
-                  <FriendInteractionButton
-                    id={user.id}
-                    followed={user.followed}
-                    addFriend={props.addFriend}
-                    removeFriend={props.removeFriend}
-                    toggleButtonIsFetching={props.toggleButtonIsFetching}
-                    buttonIsFetching={props.buttonIsFetching}
-                  />
-                </div>
-                <NavLink to={`/profile/${user.id}`}>
-                  <div className={s.leftSide}>
-                    <div className={s.leftOfLeftSide}>
-                      <p className={s.name}>{user.name}</p>
-                      <p className={s.about}>{user.status != null ? user.status : "Here could be a status..."}</p>
-                      <div className={s.rightOfLeftSide}></div>
-                    </div>
-                  </div>
-                </NavLink>
-              </div>
+              <UserCard
+                key={user.id}
+                addFriend={props.addFriend}
+                removeFriend={props.removeFriend}
+                toggleButtonIsFetching={props.toggleButtonIsFetching}
+                buttonIsFetching={props.buttonIsFetching}
+                user={user}
+              ></UserCard>
             );
           })}
         </div>
