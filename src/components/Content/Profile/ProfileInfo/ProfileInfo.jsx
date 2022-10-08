@@ -14,12 +14,12 @@ export function ProfileInfo(props) {
           <p>{props.profilePage.fullName}</p>
         </div>
         <div>
-          <ProfileStatus isLoggedProfile={props.isLoggedProfile} status={props.profilePage.aboutMe} />
+          <ProfileStatus isLoggedProfile={props.isLoggedProfile} setStatus={props.setStatus} status={props.profilePage.status} />
         </div>
       </div>
 
       <div id="posts">
-        <Posts isLoggedProfile={props.isLoggedProfile} profilePage={props.profilePage} onPostChange={props.onPostChange} addPost={props.addPost} />
+        <Posts isLoggedProfile={props.isLoggedProfile} profilePage={props.profilePage} addPost={props.addPost} />
       </div>
     </div>
   );

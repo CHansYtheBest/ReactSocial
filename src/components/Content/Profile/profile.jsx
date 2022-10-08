@@ -26,8 +26,8 @@ export default function Profile(props) {
       <ProfileInfo
         isLoggedProfile={id === props.loggedProfileId}
         profilePage={props.profilePage}
-        onPostChange={props.onPostChange}
         addPost={props.addPost}
+        setStatus={props.setStatus}
       ></ProfileInfo>
     </section>
   );

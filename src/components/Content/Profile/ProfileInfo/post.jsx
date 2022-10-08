@@ -1,16 +1,25 @@
 import React from "react";
+import { useState } from "react";
 
 function AddPost(props) {
+  let [postNewText, updatePostNewText] = useState("");
+  let onPostChange = (e) => {
+    updatePostNewText(e.target.value);
+  };
+  let addPost = () => {
+    props.addPost(postNewText);
+    updatePostNewText("");
+  };
   function onEnterPress(event) {
     if (event.key === "Enter") {
-      props.addPost();
+      addPost(postNewText);
     }
   }
 
   return (
     <div>
-      <input onKeyPress={onEnterPress} placeholder="Enter a new post..." value={props.postNewText} onChange={props.onPostChange}></input>
-      <button onClick={props.addPost}>Add post</button>
+      <input onKeyPress={onEnterPress} placeholder="Enter a new post..." value={postNewText} onChange={onPostChange}></input>
+      <button onClick={addPost}>Add post</button>
     </div>
   );
 }
@@ -49,18 +58,9 @@ function SortPosts(props) {
 }
 
 export function Posts(props) {
-  let addPost = () => {
-    props.addPost();
-  };
-
-  let onPostChange = (e) => {
-    let post = e.target.value;
-    props.onPostChange(post);
-  };
-
   return (
     <>
-      {props.isLoggedProfile ? <AddPost postNewText={props.profilePage.postNewText} addPost={addPost} onPostChange={onPostChange} /> : ""}
+      {props.isLoggedProfile ? <AddPost postNewText={props.profilePage.postNewText} addPost={props.addPost} /> : ""}
       <SortPosts profilePage={props.profilePage} />
     </>
   );

@@ -6,9 +6,9 @@ import {
   setErrorAT,
   setPostsAT,
   setProfileInfoAT,
+  setStatusThunk,
   setUserIDAT,
   toggleIsFetchingAT,
-  updatePostAT,
 } from "../../../redux/profileReducer";
 import withLoginCheckRedirect from "../../HOC/withLoginCheckRedirect";
 import Profile from "./profile";
@@ -22,11 +22,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
-    addPost: () => {
-      dispatch(addPostAT());
-    },
-    onPostChange: (post) => {
-      dispatch(updatePostAT(post));
+    addPost: (post) => {
+      dispatch(addPostAT(post));
     },
     setUserId: (userId) => {
       dispatch(setUserIDAT(userId));
@@ -45,6 +42,9 @@ let mapDispatchToProps = (dispatch) => {
     },
     getProfile: (navigate, id) => {
       dispatch(getProfileThunk(navigate, id));
+    },
+    setStatus: (status) => {
+      dispatch(setStatusThunk(status));
     },
   };
 };

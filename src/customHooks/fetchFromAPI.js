@@ -49,7 +49,19 @@ export function useFriendAdd(id) {
 }
 
 export function useGetProfile(id) {
-  return instanse.get(`profile/${id}`).then((response) => {
-    return response.data;
+  return axios.all([
+    instanse.get(`profile/status/${id}`).then((response) => {
+      return response.data;
+    }),
+    instanse.get(`profile/${id}`).then((response) => {
+      return response.data;
+    }),
+  ]);
+}
+
+export function updateStatus(status) {
+  console.log(status);
+  return instanse.put(`profile/status`, { status: status }).then((response) => {
+    return response;
   });
 }
