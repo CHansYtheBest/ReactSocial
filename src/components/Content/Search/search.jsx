@@ -16,7 +16,7 @@ function Search(props) {
     if (isNaN(id)) {
       navigate("/search/1");
       //Check if already has users
-    } else if (props.users.length === 0) {
+    } else if (props.users.length === 0 || props.currentPage !== id) {
       props.getUsers(navigate, id, props.currentPage, props.count);
     }
   }, [location]);

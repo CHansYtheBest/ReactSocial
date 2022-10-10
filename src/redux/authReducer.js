@@ -1,4 +1,4 @@
-import { useCheckIsLoggedIn } from "../customHooks/fetchFromAPI";
+import { useCheckIsLoggedIn, useLogin, useLogout } from "../customHooks/fetchFromAPI";
 
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_IS_AUTH = "SET_IS_AUTH";
@@ -40,9 +40,26 @@ export const getLoggedInThunk = () => {
       if (data !== false) {
         let { id, email, login } = data.data;
         dispatch(setUserDataActionType(id, email, login));
+        dispatch(setIsAuthActionType(true));
       } else {
         dispatch(setIsAuthActionType(false));
       }
+    });
+  };
+};
+
+export const loginThunk = (email, password, rememberMe) => {
+  return (dispatch) => {
+    useLogin(email, password, rememberMe).then((response) => {
+      dispatch(getLoggedInThunk());
+    });
+  };
+};
+
+export const logoutThunk = () => {
+  return (dispatch) => {
+    useLogout().then((response) => {
+      dispatch(getLoggedInThunk());
     });
   };
 };

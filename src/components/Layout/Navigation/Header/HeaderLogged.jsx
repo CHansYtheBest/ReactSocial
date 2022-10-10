@@ -17,6 +17,9 @@ export default function HeaderLogged(props) {
             View
           </Link>
         </div>
+        <button className={s.profilePreview_Link} onClick={props.logout}>
+          Logout
+        </button>
       </>
     );
   } else {

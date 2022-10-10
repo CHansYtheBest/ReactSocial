@@ -23,7 +23,7 @@ export function UserCard(props) {
         <div className={s.leftSide}>
           <div className={s.leftOfLeftSide}>
             <p className={s.name}>{props.user.name}</p>
-            <p className={s.about}>{props.user.status != null ? props.user.status : "Here could be a status..."}</p>
+            <p className={s.about}>{props.user.status}</p>
             <div className={s.rightOfLeftSide}></div>
           </div>
         </div>

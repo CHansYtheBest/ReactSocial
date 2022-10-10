@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { getLoggedInThunk, setUserDataActionType } from "../../../../redux/authReducer";
+import { getLoggedInThunk, logoutThunk, setUserDataActionType } from "../../../../redux/authReducer";
 import Header from "./Header";
 
 let mapStateToProps = (state) => {
@@ -16,9 +16,12 @@ let mapDispatchToProps = (dispatch) => {
     getLoggedIn: () => {
       dispatch(getLoggedInThunk());
     },
+    logout: () => {
+      dispatch(logoutThunk());
+    },
   };
 };
 
-const HeaderConteiner = connect(mapStateToProps, mapDispatchToProps)(Header);
+const HeaderContainer = connect(mapStateToProps, mapDispatchToProps)(Header);
 
-export default HeaderConteiner;
+export default HeaderContainer;

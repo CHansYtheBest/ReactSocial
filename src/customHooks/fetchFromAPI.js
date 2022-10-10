@@ -16,22 +16,6 @@ export function useCheckIfFriend(id) {
   });
 }
 
-export function useCheckIsLoggedIn() {
-  return instanse.get(`auth/me`).then((response) => {
-    if (response.data.resultCode === 0) {
-      return response.data;
-    } else {
-      return false;
-    }
-  });
-}
-
-export function useGetUsers(count, page) {
-  return instanse.get(`users?count=${count}&page=${page}`).then((response) => {
-    return response.data;
-  });
-}
-
 export function useFriendRemove(id) {
   return instanse.delete(`follow/${id}`).then((response) => {
     if (response.data.resultCode === 0) {
@@ -48,6 +32,12 @@ export function useFriendAdd(id) {
   });
 }
 
+export function useGetUsers(count, page) {
+  return instanse.get(`users?count=${count}&page=${page}`).then((response) => {
+    return response.data;
+  });
+}
+
 export function useGetProfile(id) {
   return axios.all([
     instanse.get(`profile/status/${id}`).then((response) => {
@@ -60,8 +50,29 @@ export function useGetProfile(id) {
 }
 
 export function updateStatus(status) {
-  console.log(status);
   return instanse.put(`profile/status`, { status: status }).then((response) => {
+    return response;
+  });
+}
+
+export function useCheckIsLoggedIn() {
+  return instanse.get(`auth/me`).then((response) => {
+    if (response.data.resultCode === 0) {
+      return response.data;
+    } else {
+      return false;
+    }
+  });
+}
+
+export function useLogin(email, password, rememberMe) {
+  return instanse.post(`auth/login`, { email, password, rememberMe }).then((response) => {
+    return response;
+  });
+}
+
+export function useLogout() {
+  return instanse.delete(`auth/login`).then((response) => {
     return response;
   });
 }

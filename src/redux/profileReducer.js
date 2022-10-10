@@ -10,8 +10,8 @@ const SET_STATUS = "SET_STATUS";
 
 let initialState = {
   userId: 0,
-  fullName: "Peepo The Frog",
-  avatar: "https://pbs.twimg.com/profile_images/1083056964840480768/gYcc4I4-_400x400.jpg",
+  fullName: "",
+  avatar: "",
   aboutMe: "Hey, I'm kinda a frog...",
   status: "",
   contacts: {
@@ -26,11 +26,7 @@ let initialState = {
   },
   lookingForAJob: true,
   lookingForAJobDescription: "Ye, I can do thing. Pls, I need money",
-  posts: [
-    { id: 0, postContent: "How do I use the internet?" },
-    { id: 1, postContent: "My day has been nice." },
-    { id: 2, postContent: "Nevermind." },
-  ],
+  posts: [],
   isFetching: false,
 };
 
@@ -95,7 +91,6 @@ export const getProfileThunk = (navigate, id) => {
     useGetProfile(id)
       .then((dataAll) => {
         let data = { ...dataAll[1], status: dataAll[0] };
-        console.log(data);
         dispatch(setUserIDAT(data.userId));
         dispatch(
           setProfileInfoAT(
@@ -103,7 +98,7 @@ export const getProfileThunk = (navigate, id) => {
             (data.photos.large = data.photos.large === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos.large)
           )
         );
-        dispatch(setStatusAT(data.status));
+        dispatch(setStatusAT(data.status === null ? "" : data.status));
         dispatch(setPostsAT([]));
         dispatch(toggleIsFetchingAT(false));
       })

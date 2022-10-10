@@ -40,6 +40,7 @@ function SortPosts(props) {
       </div>
     );
   }
+
   if (props.profilePage.posts.length !== 0) {
     let maxPosts = props.profilePage.posts.length - 1;
 
@@ -53,7 +54,7 @@ function SortPosts(props) {
 
     return <>{postsData.reverse()}</>;
   } else {
-    return <p>Sadly, {props.profilePage.fullName} didn't write any post!</p>;
+    return <p>Sadly, {props.profilePage.fullName} didn't write any posts!</p>;
   }
 }
 

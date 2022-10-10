@@ -33,7 +33,7 @@ function OnMyProfile(props) {
           onChange={onNewStatusChange}
         ></input>
       ) : (
-        <p onClick={startEditMode}>{props.status === null || props.status === "" ? "Here could be a status..." : props.status}</p>
+        <p onClick={startEditMode}>{props.status === null || props.status === "" ? "|" : props.status}</p>
       )}
     </>
   );

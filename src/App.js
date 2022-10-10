@@ -7,6 +7,7 @@ import SearchContainer from "./components/Content/Search/searchContainer";
 import ProfileError from "./components/Content/Profile/profileError";
 import MessagesContainer from "./components/Content/Dialogs/Messages/messagesContainer";
 import DialogsContainer from "./components/Content/Dialogs/dialogListContainer";
+import LoginContainer from "./components/Login/loginContainer";
 
 const App = (props) => {
   return (
@@ -27,7 +28,7 @@ const App = (props) => {
           </Route>
           <Route path="*" element={""} />
         </Route>
-        <Route path="/login" element={<div>Not logged in</div>} />
+        <Route path="/login" element={<LoginContainer />} />
       </Routes>
     </>
   );
