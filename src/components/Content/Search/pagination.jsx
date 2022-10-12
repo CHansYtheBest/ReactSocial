@@ -28,7 +28,7 @@ function Pagination(props) {
     slicedPagesArr.map((page) => {
       return (
         <NavLink
-          to={`/${props.currentPlace}/` + page}
+          to={`/${props.currentLocation}/` + page}
           onClick={() => onPageButtonClick(page)}
           className={() => {
             return s.pagination + " " + (props.currentPage === page ? s.active : "");

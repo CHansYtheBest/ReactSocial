@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { getLoggedInThunk } from "../../redux/authReducer";
 
 let mapStateToProps = (state) => {
   return {
@@ -10,18 +9,11 @@ let mapStateToProps = (state) => {
 };
 
 let mapDispatchToProps = (dispatch) => {
-  return {
-    getLoggedIn: () => {
-      dispatch(getLoggedInThunk());
-    },
-  };
+  return {};
 };
 
 export default function withLoginCheckRedirect(Component) {
   let LoginCheck = (props) => {
-    useEffect(() => {
-      props.getLoggedIn();
-    }, []);
     if (props.isAuth === null) {
       return null;
     } else if (!props.isAuth) {

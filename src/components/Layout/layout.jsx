@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import HeaderContainer from "./Navigation/Header/headerContainer";
 import Nav from "./Navigation/Navbar/nav";
 
-const Layout = (props) => {
+export const Layout = (props) => {
   return (
     <div className="wrapper">
       <HeaderContainer />
@@ -14,5 +14,3 @@ const Layout = (props) => {
     </div>
   );
 };
-
-export { Layout };

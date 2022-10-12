@@ -9,11 +9,13 @@ import { UserCard } from "./UserCard";
 function Search(props) {
   let navigate = useNavigate();
   let location = useLocation();
+  let currentLocation = location.pathname.split("/")[1];
   const id = Number(useParams().id);
+
   //Hook activates on component mount and location update
   useEffect(() => {
     if (isNaN(id)) {
-      navigate(`/${location.pathname.split("/")[1]}/1`);
+      navigate(`/${currentLocation}/1`);
       //Check if already has users
     } else if (props.users.length === 0 || props.currentPage !== id || location.pathname) {
       props.getUsers(navigate, id, props.currentPage, props.count, props.onlyFriends);
@@ -40,11 +42,7 @@ function Search(props) {
           })}
         </div>
         <div className={s.paginationContainer}>
-          <Pagination
-            currentPage={props.currentPage}
-            currentPlace={location.pathname.split("/")[1]}
-            totalPages={Math.ceil(props.totalItems / props.count)}
-          />
+          <Pagination currentPage={props.currentPage} currentLocation={currentLocation} totalPages={Math.ceil(props.totalItems / props.count)} />
         </div>
       </section>
     </>

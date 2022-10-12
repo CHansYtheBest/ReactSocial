@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout/layout.jsx";
 import ProfileConteiner from "./components/Content/Profile/profileContainer";
@@ -8,8 +8,13 @@ import ProfileError from "./components/Content/Profile/profileError";
 import MessagesContainer from "./components/Content/Dialogs/Messages/messagesContainer";
 import DialogsContainer from "./components/Content/Dialogs/dialogListContainer";
 import LoginContainer from "./components/Login/loginContainer";
+import { connect } from "react-redux";
+import { getLoggedInThunk } from "./redux/authReducer";
 
 const App = (props) => {
+  useEffect(() => {
+    props.getLoggedInThunk();
+  }, []);
   return (
     <>
       <Routes>
@@ -37,4 +42,11 @@ const App = (props) => {
   );
 };
 
-export default App;
+export default connect(
+  () => {
+    return {};
+  },
+  {
+    getLoggedInThunk,
+  }
+)(App);

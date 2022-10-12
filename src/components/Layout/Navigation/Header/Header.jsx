@@ -4,13 +4,9 @@ import Searchsvg from "../../../../imgs/Search.svg";
 import { Link } from "react-router-dom";
 import Dialogsvg from "../../../../imgs/Dialog.svg";
 import Notificationsvg from "../../../../imgs/Bell.svg";
-import { useEffect } from "react";
 import HeaderLogged from "./HeaderLogged";
 
 function Header(props) {
-  useEffect(() => {
-    props.getLoggedIn();
-  }, []);
   return (
     <header className={s.header}>
       <div className={s.searchbar}>
