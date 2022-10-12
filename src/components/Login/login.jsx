@@ -17,15 +17,14 @@ const LoginForm = (props) => (
         .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
     })}
     onSubmit={(values, { setSubmitting }) => {
+      props.clearLoginError();
+      setSubmitting(false);
       props.login(values);
-      setTimeout(() => {
-        setSubmitting(false);
-        props.navigate("/");
-      }, 400);
     }}
   >
     {({ isSubmitting }) => (
       <Form>
+        <p>{props.loginError ? props.loginError : ""}</p>
         <div>
           <Field placeholder="Email" type="email" name="email" />
           <ErrorMessage name="email" component="div" />
@@ -48,13 +47,24 @@ const LoginForm = (props) => (
 
 export default function Login(props) {
   let navigate = useNavigate();
+  setTimeout(() => {
+    if (props.isAuth) {
+      navigate("/");
+    }
+  }, 60);
   return (
     <>
       <HeaderContainer />
       <section>
         <h1>Login Form</h1>
         <div>
-          <LoginForm navigate={navigate} login={props.login} />
+          <LoginForm
+            navigate={navigate}
+            login={props.login}
+            isAuth={props.isAuth}
+            loginError={props.loginError}
+            clearLoginError={props.clearLoginError}
+          />
         </div>
       </section>
     </>

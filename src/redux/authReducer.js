@@ -2,12 +2,14 @@ import { useCheckIsLoggedIn, useLogin, useLogout } from "../customHooks/fetchFro
 
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_IS_AUTH = "SET_IS_AUTH";
+const SET_LOGIN_ERROR = "SET_LOGIN_ERROR";
 
 let initialState = {
   id: null,
   email: null,
   login: null,
   isAuth: null,
+  loginError: null,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -25,6 +27,12 @@ export const authReducer = (state = initialState, action) => {
         isAuth: action.isAuth,
       };
     }
+    case SET_LOGIN_ERROR: {
+      return {
+        ...state,
+        loginError: action.loginError,
+      };
+    }
     default: {
       return state;
     }
@@ -33,6 +41,7 @@ export const authReducer = (state = initialState, action) => {
 
 export const setUserDataActionType = (id, email, login) => ({ type: SET_USER_DATA, data: { id, email, login } });
 export const setIsAuthActionType = (bull) => ({ type: SET_IS_AUTH, isAuth: bull });
+export const setLoginErrorActionType = (loginError) => ({ type: SET_LOGIN_ERROR, loginError: loginError });
 
 export const getLoggedInThunk = () => {
   return (dispatch) => {
@@ -51,7 +60,11 @@ export const getLoggedInThunk = () => {
 export const loginThunk = (email, password, rememberMe) => {
   return (dispatch) => {
     useLogin(email, password, rememberMe).then((response) => {
-      dispatch(getLoggedInThunk());
+      if (response.data.resultCode === 0) {
+        dispatch(getLoggedInThunk());
+      } else {
+        dispatch(setLoginErrorActionType(response.data.messages[0]));
+      }
     });
   };
 };
