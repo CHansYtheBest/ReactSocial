@@ -6,7 +6,7 @@ import Nav from "./Navigation/Navbar/nav";
 const Layout = (props) => {
   return (
     <div className="wrapper">
-      <HeaderContainer store={props.store} />
+      <HeaderContainer />
       <Nav />
       <div className="content">
         <Outlet />

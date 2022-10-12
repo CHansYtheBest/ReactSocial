@@ -11,7 +11,7 @@ import {
 } from "../../../redux/searchReducer";
 import Search from "./search";
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state, ownProps) => {
   return {
     users: state.searchPage.users,
     count: state.searchPage.count,
@@ -19,6 +19,7 @@ let mapStateToProps = (state) => {
     currentPage: state.searchPage.currentPage,
     isFetching: state.searchPage.isFetching,
     buttonIsFetching: state.searchPage.buttonIsFetching,
+    onlyFriends: ownProps.onlyFriends,
   };
 };
 
@@ -42,8 +43,8 @@ let mapDispatchToProps = (dispatch) => {
     removeFriend: (userId) => {
       dispatch(removeFriendThunk(userId));
     },
-    getUsers: (navigate, id, currentPage, count) => {
-      dispatch(getUsersThunk(navigate, id, currentPage, count));
+    getUsers: (navigate, id, currentPage, count, onlyFriends) => {
+      dispatch(getUsersThunk(navigate, id, currentPage, count, onlyFriends));
     },
   };
 };

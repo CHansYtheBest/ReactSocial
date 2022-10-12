@@ -10,14 +10,13 @@ function Search(props) {
   let navigate = useNavigate();
   let location = useLocation();
   const id = Number(useParams().id);
-
   //Hook activates on component mount and location update
   useEffect(() => {
     if (isNaN(id)) {
-      navigate("/search/1");
+      navigate(`/${location.pathname.split("/")[1]}/1`);
       //Check if already has users
-    } else if (props.users.length === 0 || props.currentPage !== id) {
-      props.getUsers(navigate, id, props.currentPage, props.count);
+    } else if (props.users.length === 0 || props.currentPage !== id || location.pathname) {
+      props.getUsers(navigate, id, props.currentPage, props.count, props.onlyFriends);
     }
   }, [location]);
 
@@ -43,9 +42,8 @@ function Search(props) {
         <div className={s.paginationContainer}>
           <Pagination
             currentPage={props.currentPage}
-            count={props.count}
+            currentPlace={location.pathname.split("/")[1]}
             totalPages={Math.ceil(props.totalItems / props.count)}
-            getUsers={props.getUsers}
           />
         </div>
       </section>

@@ -72,7 +72,7 @@ export const setCurrentPageAT = (currentPage) => ({ type: SET_CURRENT_PAGE, curr
 export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, fetching: bull });
 export const setButtonIsFetchingAT = (bull, userID) => ({ type: SET_BUTTON_IS_FETCHING, fetching: bull, userID: userID });
 
-export const getUsersThunk = (navigate, id, currentPage, count) => {
+export const getUsersThunk = (navigate, id, currentPage, count, onlyFriends) => {
   return (dispatch) => {
     dispatch(toggleIsFetchingAT(true));
     //Check for valid id
@@ -80,7 +80,7 @@ export const getUsersThunk = (navigate, id, currentPage, count) => {
       dispatch(setCurrentPageAT(Number(id)));
     }
     //Fetch users
-    useGetUsers(count, id)
+    useGetUsers(count, id, onlyFriends)
       .then((data) => {
         dispatch(setUsersAT(data.items));
         dispatch(setTotalItemsAT(data.totalCount));

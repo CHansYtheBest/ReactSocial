@@ -21,14 +21,14 @@ function Pagination(props) {
   let slicedPagesArr = pagesArr.slice(currentPageFirst, currentPageLast);
 
   let onPageButtonClick = (page) => {
-    props.getUsers(navigate, page, props.currentPage, props.count);
+    navigate(page);
   };
 
   let pagesButtons = React.Children.toArray(
     slicedPagesArr.map((page) => {
       return (
         <NavLink
-          to={"/search/" + page}
+          to={`/${props.currentPlace}/` + page}
           onClick={() => onPageButtonClick(page)}
           className={() => {
             return s.pagination + " " + (props.currentPage === page ? s.active : "");

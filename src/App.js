@@ -13,18 +13,21 @@ const App = (props) => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout store={props.store} />}>
+        <Route path="/" element={<Layout />}>
           <Route path="/profile">
-            <Route path="/profile" element={<ProfileConteiner store={props.store} />} />
-            <Route path=":id" element={<ProfileConteiner store={props.store} />} />
-            <Route path="error" element={<ProfileError profilePage={props.state.profilePage}></ProfileError>} />
+            <Route path="/profile" element={<ProfileConteiner />} />
+            <Route path=":id" element={<ProfileConteiner />} />
+            <Route path="error" element={<ProfileError />} />
           </Route>
-          <Route path="/dialog" element={<DialogsContainer dialogData={props.state.dialogsPage.dialogData} />}>
-            <Route path=":id" element={<MessagesContainer store={props.store} />} />
+          <Route path="/dialog" element={<DialogsContainer />}>
+            <Route path=":id" element={<MessagesContainer />} />
             <Route path="/dialog" element={<div>Please choose a dialog</div>} />
           </Route>
-          <Route path="/search" element={<SearchContainer store={props.store} />}>
-            <Route path=":id" element={<SearchContainer store={props.store} />} />
+          <Route path="/search/" element={<SearchContainer onlyFriends={false} />}>
+            <Route path=":id" element={<SearchContainer />} />
+          </Route>
+          <Route path="/friends/" element={<SearchContainer onlyFriends={true} />}>
+            <Route path=":id" element={<SearchContainer />} />
           </Route>
           <Route path="*" element={""} />
         </Route>

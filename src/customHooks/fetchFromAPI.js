@@ -32,8 +32,9 @@ export function useFriendAdd(id) {
   });
 }
 
-export function useGetUsers(count, page) {
-  return instanse.get(`users?count=${count}&page=${page}`).then((response) => {
+export function useGetUsers(count, page, onlyFriends) {
+  console.log(onlyFriends);
+  return instanse.get(`users?count=${count}&page=${page}&friend=${onlyFriends}`).then((response) => {
     return response.data;
   });
 }
