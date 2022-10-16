@@ -33,7 +33,6 @@ export function useFriendAdd(id) {
 }
 
 export function useGetUsers(count, page, onlyFriends) {
-  console.log(onlyFriends);
   return instanse.get(`users?count=${count}&page=${page}&friend=${onlyFriends}`).then((response) => {
     return response.data;
   });
@@ -52,6 +51,13 @@ export function useGetProfile(id) {
 
 export function updateStatus(status) {
   return instanse.put(`profile/status`, { status: status }).then((response) => {
+    return response;
+  });
+}
+
+export function updateProfile(jsonObj) {
+  console.log(jsonObj);
+  return instanse.put(`profile`, jsonObj).then((response) => {
     return response;
   });
 }

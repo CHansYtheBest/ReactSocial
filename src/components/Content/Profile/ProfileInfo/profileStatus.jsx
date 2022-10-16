@@ -2,50 +2,43 @@ import React from "react";
 import { useState } from "react";
 
 function OnElsesProfile(props) {
-  return <p>{props.status === null ? "Here could be a status..." : props.status}</p>;
+  return <p>{props.info === null ? "" : props.info}</p>;
 }
 
 function OnMyProfile(props) {
-  let [newStatusText, setNewStatusText] = useState("");
+  let [newInfo, setNewInfo] = useState("");
   let [editMode, updateEditMode] = useState(false);
 
   let startEditMode = () => {
-    setNewStatusText(props.status === null ? "" : props.status);
+    setNewInfo(props.info === null ? "" : props.info);
     updateEditMode(true);
   };
   let finishEditMode = () => {
-    props.setStatus(newStatusText);
+    props.setter(newInfo);
     updateEditMode(false);
   };
   let onNewStatusChange = (e) => {
-    setNewStatusText(e.target.value);
+    setNewInfo(e.target.value);
   };
 
   return (
     <>
       {editMode ? (
-        <input
-          maxLength={230}
-          autoFocus
-          onBlur={finishEditMode}
-          placeholder="Enter new status..."
-          value={newStatusText}
-          onChange={onNewStatusChange}
-        ></input>
+        <input maxLength={230} autoFocus onBlur={finishEditMode} placeholder="Enter..." value={newInfo} onChange={onNewStatusChange}></input>
       ) : (
-        <p onClick={startEditMode}>{props.status === null || props.status === "" ? "|" : props.status}</p>
+        <p onClick={startEditMode}>{props.info === null || props.info === "" ? "|" : props.info}</p>
       )}
     </>
   );
 }
 
-export default function ProfileStatus(props) {
+export default function EditebleInfo(props) {
   return (
     <>
       {props.isLoggedProfile ? (
-        <OnMyProfile status={props.status} setStatus={props.setStatus}></OnMyProfile>
+        <OnMyProfile info={props.info} setter={props.setter}></OnMyProfile>
       ) : (
-        <OnElsesProfile status={props.status}></OnElsesProfile>
+        <OnElsesProfile info={props.info}></OnElsesProfile>
       )}
     </>
   );

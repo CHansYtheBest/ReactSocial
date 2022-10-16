@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import s from "./profile.module.css";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
@@ -12,7 +12,7 @@ export default function Profile(props) {
 
   useEffect(() => {
     if (!isNaN(id)) {
-      props.getProfile(navigate, id);
+      props.getProfile(id);
     } else if (props.isAuth === true) {
       navigate(`/profile/${props.loggedProfileId}`);
     } else {
@@ -23,6 +23,7 @@ export default function Profile(props) {
   return (
     <section className={s.content}>
       {props.profilePage.isFetching ? <Preloader /> : null}
+      <NavLink to="/settings">Settings</NavLink>
       <ProfileInfo
         isLoggedProfile={id === props.loggedProfileId}
         profilePage={props.profilePage}

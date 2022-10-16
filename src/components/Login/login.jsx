@@ -58,13 +58,7 @@ export default function Login(props) {
       <section>
         <h1>Login Form</h1>
         <div>
-          <LoginForm
-            navigate={navigate}
-            login={props.login}
-            isAuth={props.isAuth}
-            loginError={props.loginError}
-            clearLoginError={props.clearLoginError}
-          />
+          <LoginForm login={props.login} isAuth={props.isAuth} loginError={props.loginError} clearLoginError={props.clearLoginError} />
         </div>
       </section>
     </>

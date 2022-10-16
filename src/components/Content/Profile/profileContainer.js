@@ -40,8 +40,8 @@ let mapDispatchToProps = (dispatch) => {
     toggleIsFetching: (bull) => {
       dispatch(toggleIsFetchingAT(bull));
     },
-    getProfile: (navigate, id) => {
-      dispatch(getProfileThunk(navigate, id));
+    getProfile: (id) => {
+      dispatch(getProfileThunk(id));
     },
     setStatus: (status) => {
       dispatch(setStatusThunk(status));

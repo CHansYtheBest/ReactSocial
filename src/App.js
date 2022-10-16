@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout/layout.jsx";
 import ProfileConteiner from "./components/Content/Profile/profileContainer";
@@ -10,11 +10,10 @@ import DialogsContainer from "./components/Content/Dialogs/dialogListContainer";
 import LoginContainer from "./components/Login/loginContainer";
 import { connect } from "react-redux";
 import { getLoggedInThunk } from "./redux/authReducer";
+import SettingsContainer from "./components/Content/Settings/settingsContainer";
 
 const App = (props) => {
-  useEffect(() => {
-    props.getLoggedInThunk();
-  }, []);
+  props.getLoggedInThunk();
   return (
     <>
       <Routes>
@@ -34,6 +33,7 @@ const App = (props) => {
           <Route path="/friends/" element={<SearchContainer onlyFriends={true} />}>
             <Route path=":id" element={<SearchContainer />} />
           </Route>
+          <Route path="/settings" element={<SettingsContainer />} />
           <Route path="*" element={""} />
         </Route>
         <Route path="/login" element={<LoginContainer />} />

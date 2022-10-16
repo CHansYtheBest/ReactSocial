@@ -1,6 +1,7 @@
-import { updateStatus, useGetProfile } from "../customHooks/fetchFromAPI";
+import { updateProfile, updateStatus, useGetProfile } from "../customHooks/fetchFromAPI";
 
 const ADD_POST = "ADD-POST";
+const SET_ALL_PROFILE_INFO = "SET_ALL_PROFILE_INFO";
 const SET_PROFILE_INFO = "SET_PROFILE_INFO";
 const SET_USERID = "SET_USERID";
 const SET_ERROR = "SET_ERROR";
@@ -12,17 +13,17 @@ let initialState = {
   userId: 0,
   fullName: "",
   avatar: "",
-  aboutMe: "Hey, I'm kinda a frog...",
+  aboutMe: "",
   status: "",
   contacts: {
     facebook: "facebook.com",
-    website: null,
+    website: "",
     vk: "vk.com/",
     twitter: "https://twitter.com/",
     instagram: "instagram.com/",
-    youtube: null,
+    youtube: "",
     github: "github.com",
-    mainLink: null,
+    mainLink: "",
   },
   lookingForAJob: true,
   lookingForAJobDescription: "Ye, I can do thing. Pls, I need money",
@@ -47,7 +48,7 @@ export const profileReducer = (state = initialState, action) => {
     case SET_USERID: {
       return { ...state, userId: action.userId };
     }
-    case SET_PROFILE_INFO: {
+    case SET_ALL_PROFILE_INFO: {
       return {
         ...state,
         fullName: action.data.fullName,
@@ -56,6 +57,12 @@ export const profileReducer = (state = initialState, action) => {
         lookingForAJob: action.data.lookingForAJob,
         lookingForAJobDescription: action.data.lookingForAJobDescription,
         contacts: action.data.contacts,
+      };
+    }
+    case SET_PROFILE_INFO: {
+      return {
+        ...state,
+        ...action.data,
       };
     }
     case SET_ERROR: {
@@ -79,13 +86,14 @@ export const profileReducer = (state = initialState, action) => {
 
 export const addPostAT = (post) => ({ type: ADD_POST, post: post });
 export const setUserIDAT = (userId) => ({ type: SET_USERID, userId: userId });
-export const setProfileInfoAT = (data) => ({ type: SET_PROFILE_INFO, data: data });
+export const setProfileInfoAT = (data) => ({ type: SET_ALL_PROFILE_INFO, data: data });
+export const updateProfileInfoAT = (data) => ({ type: SET_PROFILE_INFO, data: data });
 export const setErrorAT = (error) => ({ type: SET_ERROR, error: error });
 export const setPostsAT = (posts) => ({ type: SET_POSTS, posts: posts });
 export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });
 export const setStatusAT = (status) => ({ type: SET_STATUS, status: status });
 
-export const getProfileThunk = (navigate, id) => {
+export const getProfileThunk = (id) => {
   return (dispatch) => {
     dispatch(toggleIsFetchingAT(true));
     useGetProfile(id)
@@ -95,7 +103,15 @@ export const getProfileThunk = (navigate, id) => {
         dispatch(
           setProfileInfoAT(
             data,
-            (data.photos.large = data.photos.large === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos.large)
+            Object.keys(data.photos).forEach((key) => {
+              data.photos[key] = data.photos[key] === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos[key];
+            }),
+            Object.keys(data).forEach((key) => {
+              data[key] = data[key] === null ? "" : data[key];
+            }),
+            Object.keys(data.contacts).forEach((key) => {
+              data.contacts[key] = data.contacts[key] === null ? "" : data.contacts[key];
+            })
           )
         );
         dispatch(setStatusAT(data.status === null ? "" : data.status));
@@ -104,7 +120,21 @@ export const getProfileThunk = (navigate, id) => {
       })
       .catch((err) => {
         console.error(err);
-        navigate("/profile/error");
+      });
+  };
+};
+
+export const setNewProfileDataThunk = (jsonObj) => {
+  return (dispatch) => {
+    dispatch(toggleIsFetchingAT(true));
+    updateProfile(jsonObj)
+      .then((data) => {
+        console.log(data);
+        dispatch(updateProfileInfoAT(jsonObj));
+        dispatch(toggleIsFetchingAT(false));
+      })
+      .catch((err) => {
+        console.error(err);
       });
   };
 };

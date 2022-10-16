@@ -42,11 +42,11 @@ function Pagination(props) {
 
   return (
     <>
-      <NavLink to={"/search/" + 1} onClick={() => onPageButtonClick(1)} className={s.pagination}>
+      <NavLink to={`/${props.currentLocation}/` + 1} onClick={() => onPageButtonClick(1)} className={s.pagination}>
         {"|<"}
       </NavLink>
       {pagesButtons}
-      <NavLink to={"/search/" + props.totalPages} onClick={() => onPageButtonClick(props.totalPages)} className={s.pagination}>
+      <NavLink to={`/${props.currentLocation}/` + props.totalPages} onClick={() => onPageButtonClick(props.totalPages)} className={s.pagination}>
         {">|"}
       </NavLink>
     </>
