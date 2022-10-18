@@ -5,6 +5,7 @@ import Header from "./Header";
 let mapStateToProps = (state) => {
   return {
     auth: state.auth,
+    avatar: state.profilePage.myAvatar,
   };
 };
 

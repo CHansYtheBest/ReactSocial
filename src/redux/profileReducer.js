@@ -1,4 +1,4 @@
-import { updateProfile, updateStatus, useGetProfile } from "../customHooks/fetchFromAPI";
+import { updateAvatar, updateProfile, updateStatus, useGetProfile } from "../customHooks/fetchFromAPI";
 
 const ADD_POST = "ADD-POST";
 const SET_ALL_PROFILE_INFO = "SET_ALL_PROFILE_INFO";
@@ -8,11 +8,13 @@ const SET_ERROR = "SET_ERROR";
 const SET_POSTS = "SET_POSTS";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const SET_STATUS = "SET_STATUS";
+const SET_AVATAR = "SET_AVATAR";
 
 let initialState = {
   userId: 0,
   fullName: "",
   avatar: "",
+  myAvatar: "",
   aboutMe: "",
   status: "",
   contacts: {
@@ -74,7 +76,9 @@ export const profileReducer = (state = initialState, action) => {
     case SET_STATUS: {
       return { ...state, status: action.status };
     }
-
+    case SET_AVATAR: {
+      return { ...state, myAvatar: action.avatar };
+    }
     case TOGGLE_IS_FETCHING: {
       return { ...state, isFetching: action.value };
     }
@@ -92,9 +96,10 @@ export const setErrorAT = (error) => ({ type: SET_ERROR, error: error });
 export const setPostsAT = (posts) => ({ type: SET_POSTS, posts: posts });
 export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });
 export const setStatusAT = (status) => ({ type: SET_STATUS, status: status });
+export const setMyAvatarAT = (avatar) => ({ type: SET_AVATAR, avatar: avatar });
 
 export const getProfileThunk = (id) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(toggleIsFetchingAT(true));
     useGetProfile(id)
       .then((dataAll) => {
@@ -103,11 +108,11 @@ export const getProfileThunk = (id) => {
         dispatch(
           setProfileInfoAT(
             data,
-            Object.keys(data.photos).forEach((key) => {
-              data.photos[key] = data.photos[key] === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos[key];
-            }),
             Object.keys(data).forEach((key) => {
               data[key] = data[key] === null ? "" : data[key];
+            }),
+            Object.keys(data.photos).forEach((key) => {
+              data.photos[key] = data.photos[key] === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos[key];
             }),
             Object.keys(data.contacts).forEach((key) => {
               data.contacts[key] = data.contacts[key] === null ? "" : data.contacts[key];
@@ -116,6 +121,9 @@ export const getProfileThunk = (id) => {
         );
         dispatch(setStatusAT(data.status === null ? "" : data.status));
         dispatch(setPostsAT([]));
+        if (getState().auth.id === id) {
+          dispatch(setMyAvatarAT(data.photos.large));
+        }
         dispatch(toggleIsFetchingAT(false));
       })
       .catch((err) => {
@@ -146,6 +154,17 @@ export const setStatusThunk = (status) => {
     updateStatus(status).then((data) => {
       console.log(data);
       dispatch(setStatusAT(status));
+      dispatch(toggleIsFetchingAT(false));
+    });
+  };
+};
+
+export const setAvatarThunk = (file) => {
+  return (dispatch, getState) => {
+    console.log(file);
+    dispatch(toggleIsFetchingAT(true));
+    updateAvatar(file).then((data) => {
+      dispatch(getProfileThunk(getState().auth.id));
       dispatch(toggleIsFetchingAT(false));
     });
   };

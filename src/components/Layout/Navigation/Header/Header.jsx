@@ -20,7 +20,7 @@ function Header(props) {
           <img src={Notificationsvg} alt="" />
         </Link>
         <div className={s.profilePreview}>
-          <HeaderLogged isAuth={props.auth.isAuth} id={props.auth.id} login={props.auth.login} logout={props.logout} />
+          <HeaderLogged isAuth={props.auth.isAuth} avatar={props.avatar} id={props.auth.id} login={props.auth.login} logout={props.logout} />
         </div>
       </div>
     </header>

@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout/layout.jsx";
 import ProfileConteiner from "./components/Content/Profile/profileContainer";
@@ -10,10 +10,15 @@ import DialogsContainer from "./components/Content/Dialogs/dialogListContainer";
 import LoginContainer from "./components/Login/loginContainer";
 import { connect } from "react-redux";
 import { getLoggedInThunk } from "./redux/authReducer";
+import { getProfileThunk } from "./redux/profileReducer";
 import SettingsContainer from "./components/Content/Settings/settingsContainer";
 
 const App = (props) => {
   props.getLoggedInThunk();
+  useEffect(() => {
+    if (props.id !== null) props.getProfileThunk(props.id);
+  }, [props.id]);
+
   return (
     <>
       <Routes>
@@ -43,10 +48,13 @@ const App = (props) => {
 };
 
 export default connect(
-  () => {
-    return {};
+  (state) => {
+    return {
+      id: state.auth.id,
+    };
   },
   {
     getLoggedInThunk,
+    getProfileThunk,
   }
 )(App);

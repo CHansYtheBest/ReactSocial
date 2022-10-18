@@ -62,6 +62,13 @@ export function updateProfile(jsonObj) {
   });
 }
 
+export function updateAvatar(file) {
+  console.log(file);
+  return instanse.put(`profile/photo`, file).then((response) => {
+    return response;
+  });
+}
+
 export function useCheckIsLoggedIn() {
   return instanse.get(`auth/me`).then((response) => {
     if (response.data.resultCode === 0) {

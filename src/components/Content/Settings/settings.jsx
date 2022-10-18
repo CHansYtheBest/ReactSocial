@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
+import { useState } from "react";
 
 const SettingsForm = (props) => {
   let getContactsValidation = () => {
@@ -79,12 +80,33 @@ const SettingsForm = (props) => {
   );
 };
 
+const AvatarChange = (props) => {
+  let [file, updateFile] = useState({});
+
+  let fileChangeHandler = (e) => {
+    updateFile(e.target.files[0]);
+  };
+
+  let fileUploadHandler = () => {
+    let fileForm = new FormData();
+    fileForm.append("image", file, file.name);
+    props.setAvatar(fileForm, props.id);
+  };
+
+  return (
+    <div>
+      <img src={props.avatar} alt="avatar" width="300px" height="300px" />
+      <br />
+      <input type="file" onChange={fileChangeHandler} />
+      <br />
+      <button onClick={fileUploadHandler}>Change avatar</button>
+    </div>
+  );
+};
+
 export default function Settings(props) {
   useEffect(() => {
-    if (props.profilePage.userId !== props.loggedProfileId && props.loggedProfileId !== null) {
-      props.getProfileThunk(props.loggedProfileId);
-    }
-    console.log(props.profilePage);
+    props.getProfileThunk(props.loggedProfileId);
   }, []);
 
   return (
@@ -93,6 +115,7 @@ export default function Settings(props) {
 
       {props.profilePage.userId === props.loggedProfileId ? (
         <>
+          <AvatarChange avatar={props.profilePage.avatar} setAvatar={props.setAvatarThunk} id={props.loggedProfileId} />
           <SettingsForm
             setNewProfileDataThunk={props.setNewProfileDataThunk}
             profilePage={props.profilePage}

@@ -18,7 +18,7 @@ export function ProfileInfo(props) {
     <div>
       <div className={s.profile}>
         <div>
-          <img src={props.profilePage.avatar} alt="" />
+          <img src={props.profilePage.avatar} alt="avatar" width="300px" height="300px" />
         </div>
         <div>
           <p>{props.profilePage.fullName}</p>
