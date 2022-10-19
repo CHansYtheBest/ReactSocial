@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
 import { useState } from "react";
+import { memo } from "react";
 
 const SettingsForm = (props) => {
   let getContactsValidation = () => {
@@ -44,6 +45,7 @@ const SettingsForm = (props) => {
       })}
       onSubmit={(values, { setSubmitting }) => {
         props.setNewProfileDataThunk(values);
+        props.getProfile();
         setSubmitting(false);
       }}
     >
@@ -104,9 +106,11 @@ const AvatarChange = (props) => {
   );
 };
 
-export default function Settings(props) {
+let Settings = memo((props) => {
   useEffect(() => {
-    props.getProfileThunk(props.loggedProfileId);
+    if (props.profilePage.userId !== props.loggedProfileId) {
+      props.getProfileThunk();
+    }
   }, []);
 
   return (
@@ -115,9 +119,10 @@ export default function Settings(props) {
 
       {props.profilePage.userId === props.loggedProfileId ? (
         <>
-          <AvatarChange avatar={props.profilePage.avatar} setAvatar={props.setAvatarThunk} id={props.loggedProfileId} />
+          <AvatarChange avatar={props.profilePage.myAvatar} setAvatar={props.setAvatarThunk} id={props.loggedProfileId} />
           <SettingsForm
             setNewProfileDataThunk={props.setNewProfileDataThunk}
+            getProfile={props.getProfileThunk}
             profilePage={props.profilePage}
             loggedProfileId={props.loggedProfileId}
           />
@@ -127,4 +132,5 @@ export default function Settings(props) {
       )}
     </>
   );
-}
+});
+export default Settings;

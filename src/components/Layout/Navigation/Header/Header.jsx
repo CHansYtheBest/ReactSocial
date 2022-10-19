@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useEffect } from "react";
 import s from "./Header.module.css";
 import Searchsvg from "../../../../imgs/Search.svg";
 import { Link } from "react-router-dom";
@@ -6,7 +6,10 @@ import Dialogsvg from "../../../../imgs/Dialog.svg";
 import Notificationsvg from "../../../../imgs/Bell.svg";
 import HeaderLogged from "./HeaderLogged";
 
-function Header(props) {
+const Header = memo((props) => {
+  useEffect(() => {
+    props.getProfileThunk();
+  }, []);
   return (
     <header className={s.header}>
       <div className={s.searchbar}>
@@ -20,11 +23,11 @@ function Header(props) {
           <img src={Notificationsvg} alt="" />
         </Link>
         <div className={s.profilePreview}>
-          <HeaderLogged isAuth={props.auth.isAuth} avatar={props.avatar} id={props.auth.id} login={props.auth.login} logout={props.logout} />
+          <HeaderLogged isAuth={props.auth.isAuth} avatar={props.avatar} id={props.auth.id} login={props.auth.login} logout={props.logoutThunk} />
         </div>
       </div>
     </header>
   );
-}
+});
 
 export default Header;

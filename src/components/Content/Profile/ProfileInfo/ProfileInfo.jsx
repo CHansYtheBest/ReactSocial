@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import s from "./../profile.module.css";
 import { Posts } from "./post";
 import EditebleInfo from "./profileStatus";
 
-export function ProfileInfo(props) {
+export let ProfileInfo = memo((props) => {
   let mapLinks = React.Children.toArray(
     Object.keys(props.profilePage.contacts).map((key) => {
       return (
@@ -18,7 +18,7 @@ export function ProfileInfo(props) {
     <div>
       <div className={s.profile}>
         <div>
-          <img src={props.profilePage.avatar} alt="avatar" width="300px" height="300px" />
+          <img src={props.isLoggedProfile ? props.profilePage.myAvatar : props.profilePage.avatar} alt="avatar" width="300px" height="300px" />
         </div>
         <div>
           <p>{props.profilePage.fullName}</p>
@@ -50,4 +50,4 @@ export function ProfileInfo(props) {
       </div>
     </div>
   );
-}
+});

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import { useEffect } from "react";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import s from "./profile.module.css";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
 
-export default function Profile(props) {
+let Profile = memo((props) => {
   let navigate = useNavigate();
   let location = useLocation();
   const id = Number(useParams().id);
@@ -32,4 +32,6 @@ export default function Profile(props) {
       ></ProfileInfo>
     </section>
   );
-}
+});
+
+export default Profile;

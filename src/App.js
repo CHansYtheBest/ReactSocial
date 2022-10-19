@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout/layout.jsx";
 import ProfileConteiner from "./components/Content/Profile/profileContainer";
@@ -12,37 +12,43 @@ import { connect } from "react-redux";
 import { getLoggedInThunk } from "./redux/authReducer";
 import { getProfileThunk } from "./redux/profileReducer";
 import SettingsContainer from "./components/Content/Settings/settingsContainer";
+import Preloader from "./components/Layout/Navigation/Preloader/preloader";
 
 const App = (props) => {
   props.getLoggedInThunk();
-  useEffect(() => {
-    if (props.id !== null) props.getProfileThunk(props.id);
-  }, [props.id]);
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="/profile">
-            <Route path="/profile" element={<ProfileConteiner />} />
-            <Route path=":id" element={<ProfileConteiner />} />
-            <Route path="error" element={<ProfileError />} />
+      {props.id !== null ? (
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <>
+              <Route path="/profile">
+                <Route path="/profile" element={<ProfileConteiner />} />
+                <Route path=":id" element={<ProfileConteiner />} />
+                <Route path="error" element={<ProfileError />} />
+              </Route>
+              <Route path="/dialog" element={<DialogsContainer />}>
+                <Route path=":id" element={<MessagesContainer />} />
+                <Route path="/dialog" element={<div>Please choose a dialog</div>} />
+              </Route>
+              <Route path="/search/" element={<SearchContainer onlyFriends={false} />}>
+                <Route path=":id" element={<SearchContainer />} />
+              </Route>
+              <Route path="/friends/" element={<SearchContainer onlyFriends={true} />}>
+                <Route path=":id" element={<SearchContainer />} />
+              </Route>
+              <Route path="/settings" element={<SettingsContainer />} />
+              <Route path="*" element={""} />
+            </>
           </Route>
-          <Route path="/dialog" element={<DialogsContainer />}>
-            <Route path=":id" element={<MessagesContainer />} />
-            <Route path="/dialog" element={<div>Please choose a dialog</div>} />
-          </Route>
-          <Route path="/search/" element={<SearchContainer onlyFriends={false} />}>
-            <Route path=":id" element={<SearchContainer />} />
-          </Route>
-          <Route path="/friends/" element={<SearchContainer onlyFriends={true} />}>
-            <Route path=":id" element={<SearchContainer />} />
-          </Route>
-          <Route path="/settings" element={<SettingsContainer />} />
-          <Route path="*" element={""} />
-        </Route>
-        <Route path="/login" element={<LoginContainer />} />
-      </Routes>
+          <Route path="/login" element={<LoginContainer />} />
+        </Routes>
+      ) : (
+        <>
+          <Preloader />
+        </>
+      )}
     </>
   );
 };
