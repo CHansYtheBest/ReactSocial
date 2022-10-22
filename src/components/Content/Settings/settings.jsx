@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
@@ -17,13 +17,6 @@ const SettingsForm = (props) => {
     return validationObject;
   };
 
-  const initialValues = {
-    aboutMe: props.profile.aboutMe,
-    fullName: props.profile.fullName,
-    lookingForAJob: props.profile.lookingForAJob,
-    lookingForAJobDescription: props.profile.lookingForAJobDescription,
-    contacts: props.profile.contacts,
-  };
   let mapLinks = React.Children.toArray(
     Object.keys(props.profile.contacts).map((key) => {
       return (
@@ -39,15 +32,21 @@ const SettingsForm = (props) => {
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        aboutMe: props.profile.aboutMe,
+        fullName: props.profile.fullName,
+        lookingForAJob: props.profile.lookingForAJob,
+        lookingForAJobDescription: props.profile.lookingForAJobDescription,
+        contacts: props.profile.contacts,
+      }}
       validationSchema={Yup.object({
         contacts: Yup.object(getContactsValidation()),
       })}
       onSubmit={(values, { setSubmitting }) => {
         props.setNewProfileDataThunk(values);
-        props.getProfile();
         setSubmitting(false);
       }}
+      enableReinitialize
     >
       {({ isSubmitting }) => (
         <Form>
@@ -107,12 +106,6 @@ const AvatarChange = (props) => {
 };
 
 let Settings = memo((props) => {
-  useEffect(() => {
-    if (props.profile.id !== props.loggedProfileId) {
-      props.getMyProfileThunk();
-    }
-  }, []);
-
   return (
     <>
       {props.isFetching ? (

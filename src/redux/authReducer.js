@@ -172,7 +172,7 @@ export const setNewProfileDataThunk = (jsonObj) => {
     dispatch(toggleMyIsFetchingAT(true));
     updateProfile(jsonObj)
       .then((data) => {
-        dispatch(getLoggedInThunk());
+        dispatch(getMyProfileThunk());
         dispatch(toggleMyIsFetchingAT(false));
       })
       .catch((err) => {

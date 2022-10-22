@@ -56,7 +56,6 @@ export function updateStatus(status) {
 }
 
 export function updateProfile(jsonObj) {
-  console.log(jsonObj);
   return instanse.put(`profile`, jsonObj).then((response) => {
     return response;
   });

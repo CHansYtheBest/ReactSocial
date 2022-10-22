@@ -24,7 +24,7 @@ const App = memo((props) => {
 
   return (
     <>
-      {props.id !== null && !props.fetching ? (
+      {props.id !== null && !props.isLoaded ? (
         <Routes>
           <Route path="/" element={<Layout />}>
             <>
@@ -62,7 +62,7 @@ export default connect(
   (state) => {
     return {
       id: state.auth.id,
-      fetching: state.auth.myProfile.avatar.small === "",
+      isLoaded: state.auth.myProfile.avatar.small === "",
     };
   },
   {
