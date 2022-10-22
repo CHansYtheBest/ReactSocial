@@ -5,11 +5,11 @@ import EditebleInfo from "./profileStatus";
 
 export let ProfileInfo = memo((props) => {
   let mapLinks = React.Children.toArray(
-    Object.keys(props.profilePage.contacts).map((key) => {
+    Object.keys(props.profile.contacts).map((key) => {
       return (
         <p>
           {key.charAt(0).toUpperCase() + key.slice(1) + ":"}
-          <a href={`${props.profilePage.contacts[key]}`}> {props.profilePage.contacts[key]}</a>
+          <a href={`${props.profile.contacts[key]}`}> {props.profile.contacts[key]}</a>
         </p>
       );
     })
@@ -18,25 +18,25 @@ export let ProfileInfo = memo((props) => {
     <div>
       <div className={s.profile}>
         <div>
-          <img src={props.isLoggedProfile ? props.profilePage.myAvatar : props.profilePage.avatar} alt="avatar" width="300px" height="300px" />
+          <img src={props.profile.avatar.large} alt="avatar" width="300px" height="300px" />
         </div>
         <div>
-          <p>{props.profilePage.fullName}</p>
+          <p>{props.profile.fullName}</p>
           <br />
         </div>
         <div>
-          <EditebleInfo isLoggedProfile={props.isLoggedProfile} setter={props.setStatus} info={props.profilePage.status} />
+          <EditebleInfo isLoggedProfile={props.isLoggedProfile} setter={props.setStatus} info={props.profile.status} />
         </div>
         <div>
           <br />
-          <p>About me:</p> <p>{props.profilePage.aboutMe ? props.profilePage.aboutMe : "null"}</p>
+          <p>About me:</p> <p>{props.profile.aboutMe ? props.profile.aboutMe : "null"}</p>
         </div>
         <div>
           <br />
-          <p>Looking for a job:</p> <p>{props.profilePage.lookingForAJob ? "Yes" : "No"}</p>
+          <p>Looking for a job:</p> <p>{props.profile.lookingForAJob ? "Yes" : "No"}</p>
         </div>
         <div>
-          <p>{props.profilePage.lookingForAJobDescription ? props.profilePage.lookingForAJobDescription : "null"}</p>
+          <p>{props.profile.lookingForAJobDescription ? props.profile.lookingForAJobDescription : "null"}</p>
         </div>
         <div>
           <br />
@@ -46,7 +46,7 @@ export let ProfileInfo = memo((props) => {
       </div>
 
       <div id="posts">
-        <Posts isLoggedProfile={props.isLoggedProfile} profilePage={props.profilePage} addPost={props.addPost} />
+        <Posts isLoggedProfile={props.isLoggedProfile} profile={props.profile} addPost={props.addPost} />
       </div>
     </div>
   );

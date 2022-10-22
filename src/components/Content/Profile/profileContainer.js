@@ -1,21 +1,14 @@
 import { connect } from "react-redux";
 import { compose } from "redux";
-import {
-  addPostAT,
-  getProfileThunk,
-  setErrorAT,
-  setPostsAT,
-  setProfileInfoAT,
-  setStatusThunk,
-  setUserIDAT,
-  toggleIsFetchingAT,
-} from "../../../redux/profileReducer";
+import { getProfileThunk, toggleProfileIsFetchingAT } from "../../../redux/profileReducer";
+import { addPostAT, getMyProfileThunk, setStatusThunk, toggleMyIsFetchingAT } from "../../../redux/authReducer";
 import withLoginCheckRedirect from "../../HOC/withLoginCheckRedirect";
 import Profile from "./profile";
 
 let mapStateToProps = (state) => {
   return {
     profilePage: state.profilePage,
+    auth: state.auth,
     loggedProfileId: state.auth.id,
   };
 };
@@ -25,20 +18,14 @@ let mapDispatchToProps = (dispatch) => {
     addPost: (post) => {
       dispatch(addPostAT(post));
     },
-    setUserId: (userId) => {
-      dispatch(setUserIDAT(userId));
+    toggleProfileIsFetching: (bull) => {
+      dispatch(toggleProfileIsFetchingAT(bull));
     },
-    setProfileInfo: (data) => {
-      dispatch(setProfileInfoAT(data));
+    toggleMyIsFetchingAT: (bull) => {
+      dispatch(toggleMyIsFetchingAT(bull));
     },
-    setError: (error) => {
-      dispatch(setErrorAT(error));
-    },
-    setPosts: (posts) => {
-      dispatch(setPostsAT(posts));
-    },
-    toggleIsFetching: (bull) => {
-      dispatch(toggleIsFetchingAT(bull));
+    getMyProfile: () => {
+      dispatch(getMyProfileThunk());
     },
     getProfile: (id) => {
       dispatch(getProfileThunk(id));

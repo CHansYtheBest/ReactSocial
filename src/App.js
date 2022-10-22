@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { memo, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout/layout.jsx";
 import ProfileConteiner from "./components/Content/Profile/profileContainer";
@@ -10,16 +10,21 @@ import DialogsContainer from "./components/Content/Dialogs/dialogListContainer";
 import LoginContainer from "./components/Login/loginContainer";
 import { connect } from "react-redux";
 import { getLoggedInThunk } from "./redux/authReducer";
-import { getProfileThunk } from "./redux/profileReducer";
+import { getMyProfileThunk } from "./redux/authReducer";
 import SettingsContainer from "./components/Content/Settings/settingsContainer";
 import Preloader from "./components/Layout/Navigation/Preloader/preloader";
 
-const App = (props) => {
-  props.getLoggedInThunk();
+const App = memo((props) => {
+  useEffect(() => {
+    props.getLoggedInThunk();
+    if (props.id !== null) {
+      props.getMyProfileThunk();
+    }
+  }, [props.id]);
 
   return (
     <>
-      {props.id !== null ? (
+      {props.id !== null && !props.fetching ? (
         <Routes>
           <Route path="/" element={<Layout />}>
             <>
@@ -51,16 +56,17 @@ const App = (props) => {
       )}
     </>
   );
-};
+});
 
 export default connect(
   (state) => {
     return {
       id: state.auth.id,
+      fetching: state.auth.myProfile.avatar.small === "",
     };
   },
   {
     getLoggedInThunk,
-    getProfileThunk,
+    getMyProfileThunk,
   }
 )(App);

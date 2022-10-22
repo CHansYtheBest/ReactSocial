@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 import s from "./Header.module.css";
 import Searchsvg from "../../../../imgs/Search.svg";
 import { Link } from "react-router-dom";
@@ -7,9 +7,6 @@ import Notificationsvg from "../../../../imgs/Bell.svg";
 import HeaderLogged from "./HeaderLogged";
 
 const Header = memo((props) => {
-  useEffect(() => {
-    props.getProfileThunk();
-  }, []);
   return (
     <header className={s.header}>
       <div className={s.searchbar}>

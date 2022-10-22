@@ -5,7 +5,7 @@ const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
 const SET_TOTAL_ITEMS = "SET_TOTAL_ITEMS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
-const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
+const TOGGLE_SEARCH_IS_FETCHING = "TOGGLE_SEARCH_IS_FETCHING";
 const SET_BUTTON_IS_FETCHING = "SET_BUTTON_IS_FETCHING";
 
 let initialState = {
@@ -49,7 +49,7 @@ export const searchReducer = (state = initialState, action) => {
     case SET_CURRENT_PAGE: {
       return { ...state, currentPage: action.currentPage };
     }
-    case TOGGLE_IS_FETCHING: {
+    case TOGGLE_SEARCH_IS_FETCHING: {
       return { ...state, isFetching: action.fetching };
     }
     case SET_BUTTON_IS_FETCHING: {
@@ -69,7 +69,7 @@ export const removeFriendAT = (userID) => ({ type: UNFOLLOW, userID: userID });
 export const setUsersAT = (usersArr) => ({ type: SET_USERS, users: usersArr });
 export const setTotalItemsAT = (totalItems) => ({ type: SET_TOTAL_ITEMS, totalItems: totalItems });
 export const setCurrentPageAT = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage: currentPage });
-export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, fetching: bull });
+export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_SEARCH_IS_FETCHING, fetching: bull });
 export const setButtonIsFetchingAT = (bull, userID) => ({ type: SET_BUTTON_IS_FETCHING, fetching: bull, userID: userID });
 
 export const getUsersThunk = (navigate, id, currentPage, count, onlyFriends) => {

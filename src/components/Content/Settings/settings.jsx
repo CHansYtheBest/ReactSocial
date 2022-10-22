@@ -8,7 +8,7 @@ import { memo } from "react";
 const SettingsForm = (props) => {
   let getContactsValidation = () => {
     let validationObject = {};
-    Object.keys(props.profilePage.contacts).forEach((key) => {
+    Object.keys(props.profile.contacts).forEach((key) => {
       validationObject[key] = Yup.string().matches(
         /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
         "Enter correct url!"
@@ -18,14 +18,14 @@ const SettingsForm = (props) => {
   };
 
   const initialValues = {
-    aboutMe: props.profilePage.aboutMe,
-    fullName: props.profilePage.fullName,
-    lookingForAJob: props.profilePage.lookingForAJob,
-    lookingForAJobDescription: props.profilePage.lookingForAJobDescription,
-    contacts: props.profilePage.contacts,
+    aboutMe: props.profile.aboutMe,
+    fullName: props.profile.fullName,
+    lookingForAJob: props.profile.lookingForAJob,
+    lookingForAJobDescription: props.profile.lookingForAJobDescription,
+    contacts: props.profile.contacts,
   };
   let mapLinks = React.Children.toArray(
-    Object.keys(props.profilePage.contacts).map((key) => {
+    Object.keys(props.profile.contacts).map((key) => {
       return (
         <>
           <label htmlFor={`${key}`}>{key.charAt(0).toUpperCase() + key.slice(1)}: </label>
@@ -108,27 +108,25 @@ const AvatarChange = (props) => {
 
 let Settings = memo((props) => {
   useEffect(() => {
-    if (props.profilePage.userId !== props.loggedProfileId) {
-      props.getProfileThunk();
+    if (props.profile.id !== props.loggedProfileId) {
+      props.getMyProfileThunk();
     }
   }, []);
 
   return (
     <>
-      {props.profilePage.isFetching ? <Preloader /> : null}
-
-      {props.profilePage.userId === props.loggedProfileId ? (
+      {props.isFetching ? (
+        <Preloader />
+      ) : (
         <>
-          <AvatarChange avatar={props.profilePage.myAvatar} setAvatar={props.setAvatarThunk} id={props.loggedProfileId} />
+          <AvatarChange avatar={props.profile.avatar.large} setAvatar={props.setAvatarThunk} id={props.loggedProfileId} />
           <SettingsForm
             setNewProfileDataThunk={props.setNewProfileDataThunk}
-            getProfile={props.getProfileThunk}
-            profilePage={props.profilePage}
+            getProfile={props.getMyProfileThunk}
+            profile={props.profile}
             loggedProfileId={props.loggedProfileId}
           />
         </>
-      ) : (
-        <Preloader />
       )}
     </>
   );

@@ -1,21 +1,19 @@
-import { updateAvatar, updateProfile, updateStatus, useGetProfile } from "../customHooks/fetchFromAPI";
+import { useGetProfile } from "../customHooks/fetchFromAPI";
 
-const ADD_POST = "ADD-POST";
 const SET_ALL_PROFILE_INFO = "SET_ALL_PROFILE_INFO";
-const SET_PROFILE_INFO = "SET_PROFILE_INFO";
 const SET_USERID = "SET_USERID";
 const SET_ERROR = "SET_ERROR";
 const SET_POSTS = "SET_POSTS";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 const SET_STATUS = "SET_STATUS";
-const SET_MY_AVATAR = "SET_MY_AVATAR";
-const SET_AVATAR = "SET_AVATAR";
 
 let initialState = {
   userId: 0,
   fullName: "",
-  avatar: "",
-  myAvatar: "",
+  avatar: {
+    small: "",
+    large: "",
+  },
   aboutMe: "",
   status: "",
   contacts: {
@@ -36,18 +34,6 @@ let initialState = {
 
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_POST: {
-      let newPost = {
-        id: state.posts.length,
-        postContent: action.post,
-      };
-
-      return {
-        ...state,
-        posts: [...state.posts, newPost],
-        postNewText: "",
-      };
-    }
     case SET_USERID: {
       return { ...state, userId: action.userId };
     }
@@ -55,17 +41,11 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         fullName: action.data.fullName,
-        avatar: action.data.photos.large,
+        avatar: action.data.photos,
         aboutMe: action.data.aboutMe,
         lookingForAJob: action.data.lookingForAJob,
         lookingForAJobDescription: action.data.lookingForAJobDescription,
         contacts: action.data.contacts,
-      };
-    }
-    case SET_PROFILE_INFO: {
-      return {
-        ...state,
-        ...action.data,
       };
     }
     case SET_ERROR: {
@@ -77,12 +57,6 @@ export const profileReducer = (state = initialState, action) => {
     case SET_STATUS: {
       return { ...state, status: action.status };
     }
-    case SET_AVATAR: {
-      return { ...state, avatar: action.avatar };
-    }
-    case SET_MY_AVATAR: {
-      return { ...state, myAvatar: action.avatar };
-    }
     case TOGGLE_IS_FETCHING: {
       return { ...state, isFetching: action.value };
     }
@@ -92,30 +66,20 @@ export const profileReducer = (state = initialState, action) => {
   }
 };
 
-export const addPostAT = (post) => ({ type: ADD_POST, post: post });
 export const setUserIDAT = (userId) => ({ type: SET_USERID, userId: userId });
 export const setProfileInfoAT = (data) => ({ type: SET_ALL_PROFILE_INFO, data: data });
-export const updateProfileInfoAT = (data) => ({ type: SET_PROFILE_INFO, data: data });
 export const setErrorAT = (error) => ({ type: SET_ERROR, error: error });
 export const setPostsAT = (posts) => ({ type: SET_POSTS, posts: posts });
-export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });
+export const toggleProfileIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });
 export const setStatusAT = (status) => ({ type: SET_STATUS, status: status });
-export const setAvatarAT = (avatar) => ({ type: SET_AVATAR, avatar: avatar });
-export const setMyAvatarAT = (avatar) => ({ type: SET_MY_AVATAR, avatar: avatar });
 
 export const getProfileThunk = (id) => {
-  return (dispatch, getState) => {
-    if (!id) {
-      id = getState().auth.id;
-    }
-    dispatch(toggleIsFetchingAT(true));
+  return (dispatch) => {
+    dispatch(toggleProfileIsFetchingAT(true));
     useGetProfile(id)
       .then((dataAll) => {
         let data = { ...dataAll[1], status: dataAll[0] };
         dispatch(setUserIDAT(data.userId));
-        if (getState().auth.id === id) {
-          dispatch(setMyAvatarAT(data.photos.large));
-        }
         dispatch(
           setProfileInfoAT(
             data,
@@ -133,46 +97,11 @@ export const getProfileThunk = (id) => {
         dispatch(setStatusAT(data.status === null ? "" : data.status));
         dispatch(setPostsAT([]));
 
-        dispatch(toggleIsFetchingAT(false));
+        dispatch(toggleProfileIsFetchingAT(false));
       })
       .catch((err) => {
         console.error(err);
-        dispatch(toggleIsFetchingAT(false));
+        dispatch(toggleProfileIsFetchingAT(false));
       });
-  };
-};
-
-export const setNewProfileDataThunk = (jsonObj) => {
-  return (dispatch) => {
-    dispatch(toggleIsFetchingAT(true));
-    updateProfile(jsonObj)
-      .then((data) => {
-        dispatch(updateProfileInfoAT(jsonObj));
-        dispatch(toggleIsFetchingAT(false));
-      })
-      .catch((err) => {
-        console.error(err);
-        dispatch(toggleIsFetchingAT(false));
-      });
-  };
-};
-
-export const setStatusThunk = (status) => {
-  return (dispatch) => {
-    dispatch(toggleIsFetchingAT(true));
-    updateStatus(status).then((data) => {
-      dispatch(setStatusAT(status));
-      dispatch(toggleIsFetchingAT(false));
-    });
-  };
-};
-
-export const setAvatarThunk = (file) => {
-  return (dispatch, getState) => {
-    dispatch(toggleIsFetchingAT(true));
-    updateAvatar(file).then((data) => {
-      dispatch(getProfileThunk(getState().auth.id));
-      dispatch(toggleIsFetchingAT(false));
-    });
   };
 };

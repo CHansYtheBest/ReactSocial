@@ -41,28 +41,28 @@ function SortPosts(props) {
     );
   }
 
-  if (props.profilePage.posts.length !== 0) {
-    let maxPosts = props.profilePage.posts.length - 1;
+  if (props.profile.posts.length !== 0) {
+    let maxPosts = props.profile.posts.length - 1;
 
     let postsData = React.Children.toArray(
-      props.profilePage.posts.map((post) => {
+      props.profile.posts.map((post) => {
         if (post.id === maxPosts) {
-          return <PostNew name={props.profilePage.fullName} content={post.postContent} />;
-        } else return <Post name={props.profilePage.fullName} content={post.postContent} />;
+          return <PostNew name={props.profile.fullName} content={post.postContent} />;
+        } else return <Post name={props.profile.fullName} content={post.postContent} />;
       })
     );
 
     return <>{postsData.reverse()}</>;
   } else {
-    return <p>Sadly, {props.profilePage.fullName} didn't write any posts!</p>;
+    return <p>Sadly, {props.profile.fullName} didn't write any posts!</p>;
   }
 }
 
 export function Posts(props) {
   return (
     <>
-      {props.isLoggedProfile ? <AddPost postNewText={props.profilePage.postNewText} addPost={props.addPost} /> : ""}
-      <SortPosts profilePage={props.profilePage} />
+      {props.isLoggedProfile ? <AddPost postNewText={props.profile.postNewText} addPost={props.addPost} /> : ""}
+      <SortPosts profile={props.profile} />
     </>
   );
 }

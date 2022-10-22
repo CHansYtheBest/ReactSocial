@@ -1,12 +1,13 @@
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getProfileThunk, setNewProfileDataThunk, setAvatarThunk } from "../../../redux/profileReducer";
+import { getMyProfileThunk, setNewProfileDataThunk, setAvatarThunk } from "../../../redux/authReducer";
 import withLoginCheckRedirect from "../../HOC/withLoginCheckRedirect";
 import Settings from "./settings";
 
 const mapStateToProps = (state) => ({
-  profilePage: state.profilePage,
+  profile: state.auth.myProfile,
   loggedProfileId: state.auth.id,
+  isFetching: state.auth.isFetching,
 });
 
-export default compose(connect(mapStateToProps, { getProfileThunk, setNewProfileDataThunk, setAvatarThunk }), withLoginCheckRedirect)(Settings);
+export default compose(connect(mapStateToProps, { getMyProfileThunk, setNewProfileDataThunk, setAvatarThunk }), withLoginCheckRedirect)(Settings);

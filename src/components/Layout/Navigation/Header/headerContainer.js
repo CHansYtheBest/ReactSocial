@@ -1,15 +1,14 @@
 import { connect } from "react-redux";
 import { logoutThunk } from "../../../../redux/authReducer";
-import { getProfileThunk } from "../../../../redux/profileReducer";
 import Header from "./Header";
 
 let mapStateToProps = (state) => {
   return {
     auth: state.auth,
-    avatar: state.profilePage.myAvatar,
+    avatar: state.auth.myProfile.avatar.small,
   };
 };
 
-const HeaderContainer = connect(mapStateToProps, { getProfileThunk, logoutThunk })(Header);
+const HeaderContainer = connect(mapStateToProps, { logoutThunk })(Header);
 
 export default HeaderContainer;
