@@ -10,6 +10,7 @@ const SET_MY_POSTS = "SET_MY_POSTS";
 const TOGGLE_MY_IS_FETCHING = "TOGGLE_MY_IS_FETCHING";
 const SET_MY_STATUS = "SET_MY_STATUS";
 const SET_AVATAR = "SET_AVATAR";
+const HAS_FETCHED_PROFILE = "HAS_FETCHED_PROFILE";
 
 let initialState = {
   id: null,
@@ -39,6 +40,7 @@ let initialState = {
     lookingForAJobDescription: "Ye, I can do thing. Pls, I need money",
     posts: [],
   },
+  hasFetched: false,
   isFetching: false,
 };
 
@@ -55,6 +57,12 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuth: action.isAuth,
+      };
+    }
+    case HAS_FETCHED_PROFILE: {
+      return {
+        ...state,
+        hasFetched: action.bull,
       };
     }
     case SET_LOGIN_ERROR: {
@@ -119,6 +127,7 @@ export const setPostsAT = (posts) => ({ type: SET_MY_POSTS, posts: posts });
 export const addPostAT = (post) => ({ type: ADD_POST, post: post });
 export const toggleMyIsFetchingAT = (bull) => ({ type: TOGGLE_MY_IS_FETCHING, value: bull });
 export const setStatusAT = (status) => ({ type: SET_MY_STATUS, status: status });
+export const setSetHasFetchedProfile = (bull) => ({ type: HAS_FETCHED_PROFILE, bull: bull });
 
 export const getMyProfileThunk = () => {
   return (dispatch, getState) => {
@@ -127,6 +136,7 @@ export const getMyProfileThunk = () => {
     useGetProfile(id)
       .then((dataAll) => {
         let data = { ...dataAll[1], status: dataAll[0] };
+        console.log(data);
         dispatch(
           setMyProfileInfoAT(
             data,
@@ -145,10 +155,12 @@ export const getMyProfileThunk = () => {
         dispatch(setPostsAT([]));
 
         dispatch(toggleMyIsFetchingAT(false));
+        dispatch(setSetHasFetchedProfile(true));
       })
       .catch((err) => {
         console.error(err);
         dispatch(toggleMyIsFetchingAT(false));
+        dispatch(setSetHasFetchedProfile(true));
       });
   };
 };

@@ -11,6 +11,7 @@ import LoginContainer from "./components/Login/loginContainer";
 import { connect } from "react-redux";
 import { getLoggedInThunk } from "./redux/authReducer";
 import { getMyProfileThunk } from "./redux/authReducer";
+import { setSetHasFetchedProfile } from "./redux/authReducer";
 import SettingsContainer from "./components/Content/Settings/settingsContainer";
 import Preloader from "./components/Layout/Navigation/Preloader/preloader";
 
@@ -19,12 +20,14 @@ const App = memo((props) => {
     props.getLoggedInThunk();
     if (props.id !== null) {
       props.getMyProfileThunk();
+    } else if (!props.isAuth) {
+      props.setSetHasFetchedProfile(true);
     }
   }, [props.id]);
 
   return (
     <>
-      {props.id !== null && !props.isLoaded ? (
+      {props.isLoaded ? (
         <Routes>
           <Route path="/" element={<Layout />}>
             <>
@@ -62,11 +65,13 @@ export default connect(
   (state) => {
     return {
       id: state.auth.id,
-      isLoaded: state.auth.myProfile.avatar.small === "",
+      isAuth: state.auth.isAuth,
+      isLoaded: state.auth.hasFetched,
     };
   },
   {
     getLoggedInThunk,
     getMyProfileThunk,
+    setSetHasFetchedProfile,
   }
 )(App);
