@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/CHansYtheBest/ReactSocial/precache-manifest.ffc3a2d16342fa61d9acf5d941782d52.js"
+  "/ReactSocial/precache-manifest.ddc8026ec9a937c343d3d7fce7622552.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/CHansYtheBest/ReactSocial/index.html", {
+workbox.routing.registerNavigationRoute("/ReactSocial/index.html", {
   
   blacklist: [/^\/_/,/\/[^/]+\.[^/]+$/],
 });
