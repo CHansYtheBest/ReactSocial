@@ -38,11 +38,11 @@ const Nav = () => {
           <MapNavlink to="/profile" text="My Page" img={Profilesvg} />
           <MapNavlink to="/feed" text="News Feed" img={Feedsvg} />
           <MapNavlink to="/dialog" text="Messages" img={Dialogsvg} />
-          <MapNavlink to="/friends" text="Friends" img={Friendsvg} />
+          <MapNavlink to="/friends/1" text="Friends" img={Friendsvg} />
         </ul>
         <div className={s.navigation_Separator}></div>
         <ul className={s.navigation_List}>
-          <MapNavlink to="/search" text="Find People" img={Searchsvg} />
+          <MapNavlink to="/search/1" text="Find People" img={Searchsvg} />
           <MapNavlink to="/settings" text="Settings" img={Settingssvg} />
         </ul>
         <section className={s.copyright}>

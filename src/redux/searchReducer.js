@@ -7,9 +7,11 @@ const SET_TOTAL_ITEMS = "SET_TOTAL_ITEMS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const TOGGLE_SEARCH_IS_FETCHING = "TOGGLE_SEARCH_IS_FETCHING";
 const SET_BUTTON_IS_FETCHING = "SET_BUTTON_IS_FETCHING";
+const SET_IS_NONE_USERS = "SET_IS_NONE_USERS";
 
 let initialState = {
   users: [],
+  isNoneUsers: null,
   count: 8,
   currentPage: 1,
   totalItems: 1,
@@ -58,6 +60,12 @@ export const searchReducer = (state = initialState, action) => {
         buttonIsFetching: action.fetching ? [...state.buttonIsFetching, action.userID] : state.buttonIsFetching.filter((id) => id !== action.userID),
       };
     }
+    case SET_IS_NONE_USERS: {
+      return {
+        ...state,
+        isNoneUsers: action.bull,
+      };
+    }
     default: {
       return state;
     }
@@ -71,6 +79,7 @@ export const setTotalItemsAT = (totalItems) => ({ type: SET_TOTAL_ITEMS, totalIt
 export const setCurrentPageAT = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage: currentPage });
 export const toggleIsFetchingAT = (bull) => ({ type: TOGGLE_SEARCH_IS_FETCHING, fetching: bull });
 export const setButtonIsFetchingAT = (bull, userID) => ({ type: SET_BUTTON_IS_FETCHING, fetching: bull, userID: userID });
+export const setIsNoneUsers = (bull) => ({ type: SET_IS_NONE_USERS, bull: bull });
 
 export const getUsersThunk = (navigate, id, currentPage, count, onlyFriends) => {
   return (dispatch) => {
@@ -82,13 +91,22 @@ export const getUsersThunk = (navigate, id, currentPage, count, onlyFriends) => 
     //Fetch users
     useGetUsers(count, id, onlyFriends)
       .then((data) => {
-        dispatch(setUsersAT(data.items));
-        dispatch(setTotalItemsAT(data.totalCount));
-        dispatch(toggleIsFetchingAT(false));
         let totalPages = Math.ceil(data.totalCount / count);
-        //Check if id bigger than totalPages
-        if (id > totalPages) {
-          navigate("/search/1");
+        console.log(data);
+        if (totalPages === 0) {
+          dispatch(setIsNoneUsers(true));
+          dispatch(toggleIsFetchingAT(false));
+        } else {
+          dispatch(setIsNoneUsers(false));
+          dispatch(setUsersAT(data.items));
+          dispatch(setTotalItemsAT(data.totalCount));
+          dispatch(toggleIsFetchingAT(false));
+          console.log(id, totalPages);
+          //Check if id bigger than totalPages
+
+          if (id > totalPages) {
+            navigate("/search/1");
+          }
         }
       })
       .catch((err) => {

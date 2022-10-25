@@ -43,6 +43,7 @@ const SettingsForm = (props) => {
         contacts: Yup.object(getContactsValidation()),
       })}
       onSubmit={(values, { setSubmitting }) => {
+        console.log(values);
         props.setNewProfileDataThunk(values);
         setSubmitting(false);
       }}

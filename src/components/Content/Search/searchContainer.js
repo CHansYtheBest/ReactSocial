@@ -19,6 +19,7 @@ let mapStateToProps = (state, ownProps) => {
     currentPage: state.searchPage.currentPage,
     isFetching: state.searchPage.isFetching,
     buttonIsFetching: state.searchPage.buttonIsFetching,
+    isNoneUsers: state.searchPage.isNoneUsers,
     onlyFriends: ownProps.onlyFriends,
   };
 };

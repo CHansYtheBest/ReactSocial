@@ -18,12 +18,12 @@ import Preloader from "./components/Layout/Navigation/Preloader/preloader";
 const App = memo((props) => {
   useEffect(() => {
     props.getLoggedInThunk();
-    if (props.id !== null) {
-      props.getMyProfileThunk();
-    } else if (!props.isAuth) {
+    if (props.isAuth === false) {
       props.setSetHasFetchedProfile(true);
+    } else if (props.id !== null) {
+      props.getMyProfileThunk();
     }
-  }, [props.id]);
+  }, [props.isAuth]);
 
   return (
     <>

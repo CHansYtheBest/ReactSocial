@@ -136,7 +136,6 @@ export const getMyProfileThunk = () => {
     useGetProfile(id)
       .then((dataAll) => {
         let data = { ...dataAll[1], status: dataAll[0] };
-        console.log(data);
         dispatch(
           setMyProfileInfoAT(
             data,
