@@ -1,7 +1,7 @@
 {
   "main.css": "/ReactSocial/static/css/main.3fb17863.chunk.css",
-  "main.js": "/ReactSocial/static/js/main.b154e5a0.chunk.js",
-  "main.js.map": "/ReactSocial/static/js/main.b154e5a0.chunk.js.map",
+  "main.js": "/ReactSocial/static/js/main.dd6fae9f.chunk.js",
+  "main.js.map": "/ReactSocial/static/js/main.dd6fae9f.chunk.js.map",
   "static/js/1.9875db2e.chunk.js": "/ReactSocial/static/js/1.9875db2e.chunk.js",
   "static/js/1.9875db2e.chunk.js.map": "/ReactSocial/static/js/1.9875db2e.chunk.js.map",
   "static/js/2.e44f5eb3.chunk.js": "/ReactSocial/static/js/2.e44f5eb3.chunk.js",
@@ -20,6 +20,6 @@
   "static/media/Copyright.svg": "/ReactSocial/static/media/Copyright.d173cafa.svg",
   "static/css/main.3fb17863.chunk.css.map": "/ReactSocial/static/css/main.3fb17863.chunk.css.map",
   "index.html": "/ReactSocial/index.html",
-  "precache-manifest.813cac3437ec37a2dbb598bafc9133e6.js": "/ReactSocial/precache-manifest.813cac3437ec37a2dbb598bafc9133e6.js",
+  "precache-manifest.0eb005f5b63072fc9a0e0691bfc070b2.js": "/ReactSocial/precache-manifest.0eb005f5b63072fc9a0e0691bfc070b2.js",
   "service-worker.js": "/ReactSocial/service-worker.js"
 }

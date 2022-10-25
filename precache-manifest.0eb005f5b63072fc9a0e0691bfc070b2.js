@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "b154e5a0c11522e5d00e",
+    "revision": "dd6fae9f37855ac689b8",
     "url": "/ReactSocial/static/css/main.3fb17863.chunk.css"
   },
   {
-    "revision": "b154e5a0c11522e5d00e",
-    "url": "/ReactSocial/static/js/main.b154e5a0.chunk.js"
+    "revision": "dd6fae9f37855ac689b8",
+    "url": "/ReactSocial/static/js/main.dd6fae9f.chunk.js"
   },
   {
     "revision": "9875db2efa6e6d5c0233",
@@ -60,7 +60,7 @@ self.__precacheManifest = [
     "url": "/ReactSocial/static/media/Copyright.d173cafa.svg"
   },
   {
-    "revision": "60c49051d83d28af2f965d39a6a47b09",
+    "revision": "056cf08f5a87313684cc6666e3ee2b54",
     "url": "/ReactSocial/index.html"
   }
 ];
