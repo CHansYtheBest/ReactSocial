@@ -25,7 +25,15 @@ function OnMyProfile(props) {
   return (
     <>
       {editMode ? (
-        <input maxLength={230} autoFocus onBlur={finishEditMode} placeholder="Enter..." value={newInfo} onChange={onNewStatusChange}></input>
+        <input
+          className={s.statusEdit}
+          maxLength={230}
+          autoFocus
+          onBlur={finishEditMode}
+          placeholder="Enter..."
+          value={newInfo}
+          onChange={onNewStatusChange}
+        ></input>
       ) : (
         <p className={s.statusNoEdit} onClick={startEditMode}>
           {props.info === null || props.info === "" ? "|" : props.info}

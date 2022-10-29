@@ -12,7 +12,7 @@ const SET_IS_NONE_USERS = "SET_IS_NONE_USERS";
 let initialState = {
   users: [],
   isNoneUsers: null,
-  count: 8,
+  count: 7,
   currentPage: 1,
   totalItems: 1,
   isFetching: false,

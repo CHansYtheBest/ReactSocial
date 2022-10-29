@@ -72,14 +72,21 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case ADD_POST: {
+      let date = new Date();
       let newPost = {
-        id: state.posts.length,
+        id: state.myProfile.posts.length,
+        dateOfPost: { year: date.getFullYear(), month: date.getMonth() + 1, date: date.getDate() },
+        timeOfPost: {
+          hour: date.getHours(),
+          minute: date.getMinutes().toString().length !== 2 ? `0${date.getMinutes()}` : date.getMinutes(),
+          seconds: date.getSeconds().toString().length !== 2 ? `0${date.getSeconds()}` : date.getSeconds(),
+        },
         postContent: action.post,
       };
 
       return {
         ...state,
-        myProfile: { ...state.myProfile, posts: [...state.posts, newPost] },
+        myProfile: { ...state.myProfile, posts: [...state.myProfile.posts, newPost] },
       };
     }
     case SET_ALL_MY_PROFILE_INFO: {

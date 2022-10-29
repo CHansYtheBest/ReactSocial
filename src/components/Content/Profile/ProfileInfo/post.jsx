@@ -1,42 +1,56 @@
 import React from "react";
 import { useState } from "react";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
+import s from "./../profile.module.css";
 
 function AddPost(props) {
-  let [postNewText, updatePostNewText] = useState("");
+  const [postNewText, updatePostNewText] = useState("");
+
   let onPostChange = (e) => {
     updatePostNewText(e.target.value);
   };
+
   let addPost = () => {
     props.addPost(postNewText);
     updatePostNewText("");
   };
+
   function onEnterPress(event) {
     if (event.key === "Enter") {
-      addPost(postNewText);
+      addPost();
     }
   }
 
   return (
-    <div>
-      <input onKeyPress={onEnterPress} placeholder="Enter a new post..." value={postNewText} onChange={onPostChange}></input>
-      <button onClick={addPost}>Add post</button>
+    <div className={s.inputContainer}>
+      <button id="posts" className={`button ${s.postButton}`} onClick={addPost}>
+        Add post
+      </button>
+      <TextareaAutosize
+        id="posts"
+        className={s.postInput}
+        onKeyPress={onEnterPress}
+        placeholder="Enter a new post..."
+        value={postNewText}
+        onChange={onPostChange}
+      />
     </div>
   );
 }
 
 function SortPosts(props) {
-  function PostNew(props) {
-    return (
-      <div>
-        <p>New post from {props.name}:</p> <div>{props.content}</div>
-      </div>
-    );
-  }
-
   function Post(props) {
+    let dateAndTime = `${props.post.dateOfPost.date}.${props.post.dateOfPost.month}.${props.post.dateOfPost.year} at ${props.post.timeOfPost.hour}:${props.post.timeOfPost.minute}:${props.post.timeOfPost.seconds}`;
     return (
-      <div>
-        <p>{props.name} posted:</p> <div>{props.content}</div>
+      <div className={s.card}>
+        <div className={s.postCardInnerContainer}>
+          <p className={s.dateAndTime}>{dateAndTime}</p>
+          <div className={s.postName}>
+            <img src={props.avatar} className={s.postAvatar} alt="avatar" /> {props.post.id === props.maxPosts ? "Newest post" : "Post"} from
+            {props.name}:
+          </div>
+          <div className={s.postContent}>{props.post.postContent}</div>
+        </div>
       </div>
     );
   }
@@ -46,22 +60,35 @@ function SortPosts(props) {
 
     let postsData = React.Children.toArray(
       props.profile.posts.map((post) => {
-        if (post.id === maxPosts) {
-          return <PostNew name={props.profile.fullName} content={post.postContent} />;
-        } else return <Post name={props.profile.fullName} content={post.postContent} />;
+        return <Post name={props.profile.fullName} avatar={props.profile.avatar.small} post={post} maxPosts={maxPosts} />;
       })
     );
 
-    return <>{postsData.reverse()}</>;
+    return (
+      <div className={s.postsScrollContainer}>
+        <div className={s.postsListContainer}>{postsData.reverse()}</div>{" "}
+      </div>
+    );
   } else {
-    return <p>Sadly, {props.profile.fullName} didn't write any posts!</p>;
+    return (
+      <div className={s.noPostsContainer}>
+        <p className={s.noPosts}>Sadly, {props.profile.fullName} didn't write any posts!</p>
+      </div>
+    );
   }
 }
 
 export function Posts(props) {
   return (
     <>
-      {props.isLoggedProfile ? <AddPost postNewText={props.profile.postNewText} addPost={props.addPost} /> : ""}
+      {props.isLoggedProfile ? (
+        <>
+          <h2 className={s.postsName}>{props.profile.fullName}'s posts:</h2>
+          <AddPost addPost={props.addPost} />
+        </>
+      ) : (
+        <h2>{props.profile.fullName}'s posts:</h2>
+      )}
       <SortPosts profile={props.profile} />
     </>
   );

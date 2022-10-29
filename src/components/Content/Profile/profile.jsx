@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { useEffect } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import s from "./profile.module.css";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
@@ -24,18 +24,23 @@ let Profile = memo((props) => {
     }
   }, [id]);
 
-  function ShowProfile() {
-    return isLoggedProfile ? (
-      <>
-        <NavLink to="/settings">Settings</NavLink>
-        <ProfileInfo isLoggedProfile={isLoggedProfile} profile={props.auth.myProfile} addPost={props.addPost} setStatus={props.setStatus} />
-      </>
-    ) : (
-      <ProfileInfo isLoggedProfile={isLoggedProfile} profile={props.profilePage} />
-    );
-  }
-
-  return <section className={s.content}>{props.profilePage.isFetching || props.auth.isFetching ? <Preloader /> : <ShowProfile />}</section>;
+  return (
+    <section className={s.content}>
+      {props.profilePage.isFetching || props.auth.isFetching ? (
+        <Preloader />
+      ) : (
+        <>
+          {isLoggedProfile ? (
+            <>
+              <ProfileInfo isLoggedProfile={isLoggedProfile} profile={props.auth.myProfile} addPost={props.addPost} setStatus={props.setStatus} />
+            </>
+          ) : (
+            <ProfileInfo isLoggedProfile={isLoggedProfile} profile={props.profilePage} />
+          )}
+        </>
+      )}
+    </section>
+  );
 });
 
 export default Profile;
