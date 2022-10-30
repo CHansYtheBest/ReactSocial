@@ -82,56 +82,53 @@ export const setButtonIsFetchingAT = (bull, userID) => ({ type: SET_BUTTON_IS_FE
 export const setIsNoneUsers = (bull) => ({ type: SET_IS_NONE_USERS, bull: bull });
 
 export const getUsersThunk = (navigate, id, currentPage, count, onlyFriends) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(toggleIsFetchingAT(true));
     //Check for valid id
     if (currentPage !== id) {
       dispatch(setCurrentPageAT(Number(id)));
     }
     //Fetch users
-    useGetUsers(count, id, onlyFriends)
-      .then((data) => {
-        let totalPages = Math.ceil(data.totalCount / count);
-        console.log(data);
-        if (totalPages === 0) {
-          dispatch(setIsNoneUsers(true));
-          dispatch(toggleIsFetchingAT(false));
-        } else {
-          dispatch(setIsNoneUsers(false));
-          dispatch(setUsersAT(data.items));
-          dispatch(setTotalItemsAT(data.totalCount));
-          dispatch(toggleIsFetchingAT(false));
-          console.log(id, totalPages);
-          //Check if id bigger than totalPages
+    try {
+      const data = await useGetUsers(count, id, onlyFriends);
+      let totalPages = Math.ceil(data.totalCount / count);
+      console.log(data);
+      if (totalPages === 0) {
+        dispatch(setIsNoneUsers(true));
+        dispatch(toggleIsFetchingAT(false));
+      } else {
+        dispatch(setIsNoneUsers(false));
+        dispatch(setUsersAT(data.items));
+        dispatch(setTotalItemsAT(data.totalCount));
+        dispatch(toggleIsFetchingAT(false));
+        console.log(id, totalPages);
 
-          if (id > totalPages) {
-            navigate("/search/1");
-          }
+        //Check if id bigger than totalPages
+        if (id > totalPages) {
+          navigate("/search/1");
         }
-      })
-      .catch((err) => {
-        console.error(err);
-        navigate("/search/1");
-      });
+      }
+    } catch (err) {
+      console.error(err);
+      navigate("/search/1");
+    }
   };
 };
 
 export const removeFriendThunk = (userID) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(setButtonIsFetchingAT(true, userID));
-    useFriendRemove(userID).then((id) => {
-      dispatch(removeFriendAT(id));
-      dispatch(setButtonIsFetchingAT(false, userID));
-    });
+    const id = await useFriendRemove(userID);
+    dispatch(removeFriendAT(id));
+    dispatch(setButtonIsFetchingAT(false, userID));
   };
 };
 
 export const addFriendThunk = (userID) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(setButtonIsFetchingAT(true, userID));
-    useFriendAdd(userID).then((id) => {
-      dispatch(addFriendAT(id));
-      dispatch(setButtonIsFetchingAT(false, userID));
-    });
+    const id = await useFriendAdd(userID);
+    dispatch(addFriendAT(id));
+    dispatch(setButtonIsFetchingAT(false, userID));
   };
 };

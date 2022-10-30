@@ -1,5 +1,7 @@
-const ADD_MESSAGE = "ADD_MESSAGE";
-const UPDATE_MESSAGE_NEW_TEXT = "UPDATE_MESSAGE_NEW_TEXT";
+import { createSlice } from "@reduxjs/toolkit";
+
+// const ADD_MESSAGE = "ADD_MESSAGE";
+// const UPDATE_MESSAGE_NEW_TEXT = "UPDATE_MESSAGE_NEW_TEXT";
 
 let initialState = {
   dialogData: [
@@ -62,41 +64,32 @@ let initialState = {
   ],
 };
 
-export const dialogsReducer = (state = initialState, action) => {
-  let dialogIndex = state.messagesData.findIndex((i) => i.dialogid === Number(action.id));
+const dialogsReducer = createSlice({
+  name: "dialogsReducer",
+  initialState: initialState,
+  reducers: {
+    addMessage(state, action) {
+      let dialogIndex = state.messagesData.findIndex((i) => i.dialogid === Number(action.payload.id));
 
-  switch (action.type) {
-    case ADD_MESSAGE: {
-      console.log(state, action);
       let newMessage = {
         id: state.messagesData[dialogIndex].dialog.length.toString(),
         from: "me",
         message: state.messagesData[dialogIndex].newMessageText,
       };
 
-      let stateCopy = {
-        ...state,
-        messagesData: [...state.messagesData],
-      };
-      stateCopy.messagesData[dialogIndex] = {
-        dialogid: dialogIndex,
-        newMessageText: "",
-        dialog: [...state.messagesData[dialogIndex].dialog, newMessage],
-      };
-      return stateCopy;
-    }
-    case UPDATE_MESSAGE_NEW_TEXT: {
-      let stateCopy = { ...state };
-      stateCopy.messagesData[dialogIndex] = {
+      state.messagesData[dialogIndex].dialog.push(newMessage);
+      state.messagesData[dialogIndex].newMessageText = "";
+    },
+    updateMessage(state, action) {
+      let dialogIndex = state.messagesData.findIndex((i) => i.dialogid === Number(action.payload.id));
+
+      state.messagesData[dialogIndex] = {
         ...state.messagesData[dialogIndex],
-        newMessageText: action.content,
+        newMessageText: action.payload.message,
       };
-      return stateCopy;
-    }
-    default: {
-      return state;
-    }
-  }
-};
-export const addMessageAT = (currentId) => ({ type: ADD_MESSAGE, id: currentId });
-export const updateMessageAT = (message, currentId) => ({ type: UPDATE_MESSAGE_NEW_TEXT, content: message, id: currentId });
+    },
+  },
+});
+
+export default dialogsReducer.reducer;
+export const { addMessage, updateMessage } = dialogsReducer.actions;

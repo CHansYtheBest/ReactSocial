@@ -74,34 +74,33 @@ export const toggleProfileIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, 
 export const setStatusAT = (status) => ({ type: SET_STATUS, status: status });
 
 export const getProfileThunk = (id) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(toggleProfileIsFetchingAT(true));
-    useGetProfile(id)
-      .then((dataAll) => {
-        let data = { ...dataAll[1], status: dataAll[0] };
-        dispatch(setUserIDAT(data.userId));
-        dispatch(
-          setProfileInfoAT(
-            data,
-            Object.keys(data).forEach((key) => {
-              data[key] = data[key] === null ? "" : data[key];
-            }),
-            Object.keys(data.photos).forEach((key) => {
-              data.photos[key] = data.photos[key] === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos[key];
-            }),
-            Object.keys(data.contacts).forEach((key) => {
-              data.contacts[key] = data.contacts[key] === null ? "" : data.contacts[key];
-            })
-          )
-        );
-        dispatch(setStatusAT(data.status === null ? "" : data.status));
-        dispatch(setPostsAT([]));
+    try {
+      const dataAll = await useGetProfile(id);
+      const data = { ...dataAll[1], status: dataAll[0] };
+      dispatch(setUserIDAT(data.userId));
+      dispatch(
+        setProfileInfoAT(
+          data,
+          Object.keys(data).forEach((key) => {
+            data[key] = data[key] === null ? "" : data[key];
+          }),
+          Object.keys(data.photos).forEach((key) => {
+            data.photos[key] = data.photos[key] === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos[key];
+          }),
+          Object.keys(data.contacts).forEach((key) => {
+            data.contacts[key] = data.contacts[key] === null ? "" : data.contacts[key];
+          })
+        )
+      );
+      dispatch(setStatusAT(data.status === null ? "" : data.status));
+      dispatch(setPostsAT([]));
 
-        dispatch(toggleProfileIsFetchingAT(false));
-      })
-      .catch((err) => {
-        console.error(err);
-        dispatch(toggleProfileIsFetchingAT(false));
-      });
+      dispatch(toggleProfileIsFetchingAT(false));
+    } catch (err) {
+      console.error(err);
+      dispatch(toggleProfileIsFetchingAT(false));
+    }
   };
 };

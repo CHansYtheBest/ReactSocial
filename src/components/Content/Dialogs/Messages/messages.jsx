@@ -8,11 +8,11 @@ function Messages(props) {
 
   let onTextChange = (e) => {
     let message = e.target.value;
-    props.onTextChange(message, id);
+    props.updateMessage({ message, id });
   };
 
   let addMessage = () => {
-    props.addMessage(id);
+    props.addMessage({ id });
   };
 
   return (

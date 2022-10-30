@@ -137,105 +137,98 @@ export const setStatusAT = (status) => ({ type: SET_MY_STATUS, status: status })
 export const setSetHasFetchedProfile = (bull) => ({ type: HAS_FETCHED_PROFILE, bull: bull });
 
 export const getMyProfileThunk = () => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     let id = getState().auth.id;
     dispatch(toggleMyIsFetchingAT(true));
-    useGetProfile(id)
-      .then((dataAll) => {
-        let data = { ...dataAll[1], status: dataAll[0] };
-        dispatch(
-          setMyProfileInfoAT(
-            data,
-            Object.keys(data).forEach((key) => {
-              data[key] = data[key] === null ? "" : data[key];
-            }),
-            Object.keys(data.photos).forEach((key) => {
-              data.photos[key] = data.photos[key] === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos[key];
-            }),
-            Object.keys(data.contacts).forEach((key) => {
-              data.contacts[key] = data.contacts[key] === null ? "" : data.contacts[key];
-            })
-          )
-        );
-        dispatch(setStatusAT(data.status === null ? "" : data.status));
-        dispatch(setPostsAT([]));
+    try {
+      const dataAll = await useGetProfile(id);
+      const data = { ...dataAll[1], status: dataAll[0] };
+      dispatch(
+        setMyProfileInfoAT(
+          data,
+          Object.keys(data).forEach((key) => {
+            data[key] = data[key] === null ? "" : data[key];
+          }),
+          Object.keys(data.photos).forEach((key) => {
+            data.photos[key] = data.photos[key] === null ? "https://cdn-icons-png.flaticon.com/512/21/21104.png" : data.photos[key];
+          }),
+          Object.keys(data.contacts).forEach((key) => {
+            data.contacts[key] = data.contacts[key] === null ? "" : data.contacts[key];
+          })
+        )
+      );
+      dispatch(setStatusAT(data.status === null ? "" : data.status));
+      dispatch(setPostsAT([]));
 
-        dispatch(toggleMyIsFetchingAT(false));
-        dispatch(setSetHasFetchedProfile(true));
-      })
-      .catch((err) => {
-        console.error(err);
-        dispatch(toggleMyIsFetchingAT(false));
-        dispatch(setSetHasFetchedProfile(true));
-      });
+      dispatch(toggleMyIsFetchingAT(false));
+      dispatch(setSetHasFetchedProfile(true));
+    } catch (err) {
+      console.error(err);
+      dispatch(toggleMyIsFetchingAT(false));
+      dispatch(setSetHasFetchedProfile(true));
+    }
   };
 };
 
 export const getLoggedInThunk = () => {
-  return (dispatch) => {
-    useCheckIsLoggedIn().then((data) => {
-      if (data !== false) {
-        let { id, email, login } = data.data;
-        dispatch(setUserDataActionType(id, email, login));
-        dispatch(setIsAuthActionType(true));
-      } else {
-        dispatch(setIsAuthActionType(false));
-      }
-    });
+  return async (dispatch) => {
+    const data = await useCheckIsLoggedIn();
+    if (data !== false) {
+      let { id, email, login } = data.data;
+      dispatch(setUserDataActionType(id, email, login));
+      dispatch(setIsAuthActionType(true));
+    } else {
+      dispatch(setIsAuthActionType(false));
+    }
   };
 };
 
 export const setNewProfileDataThunk = (jsonObj) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(toggleMyIsFetchingAT(true));
-    updateProfile(jsonObj)
-      .then((data) => {
-        dispatch(getMyProfileThunk());
-        dispatch(toggleMyIsFetchingAT(false));
-      })
-      .catch((err) => {
-        console.error(err);
-        dispatch(toggleMyIsFetchingAT(false));
-      });
+    try {
+      await updateProfile(jsonObj);
+      dispatch(getMyProfileThunk());
+      dispatch(toggleMyIsFetchingAT(false));
+    } catch (err) {
+      console.error(err);
+      dispatch(toggleMyIsFetchingAT(false));
+    }
   };
 };
 
 export const setStatusThunk = (status) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(toggleMyIsFetchingAT(true));
-    updateStatus(status).then((data) => {
-      dispatch(setStatusAT(status));
-      dispatch(toggleMyIsFetchingAT(false));
-    });
+    await updateStatus(status);
+    dispatch(setStatusAT(status));
+    dispatch(toggleMyIsFetchingAT(false));
   };
 };
 
 export const setAvatarThunk = (file) => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     dispatch(toggleMyIsFetchingAT(true));
-    updateAvatar(file).then((data) => {
-      dispatch(getMyProfileThunk(getState().auth.id));
-      dispatch(toggleMyIsFetchingAT(false));
-    });
+    await updateAvatar(file);
+    dispatch(getMyProfileThunk(getState().auth.id));
+    dispatch(toggleMyIsFetchingAT(false));
   };
 };
 
 export const loginThunk = (email, password, rememberMe) => {
-  return (dispatch) => {
-    useLogin(email, password, rememberMe).then((response) => {
-      if (response.data.resultCode === 0) {
-        dispatch(getLoggedInThunk());
-      } else {
-        dispatch(setLoginErrorActionType(response.data.messages[0]));
-      }
-    });
+  return async (dispatch) => {
+    const response = await useLogin(email, password, rememberMe);
+    if (response.data.resultCode === 0) {
+      dispatch(getLoggedInThunk());
+    } else {
+      dispatch(setLoginErrorActionType(response.data.messages[0]));
+    }
   };
 };
 
 export const logoutThunk = () => {
-  return (dispatch) => {
-    useLogout().then((response) => {
-      dispatch(getLoggedInThunk());
-    });
+  return async (dispatch) => {
+    await useLogout();
+    dispatch(getLoggedInThunk());
   };
 };
