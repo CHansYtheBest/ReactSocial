@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// const ADD_MESSAGE = "ADD_MESSAGE";
-// const UPDATE_MESSAGE_NEW_TEXT = "UPDATE_MESSAGE_NEW_TEXT";
-
 let initialState = {
   dialogData: [
     { id: 0, name: "Yoo Yu" },
@@ -66,7 +63,9 @@ let initialState = {
 
 const dialogsReducer = createSlice({
   name: "dialogsReducer",
+
   initialState: initialState,
+
   reducers: {
     addMessage(state, action) {
       let dialogIndex = state.messagesData.findIndex((i) => i.dialogid === Number(action.payload.id));
@@ -80,13 +79,11 @@ const dialogsReducer = createSlice({
       state.messagesData[dialogIndex].dialog.push(newMessage);
       state.messagesData[dialogIndex].newMessageText = "";
     },
+
     updateMessage(state, action) {
       let dialogIndex = state.messagesData.findIndex((i) => i.dialogid === Number(action.payload.id));
 
-      state.messagesData[dialogIndex] = {
-        ...state.messagesData[dialogIndex],
-        newMessageText: action.payload.message,
-      };
+      state.messagesData[dialogIndex].newMessageText = action.payload.message;
     },
   },
 });

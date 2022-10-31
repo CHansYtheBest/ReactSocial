@@ -17,9 +17,9 @@ const LoginForm = (props) => (
         .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
     })}
     onSubmit={(values, { setSubmitting }) => {
-      props.clearLoginError();
+      props.setLoginError();
       setSubmitting(false);
-      props.login(values);
+      props.loginThunk(values);
     }}
   >
     {({ isSubmitting }) => (
@@ -58,7 +58,7 @@ export default function Login(props) {
       <section>
         <h1>Login Form</h1>
         <div>
-          <LoginForm login={props.login} isAuth={props.isAuth} loginError={props.loginError} clearLoginError={props.clearLoginError} />
+          <LoginForm loginThunk={props.loginThunk} isAuth={props.isAuth} loginError={props.loginError} setLoginError={props.setLoginError} />
         </div>
       </section>
     </>

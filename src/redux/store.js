@@ -1,7 +1,7 @@
 import { profileReducer } from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import { searchReducer } from "./searchReducer";
-import { authReducer } from "./authReducer";
+import authReducer from "./authReducer";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 const reducers = combineReducers({

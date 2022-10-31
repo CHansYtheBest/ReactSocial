@@ -1,16 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { useCheckIsLoggedIn, useLogin, useLogout, updateAvatar, updateProfile, updateStatus, useGetProfile } from "../customHooks/fetchFromAPI";
-
-const SET_USER_DATA = "SET_USER_DATA";
-const SET_IS_AUTH = "SET_IS_AUTH";
-const SET_LOGIN_ERROR = "SET_LOGIN_ERROR";
-const ADD_POST = "ADD-POST";
-const SET_ALL_MY_PROFILE_INFO = "SET_ALL_MY_PROFILE_INFO";
-const SET_ERROR = "SET_ERROR";
-const SET_MY_POSTS = "SET_MY_POSTS";
-const TOGGLE_MY_IS_FETCHING = "TOGGLE_MY_IS_FETCHING";
-const SET_MY_STATUS = "SET_MY_STATUS";
-const SET_AVATAR = "SET_AVATAR";
-const HAS_FETCHED_PROFILE = "HAS_FETCHED_PROFILE";
 
 let initialState = {
   id: null,
@@ -44,34 +33,25 @@ let initialState = {
   isFetching: false,
 };
 
-export const authReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_USER_DATA: {
-      return {
-        ...state,
-        ...action.data,
-        isAuth: true,
-      };
-    }
-    case SET_IS_AUTH: {
-      return {
-        ...state,
-        isAuth: action.isAuth,
-      };
-    }
-    case HAS_FETCHED_PROFILE: {
-      return {
-        ...state,
-        hasFetched: action.bull,
-      };
-    }
-    case SET_LOGIN_ERROR: {
-      return {
-        ...state,
-        loginError: action.loginError,
-      };
-    }
-    case ADD_POST: {
+const authReducer = createSlice({
+  name: "authReducer",
+
+  initialState: initialState,
+
+  reducers: {
+    setUserData(state, action) {
+      let { id, email, login } = action.payload;
+      state.id = id;
+      state.email = email;
+      state.login = login;
+    },
+    setIsAuth(state, action) {
+      state.isAuth = action.payload;
+    },
+    setHasFetchedProfile(state, action) {
+      state.hasFetched = action.payload;
+    },
+    addPost(state, action) {
       let date = new Date();
       let newPost = {
         id: state.myProfile.posts.length,
@@ -81,70 +61,49 @@ export const authReducer = (state = initialState, action) => {
           minute: date.getMinutes().toString().length !== 2 ? `0${date.getMinutes()}` : date.getMinutes(),
           seconds: date.getSeconds().toString().length !== 2 ? `0${date.getSeconds()}` : date.getSeconds(),
         },
-        postContent: action.post,
+        postContent: action.payload,
       };
+      state.myProfile.posts.push(newPost);
+    },
+    setMyProfileInfo(state, action) {
+      state.myProfile = {
+        ...state.myProfile,
+        fullName: action.payload.fullName,
+        avatar: action.payload.photos,
+        aboutMe: action.payload.aboutMe,
+        lookingForAJob: action.payload.lookingForAJob,
+        lookingForAJobDescription: action.payload.lookingForAJobDescription,
+        contacts: action.payload.contacts,
+      };
+    },
+    setMyPosts(state, action) {
+      state.myProfile.posts = action.payload;
+    },
+    setMyStatus(state, action) {
+      state.myProfile.status = action.payload;
+    },
+    setLoginError(state, action) {
+      state.loginError = action.payload;
+    },
+    toggleMyIsFetching(state, action) {
+      state.isFetching = action.payload;
+    },
+  },
+});
 
-      return {
-        ...state,
-        myProfile: { ...state.myProfile, posts: [...state.myProfile.posts, newPost] },
-      };
-    }
-    case SET_ALL_MY_PROFILE_INFO: {
-      return {
-        ...state,
-        myProfile: {
-          ...state.myProfile,
-          fullName: action.data.fullName,
-          avatar: action.data.photos,
-          aboutMe: action.data.aboutMe,
-          lookingForAJob: action.data.lookingForAJob,
-          lookingForAJobDescription: action.data.lookingForAJobDescription,
-          contacts: action.data.contacts,
-        },
-      };
-    }
-    case SET_ERROR: {
-      return { ...state, errorMessage: action.error.data.message, errorStatus: action.error.status };
-    }
-    case SET_MY_POSTS: {
-      return { ...state, myProfile: { ...state.myProfile, posts: action.posts } };
-    }
-    case SET_MY_STATUS: {
-      return { ...state, myProfile: { ...state.myProfile, status: action.status } };
-    }
-    case SET_AVATAR: {
-      return { ...state, avatar: action.avatar };
-    }
-    case TOGGLE_MY_IS_FETCHING: {
-      return { ...state, isFetching: action.value };
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-export const setUserDataActionType = (id, email, login) => ({ type: SET_USER_DATA, data: { id, email, login } });
-export const setIsAuthActionType = (bull) => ({ type: SET_IS_AUTH, isAuth: bull });
-export const setLoginErrorActionType = (loginError) => ({ type: SET_LOGIN_ERROR, loginError: loginError });
-export const setMyAvatarAT = (avatar) => ({ type: SET_AVATAR, avatar: avatar });
-export const setMyProfileInfoAT = (data) => ({ type: SET_ALL_MY_PROFILE_INFO, data: data });
-export const setErrorAT = (error) => ({ type: SET_ERROR, error: error });
-export const setPostsAT = (posts) => ({ type: SET_MY_POSTS, posts: posts });
-export const addPostAT = (post) => ({ type: ADD_POST, post: post });
-export const toggleMyIsFetchingAT = (bull) => ({ type: TOGGLE_MY_IS_FETCHING, value: bull });
-export const setStatusAT = (status) => ({ type: SET_MY_STATUS, status: status });
-export const setSetHasFetchedProfile = (bull) => ({ type: HAS_FETCHED_PROFILE, bull: bull });
+export default authReducer.reducer;
+export const { setUserData, setIsAuth, setHasFetchedProfile, addPost, setMyProfileInfo, setMyPosts, setMyStatus, setLoginError, toggleMyIsFetching } =
+  authReducer.actions;
 
 export const getMyProfileThunk = () => {
   return async (dispatch, getState) => {
     let id = getState().auth.id;
-    dispatch(toggleMyIsFetchingAT(true));
+    dispatch(toggleMyIsFetching(true));
     try {
       const dataAll = await useGetProfile(id);
       const data = { ...dataAll[1], status: dataAll[0] };
       dispatch(
-        setMyProfileInfoAT(
+        setMyProfileInfo(
           data,
           Object.keys(data).forEach((key) => {
             data[key] = data[key] === null ? "" : data[key];
@@ -157,15 +116,15 @@ export const getMyProfileThunk = () => {
           })
         )
       );
-      dispatch(setStatusAT(data.status === null ? "" : data.status));
-      dispatch(setPostsAT([]));
+      dispatch(setMyStatus(data.status === null ? "" : data.status));
+      dispatch(setMyPosts([]));
 
-      dispatch(toggleMyIsFetchingAT(false));
-      dispatch(setSetHasFetchedProfile(true));
+      dispatch(toggleMyIsFetching(false));
+      dispatch(setHasFetchedProfile(true));
     } catch (err) {
       console.error(err);
-      dispatch(toggleMyIsFetchingAT(false));
-      dispatch(setSetHasFetchedProfile(true));
+      dispatch(toggleMyIsFetching(false));
+      dispatch(setHasFetchedProfile(true));
     }
   };
 };
@@ -174,54 +133,54 @@ export const getLoggedInThunk = () => {
   return async (dispatch) => {
     const data = await useCheckIsLoggedIn();
     if (data !== false) {
-      let { id, email, login } = data.data;
-      dispatch(setUserDataActionType(id, email, login));
-      dispatch(setIsAuthActionType(true));
+      dispatch(setUserData(data.data));
+      dispatch(setIsAuth(true));
     } else {
-      dispatch(setIsAuthActionType(false));
+      dispatch(setIsAuth(false));
     }
   };
 };
 
 export const setNewProfileDataThunk = (jsonObj) => {
   return async (dispatch) => {
-    dispatch(toggleMyIsFetchingAT(true));
+    dispatch(toggleMyIsFetching(true));
     try {
       await updateProfile(jsonObj);
       dispatch(getMyProfileThunk());
-      dispatch(toggleMyIsFetchingAT(false));
+      dispatch(toggleMyIsFetching(false));
     } catch (err) {
       console.error(err);
-      dispatch(toggleMyIsFetchingAT(false));
+      dispatch(toggleMyIsFetching(false));
     }
   };
 };
 
 export const setStatusThunk = (status) => {
   return async (dispatch) => {
-    dispatch(toggleMyIsFetchingAT(true));
+    dispatch(toggleMyIsFetching(true));
     await updateStatus(status);
-    dispatch(setStatusAT(status));
-    dispatch(toggleMyIsFetchingAT(false));
+    dispatch(setMyStatus(status));
+    dispatch(toggleMyIsFetching(false));
   };
 };
 
 export const setAvatarThunk = (file) => {
   return async (dispatch, getState) => {
-    dispatch(toggleMyIsFetchingAT(true));
+    dispatch(toggleMyIsFetching(true));
     await updateAvatar(file);
     dispatch(getMyProfileThunk(getState().auth.id));
-    dispatch(toggleMyIsFetchingAT(false));
+    dispatch(toggleMyIsFetching(false));
   };
 };
 
-export const loginThunk = (email, password, rememberMe) => {
+export const loginThunk = (values) => {
+  let { email, password, rememberMe } = values;
   return async (dispatch) => {
     const response = await useLogin(email, password, rememberMe);
     if (response.data.resultCode === 0) {
       dispatch(getLoggedInThunk());
     } else {
-      dispatch(setLoginErrorActionType(response.data.messages[0]));
+      dispatch(setLoginError(response.data.messages[0]));
     }
   };
 };

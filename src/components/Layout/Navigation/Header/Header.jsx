@@ -20,7 +20,13 @@ const Header = memo((props) => {
           <img src={Notificationsvg} alt="" />
         </Link>
         <div className={s.profilePreview}>
-          <HeaderLogged isAuth={props.auth.isAuth} avatar={props.avatar} id={props.auth.id} login={props.auth.login} logout={props.logoutThunk} />
+          <HeaderLogged
+            isAuth={props.auth.isAuth}
+            avatar={props.avatar}
+            id={props.auth.id}
+            login={props.auth.myProfile.fullName}
+            logout={props.logoutThunk}
+          />
         </div>
       </div>
     </header>

@@ -11,7 +11,7 @@ import LoginContainer from "./components/Login/loginContainer";
 import { connect } from "react-redux";
 import { getLoggedInThunk } from "./redux/authReducer";
 import { getMyProfileThunk } from "./redux/authReducer";
-import { setSetHasFetchedProfile } from "./redux/authReducer";
+import { setHasFetchedProfile } from "./redux/authReducer";
 import SettingsContainer from "./components/Content/Settings/settingsContainer";
 import Preloader from "./components/Layout/Navigation/Preloader/preloader";
 
@@ -19,7 +19,7 @@ const App = memo((props) => {
   useEffect(() => {
     props.getLoggedInThunk();
     if (props.isAuth === false) {
-      props.setSetHasFetchedProfile(true);
+      props.setHasFetchedProfile(true);
     } else if (props.id !== null) {
       props.getMyProfileThunk();
     }
@@ -72,6 +72,6 @@ export default connect(
   {
     getLoggedInThunk,
     getMyProfileThunk,
-    setSetHasFetchedProfile,
+    setHasFetchedProfile,
   }
 )(App);

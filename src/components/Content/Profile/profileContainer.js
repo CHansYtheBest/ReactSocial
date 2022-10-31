@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getProfileThunk, toggleProfileIsFetchingAT } from "../../../redux/profileReducer";
-import { addPostAT, getMyProfileThunk, setStatusThunk, toggleMyIsFetchingAT } from "../../../redux/authReducer";
+import { getProfileThunk } from "../../../redux/profileReducer";
+import { addPost, getMyProfileThunk, setStatusThunk } from "../../../redux/authReducer";
 import withLoginCheckRedirect from "../../HOC/withLoginCheckRedirect";
 import Profile from "./profile";
 
@@ -13,27 +13,4 @@ let mapStateToProps = (state) => {
   };
 };
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    addPost: (post) => {
-      dispatch(addPostAT(post));
-    },
-    toggleProfileIsFetching: (bull) => {
-      dispatch(toggleProfileIsFetchingAT(bull));
-    },
-    toggleMyIsFetchingAT: (bull) => {
-      dispatch(toggleMyIsFetchingAT(bull));
-    },
-    getMyProfile: () => {
-      dispatch(getMyProfileThunk());
-    },
-    getProfile: (id) => {
-      dispatch(getProfileThunk(id));
-    },
-    setStatus: (status) => {
-      dispatch(setStatusThunk(status));
-    },
-  };
-};
-
-export default compose(connect(mapStateToProps, mapDispatchToProps), withLoginCheckRedirect)(Profile);
+export default compose(connect(mapStateToProps, { addPost, getMyProfileThunk, getProfileThunk, setStatusThunk }), withLoginCheckRedirect)(Profile);

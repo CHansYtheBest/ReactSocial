@@ -13,9 +13,9 @@ let Profile = memo((props) => {
   useEffect(() => {
     if (!isNaN(id)) {
       if (isLoggedProfile) {
-        props.getMyProfile();
+        props.getMyProfileThunk();
       } else {
-        props.getProfile(id);
+        props.getProfileThunk(id);
       }
     } else if (props.auth.isAuth === true) {
       navigate(`/profile/${props.loggedProfileId}`);
