@@ -13,13 +13,10 @@ let HeaderLogged = memo((props) => {
           <Link className={s.profilePreview_nameLink} to={`/profile/${props.id}`}>
             {props.login}
           </Link>
-          <Link className={s.profilePreview_Link} to={`/profile/${props.id}`}>
-            View
-          </Link>
+          <p className={s.profilePreview_Link} onClick={props.logout}>
+            Logout
+          </p>
         </div>
-        <button className={s.profilePreview_Link} onClick={props.logout}>
-          Logout
-        </button>
       </>
     );
   } else {

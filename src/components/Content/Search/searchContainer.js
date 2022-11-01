@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
 
 import {
-  setCurrentPageAT,
-  setTotalItemsAT,
-  setUsersAT,
-  toggleIsFetchingAT,
+  setCurrentPage,
+  setTotalItems,
+  setUsers,
+  toggleSeachIsFetching,
   getUsersThunk,
   removeFriendThunk,
   addFriendThunk,
@@ -24,32 +24,14 @@ let mapStateToProps = (state, ownProps) => {
   };
 };
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    setUsers: (users) => {
-      dispatch(setUsersAT(users));
-    },
-    setTotalItems: (totalItems) => {
-      dispatch(setTotalItemsAT(totalItems));
-    },
-    setCurrentPage: (currentPage) => {
-      dispatch(setCurrentPageAT(currentPage));
-    },
-    toggleIsFetching: (bull) => {
-      dispatch(toggleIsFetchingAT(bull));
-    },
-    addFriend: (userId) => {
-      dispatch(addFriendThunk(userId));
-    },
-    removeFriend: (userId) => {
-      dispatch(removeFriendThunk(userId));
-    },
-    getUsers: (navigate, id, currentPage, count, onlyFriends) => {
-      dispatch(getUsersThunk(navigate, id, currentPage, count, onlyFriends));
-    },
-  };
-};
-
-const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(Search);
+const SearchContainer = connect(mapStateToProps, {
+  setUsers,
+  setTotalItems,
+  setCurrentPage,
+  toggleSeachIsFetching,
+  addFriendThunk,
+  removeFriendThunk,
+  getUsersThunk,
+})(Search);
 
 export default SearchContainer;

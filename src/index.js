@@ -5,12 +5,14 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import App from "./App";
+import CssBaseline from "@mui/material/CssBaseline";
 import { HashRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 export function renderEverything() {
   root.render(
     <React.StrictMode>
+      <CssBaseline />
       <Provider store={store}>
         <HashRouter>
           <App store={store} state={store.getState()} dispatch={store.dispatch.bind(store)} />

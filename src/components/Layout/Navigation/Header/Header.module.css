@@ -65,8 +65,12 @@
   color: #5e5d5d;
 }
 
-.profilePreview_container a:last-child {
+.profilePreview_Link {
+  cursor: pointer;
   font-size: 20px;
+  margin-bottom: 2px;
+  text-decoration: none;
+  color: #5e5d5d;
 }
 
 .profilePreview_avatar {

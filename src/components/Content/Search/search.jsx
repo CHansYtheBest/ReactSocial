@@ -15,11 +15,11 @@ function Search(props) {
   //Hook activates on component mount and location update
   useEffect(() => {
     if (isNaN(id)) {
-      props.toggleIsFetching(true);
+      props.toggleSeachIsFetching(true);
       navigate(`/${currentLocation}/1`);
       //Check if already has users
     } else if (props.users.length === 0 || props.currentPage !== id || location.pathname) {
-      props.getUsers(navigate, id, props.currentPage, props.count, props.onlyFriends);
+      props.getUsersThunk(navigate, id, props.currentPage, props.count, props.onlyFriends);
     }
   }, [location]);
   console.log(props.isNoneUsers, props.isFetching);
@@ -43,8 +43,8 @@ function Search(props) {
                     return (
                       <UserCard
                         key={user.id}
-                        addFriend={props.addFriend}
-                        removeFriend={props.removeFriend}
+                        addFriend={props.addFriendThunk}
+                        removeFriend={props.removeFriendThunk}
                         toggleButtonIsFetching={props.toggleButtonIsFetching}
                         buttonIsFetching={props.buttonIsFetching}
                         user={user}

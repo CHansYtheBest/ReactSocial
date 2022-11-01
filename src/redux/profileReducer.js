@@ -1,11 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { useGetProfile } from "../customHooks/fetchFromAPI";
-
-const SET_ALL_PROFILE_INFO = "SET_ALL_PROFILE_INFO";
-const SET_USERID = "SET_USERID";
-const SET_ERROR = "SET_ERROR";
-const SET_POSTS = "SET_POSTS";
-const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
-const SET_STATUS = "SET_STATUS";
 
 let initialState = {
   userId: 0,
@@ -32,56 +26,51 @@ let initialState = {
   isFetching: false,
 };
 
-export const profileReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_USERID: {
-      return { ...state, userId: action.userId };
-    }
-    case SET_ALL_PROFILE_INFO: {
-      return {
-        ...state,
-        fullName: action.data.fullName,
-        avatar: action.data.photos,
-        aboutMe: action.data.aboutMe,
-        lookingForAJob: action.data.lookingForAJob,
-        lookingForAJobDescription: action.data.lookingForAJobDescription,
-        contacts: action.data.contacts,
-      };
-    }
-    case SET_ERROR: {
-      return { ...state, errorMessage: action.error.data.message, errorStatus: action.error.status };
-    }
-    case SET_POSTS: {
-      return { ...state, posts: action.posts };
-    }
-    case SET_STATUS: {
-      return { ...state, status: action.status };
-    }
-    case TOGGLE_IS_FETCHING: {
-      return { ...state, isFetching: action.value };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+const profileReducer = createSlice({
+  name: "profileReducer",
 
-export const setUserIDAT = (userId) => ({ type: SET_USERID, userId: userId });
-export const setProfileInfoAT = (data) => ({ type: SET_ALL_PROFILE_INFO, data: data });
-export const setErrorAT = (error) => ({ type: SET_ERROR, error: error });
-export const setPostsAT = (posts) => ({ type: SET_POSTS, posts: posts });
-export const toggleProfileIsFetchingAT = (bull) => ({ type: TOGGLE_IS_FETCHING, value: bull });
-export const setStatusAT = (status) => ({ type: SET_STATUS, status: status });
+  initialState: initialState,
+
+  reducers: {
+    setUserID(state, action) {
+      state.userId = action.payload;
+    },
+    setProfileInfo(state, action) {
+      state.fullName = action.payload.fullName;
+      state.avatar = action.payload.photos;
+      state.aboutMe = action.payload.aboutMe;
+      state.lookingForAJob = action.payload.lookingForAJob;
+      state.lookingForAJobDescription = action.payload.lookingForAJobDescription;
+      state.contacts = action.payload.contacts;
+    },
+    setError(state, action) {
+      state.errorMessage = action.payload.data.message;
+      state.errorStatus = action.payload.status;
+    },
+    setPosts(state, action) {
+      state.posts = action.payload;
+    },
+    setStatus(state, action) {
+      state.status = action.payload;
+    },
+    toggleProfileIsFetching(state, action) {
+      state.isFetching = action.payload;
+    },
+  },
+});
+
+export default profileReducer.reducer;
+export const { setUserID, setProfileInfo, setError, setPosts, setStatus, toggleProfileIsFetching } = profileReducer.actions;
 
 export const getProfileThunk = (id) => {
   return async (dispatch) => {
-    dispatch(toggleProfileIsFetchingAT(true));
+    dispatch(toggleProfileIsFetching(true));
     try {
       const dataAll = await useGetProfile(id);
       const data = { ...dataAll[1], status: dataAll[0] };
-      dispatch(setUserIDAT(data.userId));
+      dispatch(setUserID(data.userId));
       dispatch(
-        setProfileInfoAT(
+        setProfileInfo(
           data,
           Object.keys(data).forEach((key) => {
             data[key] = data[key] === null ? "" : data[key];
@@ -94,13 +83,13 @@ export const getProfileThunk = (id) => {
           })
         )
       );
-      dispatch(setStatusAT(data.status === null ? "" : data.status));
-      dispatch(setPostsAT([]));
+      dispatch(setStatus(data.status === null ? "" : data.status));
+      dispatch(setPosts([]));
 
-      dispatch(toggleProfileIsFetchingAT(false));
+      dispatch(toggleProfileIsFetching(false));
     } catch (err) {
       console.error(err);
-      dispatch(toggleProfileIsFetchingAT(false));
+      dispatch(toggleProfileIsFetching(false));
     }
   };
 };

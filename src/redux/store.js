@@ -1,6 +1,6 @@
-import { profileReducer } from "./profileReducer";
+import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
-import { searchReducer } from "./searchReducer";
+import searchReducer from "./searchReducer";
 import authReducer from "./authReducer";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 

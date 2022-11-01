@@ -46,7 +46,7 @@ function SortPosts(props) {
         <div className={s.postCardInnerContainer}>
           <p className={s.dateAndTime}>{dateAndTime}</p>
           <div className={s.postName}>
-            <img src={props.avatar} className={s.postAvatar} alt="avatar" /> {props.post.id === props.maxPosts ? "Newest post" : "Post"} from
+            <img src={props.avatar} className={s.postAvatar} alt="avatar" /> {props.post.id === props.maxPosts ? "Newest post" : "Post"} from{" "}
             {props.name}:
           </div>
           <div className={s.postContent}>{props.post.postContent}</div>
