@@ -132,6 +132,7 @@ export const getMyProfileThunk = () => {
 export const getLoggedInThunk = () => {
   return async (dispatch) => {
     const data = await useCheckIsLoggedIn();
+    console.log(data);
     if (data !== false) {
       dispatch(setUserData(data.data));
       dispatch(setIsAuth(true));

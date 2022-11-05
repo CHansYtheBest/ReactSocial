@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 let initialState = {
   dialogData: [
-    { id: 0, name: "Yoo Yu" },
-    { id: 1, name: "Karen McChicken" },
-    { id: 2, name: "Crazy Dave" },
-    { id: 3, name: "Pop Bob" },
-    { id: 4, name: "Poop Boob" },
+    { id: 0, name: "Yoo Yu", avatar: "https://cdn-icons-png.flaticon.com/512/21/21104.png" },
+    { id: 1, name: "Karen McChicken", avatar: "https://cdn-icons-png.flaticon.com/512/21/21104.png" },
+    { id: 2, name: "Crazy Dave", avatar: "https://cdn-icons-png.flaticon.com/512/21/21104.png" },
+    { id: 3, name: "Pop Bob", avatar: "https://cdn-icons-png.flaticon.com/512/21/21104.png" },
+    { id: 4, name: "Poop Boob", avatar: "https://cdn-icons-png.flaticon.com/512/21/21104.png" },
   ],
   messagesData: [
     {

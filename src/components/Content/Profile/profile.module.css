@@ -50,6 +50,10 @@ h3 {
   margin: 10px 0px 10px 0px;
 }
 
+.statusEdit {
+  width: 100%;
+}
+
 .statusNoEdit {
   padding: 1px 5px;
   margin-left: -5px;
@@ -100,8 +104,14 @@ h3 {
 
 .postsScrollContainer {
   margin-top: 10px;
-  height: 74vh;
+  height: 71vh;
   overflow-x: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.postsScrollContainer::-webkit-scrollbar {
+  display: none;
 }
 
 .postsListContainer {

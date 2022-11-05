@@ -32,7 +32,12 @@ let Profile = memo((props) => {
         <>
           {isLoggedProfile ? (
             <>
-              <ProfileInfo isLoggedProfile={isLoggedProfile} profile={props.auth.myProfile} addPost={props.addPost} setStatus={props.setStatus} />
+              <ProfileInfo
+                isLoggedProfile={isLoggedProfile}
+                profile={props.auth.myProfile}
+                addPost={props.addPost}
+                setStatus={props.setStatusThunk}
+              />
             </>
           ) : (
             <ProfileInfo isLoggedProfile={isLoggedProfile} profile={props.profilePage} />

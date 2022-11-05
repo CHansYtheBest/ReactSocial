@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
 import s from "./../profile.module.css";
+import { TextField } from "@mui/material";
 
 function AddPost(props) {
   const [postNewText, updatePostNewText] = useState("");
@@ -26,11 +26,15 @@ function AddPost(props) {
       <button id="posts" className={`button ${s.postButton}`} onClick={addPost}>
         Add post
       </button>
-      <TextareaAutosize
+      <TextField
         id="posts"
+        label="New post"
+        placeholder="Enter a new post..."
+        multiline
+        margin="normal"
+        variant="outlined"
         className={s.postInput}
         onKeyPress={onEnterPress}
-        placeholder="Enter a new post..."
         value={postNewText}
         onChange={onPostChange}
       />

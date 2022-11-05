@@ -9,8 +9,4 @@ let mapStateToProps = (state) => {
   };
 };
 
-let mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default compose(connect(mapStateToProps, mapDispatchToProps), withLoginCheckRedirect)(Dialogs);
+export default compose(connect(mapStateToProps), withLoginCheckRedirect)(Dialogs);

@@ -13,7 +13,7 @@ import Findsvg from "../../../../imgs/Find.svg";
 const MapNavlink = (props) => {
   return (
     <li>
-      <NavLink to={props.to} className={({ isActive }) => (isActive ? s.active : "")}>
+      <NavLink to={props.to} className={({ isActive }) => (isActive ? "active" : "")}>
         <img className={s.navigation_Img} src={props.img} alt="" />
         <p>{props.text}</p>
       </NavLink>
