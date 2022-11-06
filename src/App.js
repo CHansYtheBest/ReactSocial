@@ -66,7 +66,7 @@ export default connect(
     return {
       id: state.auth.id,
       isAuth: state.auth.isAuth,
-      isLoaded: state.auth.hasFetched,
+      isLoaded: state.auth.hasProfileFetched,
     };
   },
   {

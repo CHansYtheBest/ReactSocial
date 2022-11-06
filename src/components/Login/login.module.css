@@ -2,3 +2,8 @@
   display: grid;
   height: 100%;
 }
+
+.disabled {
+  border: 1px solid #a3a3a3 !important;
+  color: #a3a3a3 !important;
+}

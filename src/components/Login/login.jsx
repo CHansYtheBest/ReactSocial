@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import s from "./login.module.css";
@@ -63,7 +63,7 @@ const LoginForm = (props) => {
             Sign in
           </Typography>
 
-          <Box sx={{ mt: 1 }}>
+          <Box sx={{ mt: 1, width: "100%" }}>
             <Formik
               initialValues={{ email: "", password: "", rememberMe: false }}
               validationSchema={Yup.object({
@@ -76,21 +76,21 @@ const LoginForm = (props) => {
                   .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
               })}
               onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
                 props.setLoginError();
-                setSubmitting(false);
                 props.loginThunk(values);
+                setSubmitting(true);
               }}
             >
-              {({ isSubmitting }) => (
+              {(formik) => (
                 <Form>
+                  {props.hasLoginFetched && formik.isSubmitting ? formik.setSubmitting(false) : null}
+
                   {props.loginError ? (
                     <Alert severity="error">
                       <AlertTitle>Error</AlertTitle>
                       <strong>{props.loginError}</strong>
                     </Alert>
                   ) : null}
-
                   <Field
                     as={TextField}
                     margin="normal"
@@ -102,8 +102,9 @@ const LoginForm = (props) => {
                     id="email"
                     type="email"
                     name="email"
+                    helperText={formik.getFieldMeta("email").error}
+                    error={formik.getFieldMeta("email").error ? true : false}
                   />
-                  <ErrorMessage name="email" component={Alert} severity="error" />
 
                   <Field
                     as={TextField}
@@ -115,12 +116,21 @@ const LoginForm = (props) => {
                     name="password"
                     id="password"
                     autoComplete="current-password"
+                    helperText={formik.getFieldMeta("password").error}
+                    error={formik.getFieldMeta("password").error ? true : false}
                   />
-                  <ErrorMessage name="password" component={Alert} severity="error" />
 
                   <FormControlLabel control={<Field as={Checkbox} name="rememberMe" id="rememberMe" color="primary" />} label="Remember me" />
 
-                  <CustomButton disableElevation type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={isSubmitting}>
+                  <CustomButton
+                    disableElevation
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    classes={{ disabled: s.disabled }}
+                    disabled={formik.isSubmitting}
+                  >
                     Submit
                   </CustomButton>
                 </Form>
@@ -151,7 +161,13 @@ export default function Login(props) {
   return (
     <>
       <section className={`content ${s.section}`}>
-        <LoginForm loginThunk={props.loginThunk} isAuth={props.isAuth} loginError={props.loginError} setLoginError={props.setLoginError} />
+        <LoginForm
+          loginThunk={props.loginThunk}
+          hasLoginFetched={props.hasLoginFetched}
+          isAuth={props.isAuth}
+          loginError={props.loginError}
+          setLoginError={props.setLoginError}
+        />
       </section>
     </>
   );

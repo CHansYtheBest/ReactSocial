@@ -29,7 +29,8 @@ let initialState = {
     lookingForAJobDescription: "Ye, I can do thing. Pls, I need money",
     posts: [],
   },
-  hasFetched: false,
+  hasProfileFetched: false,
+  hasLoginFetched: false,
   isFetching: false,
 };
 
@@ -49,7 +50,10 @@ const authReducer = createSlice({
       state.isAuth = action.payload;
     },
     setHasFetchedProfile(state, action) {
-      state.hasFetched = action.payload;
+      state.hasProfileFetched = action.payload;
+    },
+    setHasFetchedLogin(state, action) {
+      state.hasLoginFetched = action.payload;
     },
     addPost(state, action) {
       let date = new Date();
@@ -92,8 +96,18 @@ const authReducer = createSlice({
 });
 
 export default authReducer.reducer;
-export const { setUserData, setIsAuth, setHasFetchedProfile, addPost, setMyProfileInfo, setMyPosts, setMyStatus, setLoginError, toggleMyIsFetching } =
-  authReducer.actions;
+export const {
+  setUserData,
+  setIsAuth,
+  setHasFetchedProfile,
+  setHasFetchedLogin,
+  addPost,
+  setMyProfileInfo,
+  setMyPosts,
+  setMyStatus,
+  setLoginError,
+  toggleMyIsFetching,
+} = authReducer.actions;
 
 export const getMyProfileThunk = () => {
   return async (dispatch, getState) => {
@@ -177,7 +191,9 @@ export const setAvatarThunk = (file) => {
 export const loginThunk = (values) => {
   let { email, password, rememberMe } = values;
   return async (dispatch) => {
+    dispatch(setHasFetchedLogin(false));
     const response = await useLogin(email, password, rememberMe);
+    dispatch(setHasFetchedLogin(true));
     if (response.data.resultCode === 0) {
       dispatch(getLoggedInThunk());
     } else {

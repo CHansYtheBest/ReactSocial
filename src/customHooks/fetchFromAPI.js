@@ -81,7 +81,6 @@ export function useCheckIsLoggedIn() {
 
 export function useLogin(email, password, rememberMe) {
   return instanse.post(`auth/login`, { email, password, rememberMe }).then((response) => {
-    console.log(response);
     return response;
   });
 }
