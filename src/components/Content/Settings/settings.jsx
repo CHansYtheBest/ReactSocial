@@ -1,9 +1,11 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Preloader from "../../Layout/Navigation/Preloader/preloader";
 import { useState } from "react";
 import { memo } from "react";
+import { Checkbox, Container, FormControlLabel, TextField, Typography } from "@mui/material";
+import s from "./settings.module.css";
 
 const SettingsForm = (props) => {
   let getContactsValidation = () => {
@@ -16,19 +18,28 @@ const SettingsForm = (props) => {
     });
     return validationObject;
   };
-
-  let mapLinks = React.Children.toArray(
-    Object.keys(props.profile.contacts).map((key) => {
-      return (
-        <>
-          <label htmlFor={`${key}`}>{key.charAt(0).toUpperCase() + key.slice(1)}: </label>
-          <Field placeholder={`Enter ${key} link...`} type="text" name={`contacts.${key}`} />
-          <br />
-          <ErrorMessage name={`contacts.${key}`} component="p" />
-        </>
-      );
-    })
-  );
+  function getContacts(formik) {
+    let mapLinks = React.Children.toArray(
+      Object.keys(props.profile.contacts).map((key) => {
+        return (
+          <>
+            <label htmlFor={`${key}`}>{key.charAt(0).toUpperCase() + key.slice(1)}: </label>
+            <div>
+              <Field
+                as={TextField}
+                placeholder={`Enter ${key} link...`}
+                type="text"
+                helperText={formik.getFieldMeta(`contacts.${key}`).error}
+                error={formik.getFieldMeta(`contacts.${key}`).error ? true : false}
+                name={`contacts.${key}`}
+              />
+            </div>
+          </>
+        );
+      })
+    );
+    return mapLinks;
+  }
 
   return (
     <Formik
@@ -40,40 +51,64 @@ const SettingsForm = (props) => {
         contacts: props.profile.contacts,
       }}
       validationSchema={Yup.object({
+        aboutMe: Yup.string().required("Field is required"),
+        lookingForAJobDescription: Yup.string().required("Field is required"),
+        fullName: Yup.string().required("Field is required"),
         contacts: Yup.object(getContactsValidation()),
       })}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values);
+        props.setSettingsError();
         props.setNewProfileDataThunk(values);
-        setSubmitting(false);
+        setSubmitting(true);
       }}
       enableReinitialize
     >
-      {({ isSubmitting }) => (
+      {(formik) => (
         <Form>
-          <div>
-            <h3>Name</h3>
-            <Field placeholder="Enter new name..." type="text" name="fullName" />
-            <ErrorMessage name="fullName" component="div" />
-          </div>
-          <div>
-            <h3>About you</h3>
-            <Field as="textarea" placeholder="Type something about you..." type="text" name="aboutMe" />
-            <ErrorMessage name="aboutMe" component="div" />
-          </div>
-          <div>
-            <Field id="lookingForAJob" type="checkbox" name="lookingForAJob" />
-            <label htmlFor="lookingForAJob">Are you looking for a job?</label>
-          </div>
-          <div>
-            <Field as="textarea" placeholder="Type something about your job..." type="text" name="lookingForAJobDescription" />
-            <ErrorMessage name="lookingForAJobDescription" component="div" />
-          </div>
-          <div>
-            <h3>Links</h3>
-            {mapLinks}
-          </div>
-          <button type="submit" disabled={isSubmitting}>
+          {props.hasSettingsFetched && formik.isSubmitting ? formik.setSubmitting(false) : null}
+
+          <Typography component="h2" variant="h6">
+            Name
+          </Typography>
+          <Field
+            as={TextField}
+            placeholder="Enter new name..."
+            type="text"
+            name="fullName"
+            helperText={formik.getFieldMeta("fullName").error}
+            error={formik.getFieldMeta("fullName").error ? true : false}
+          />
+          <Typography component="h2" variant="h6">
+            About you
+          </Typography>
+          <Field
+            as={TextField}
+            multiline
+            placeholder="Type something about you..."
+            type="text"
+            name="aboutMe"
+            helperText={formik.getFieldMeta("aboutMe").error}
+            error={formik.getFieldMeta("aboutMe").error ? true : false}
+          />
+          <FormControlLabel
+            control={<Field as={Checkbox} name="lookingForAJob" id="lookingForAJob" color="primary" />}
+            label="Are you looking for a job?"
+          />
+          <Field
+            as={TextField}
+            multiline
+            placeholder="Type something about your job..."
+            type="text"
+            name="lookingForAJobDescription"
+            helperText={formik.getFieldMeta("lookingForAJobDescription").error}
+            error={formik.getFieldMeta("lookingForAJobDescription").error ? true : false}
+          />
+          <Typography component="h2" variant="h6">
+            Links
+          </Typography>
+
+          {getContacts(formik)}
+          <button type="submit" disabled={formik.isSubmitting}>
             Save changes
           </button>
         </Form>
@@ -83,9 +118,10 @@ const SettingsForm = (props) => {
 };
 
 const AvatarChange = (props) => {
-  let [file, updateFile] = useState({});
+  let [file, updateFile] = useState();
 
   let fileChangeHandler = (e) => {
+    console.log("uploaded");
     updateFile(e.target.files[0]);
   };
 
@@ -96,13 +132,22 @@ const AvatarChange = (props) => {
   };
 
   return (
-    <div>
-      <img src={props.avatar} alt="avatar" width="300px" height="300px" />
-      <br />
-      <input type="file" onChange={fileChangeHandler} />
-      <br />
-      <button onClick={fileUploadHandler}>Change avatar</button>
-    </div>
+    <>
+      <div
+        className={s.customFileUpload}
+        style={{
+          backgroundImage: `url(${file ? URL.createObjectURL(file) : props.avatar})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          display: "flex",
+        }}
+      ></div>
+      <label className={s.innerFileUpload} onChange={fileChangeHandler}>
+        <input type="file" className={s.inputFile} accept="image/png,image/jpeg,image/x-png,image/jpg" />
+        <p>Select new avatar</p>
+      </label>
+      {file ? <button onClick={fileUploadHandler}>Upload {file.name}</button> : null}
+    </>
   );
 };
 
@@ -112,15 +157,16 @@ let Settings = memo((props) => {
       {props.isFetching ? (
         <Preloader />
       ) : (
-        <>
+        <Container maxWidth="xl">
           <AvatarChange avatar={props.profile.avatar.large} setAvatar={props.setAvatarThunk} id={props.loggedProfileId} />
+
           <SettingsForm
             setNewProfileDataThunk={props.setNewProfileDataThunk}
             getProfile={props.getMyProfileThunk}
             profile={props.profile}
             loggedProfileId={props.loggedProfileId}
           />
-        </>
+        </Container>
       )}
     </>
   );

@@ -80,6 +80,7 @@ const LoginForm = (props) => {
                 props.loginThunk(values);
                 setSubmitting(true);
               }}
+              enableReinitialize
             >
               {(formik) => (
                 <Form>

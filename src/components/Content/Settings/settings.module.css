@@ -1,0 +1,32 @@
+.inputFile {
+  display: none;
+}
+
+.customFileUpload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  width: 300px;
+  height: 300px;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.innerFileUpload {
+  cursor: pointer;
+  display: block;
+  width: fit-content;
+  background: #e7e4f8;
+  padding: 5px;
+  font-size: 24px;
+  border-radius: 5px;
+  border: 1px solid #323232;
+  color: #323232;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
+}
+
+.innerFileUpload:hover {
+  color: #e7e4f8;
+  background: #323232;
+  border: 1px solid #e7e4f8;
+}

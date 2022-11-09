@@ -31,6 +31,8 @@ let initialState = {
   },
   hasProfileFetched: false,
   hasLoginFetched: false,
+  settingsError: null,
+  hasSettingsFetched: false,
   isFetching: false,
 };
 
@@ -89,6 +91,12 @@ const authReducer = createSlice({
     setLoginError(state, action) {
       state.loginError = action.payload;
     },
+    setSettingsError(state, action) {
+      state.settingsError = action.payload;
+    },
+    setHasSettingsFetched(state, action) {
+      state.hasSettingsFetched = action.payload;
+    },
     toggleMyIsFetching(state, action) {
       state.isFetching = action.payload;
     },
@@ -106,6 +114,8 @@ export const {
   setMyPosts,
   setMyStatus,
   setLoginError,
+  setSettingsError,
+  setHasSettingsFetched,
   toggleMyIsFetching,
 } = authReducer.actions;
 
@@ -135,6 +145,7 @@ export const getMyProfileThunk = () => {
 
       dispatch(toggleMyIsFetching(false));
       dispatch(setHasFetchedProfile(true));
+      dispatch(setHasSettingsFetched(true));
     } catch (err) {
       console.error(err);
       dispatch(toggleMyIsFetching(false));
@@ -160,12 +171,17 @@ export const setNewProfileDataThunk = (jsonObj) => {
   return async (dispatch) => {
     dispatch(toggleMyIsFetching(true));
     try {
-      await updateProfile(jsonObj);
-      dispatch(getMyProfileThunk());
-      dispatch(toggleMyIsFetching(false));
+      const response = await updateProfile(jsonObj);
+      if (response.data.resultCode === 0) {
+        dispatch(getMyProfileThunk());
+      } else {
+        dispatch(setSettingsError(response.data.messages[0]));
+        dispatch(setHasSettingsFetched(true));
+      }
     } catch (err) {
       console.error(err);
-      dispatch(toggleMyIsFetching(false));
+      dispatch(setSettingsError(err.data.messages));
+      dispatch(setHasSettingsFetched(true));
     }
   };
 };
